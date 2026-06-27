@@ -4,13 +4,13 @@ import {
   Wrench,
   Check,
   ArrowRight,
+  ArrowUpRight,
   Coins,
   TrendingUp,
   Leaf,
 } from 'lucide-react'
 import CtaBand from '../components/CtaBand.jsx'
 import Stars from '../components/Stars.jsx'
-import HeroHouse from '../components/illustrations/HeroHouse.jsx'
 
 const GOV_EPC_SEARCH =
   'https://find-energy-certificate.service.gov.uk/find-a-certificate/search-by-postcode?lang=en&property_type=domestic'
@@ -63,23 +63,23 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="container-site py-16 md:py-24">
-        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-          <div className="flex flex-col gap-8 animate-fade-up">
-            <div className="flex flex-col gap-6">
-              <span className="inline-flex w-fit items-center gap-2 border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-navy">
-                <span className="h-2 w-2 bg-accent-orange" />
-                EPC Solutions Specialist
-              </span>
-              <h1 className="font-display text-5xl font-bold uppercase leading-tight tracking-tight text-navy md:text-6xl">
-                Future-Proof Your Property with{' '}
-                <span className="text-brand-blue">Expert EPC Solutions</span>
-              </h1>
-              <p className="max-w-[540px] text-lg leading-relaxed text-slate-600">
-                Professional EPC assessments and Retrofit surveys designed to maximise efficiency,
-                reduce costs, and elevate your property's environmental rating.
-              </p>
-            </div>
+      <section className="container-site py-14 md:py-20">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+          <div className="flex flex-col gap-6 animate-fade-up">
+            <span className="inline-flex w-fit items-center gap-2 border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-navy">
+              <span className="h-2 w-2 bg-accent-orange" />
+              EPC Solutions Specialist
+            </span>
+            <h1 className="font-display text-5xl font-bold uppercase leading-tight tracking-tight text-navy md:text-6xl">
+              Future-Proof Your Property with{' '}
+              <span className="text-brand-blue">Expert EPC Solutions</span>
+            </h1>
+          </div>
+          <div className="flex flex-col gap-6 lg:pt-6 animate-fade-up">
+            <p className="max-w-[540px] text-lg leading-relaxed text-slate-600">
+              Professional EPC assessments and Retrofit surveys designed to maximise efficiency,
+              reduce costs, and elevate your property's environmental rating.
+            </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/contact" className="btn-primary px-10 py-4 text-base">
                 Book a Survey
@@ -101,29 +101,35 @@ export default function Home() {
               </span>
             </div>
           </div>
-
-          {/* Hero image + rating badge */}
-          <div className="relative animate-fade-in">
-            <div className="relative aspect-[4/5] overflow-hidden bg-slate-200 shadow-xl">
-              <HeroHouse className="h-full w-full" />
-            </div>
-            <div className="absolute -bottom-6 -left-6 hidden border-t-4 border-accent-orange bg-navy p-8 shadow-2xl md:block">
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-3">
-                  <span className="text-5xl font-black text-white">C+</span>
-                  <div className="flex gap-1">
-                    <div className="h-10 w-1 bg-accent-orange" />
-                    <div className="h-10 w-1 bg-accent-yellow" />
-                    <div className="h-10 w-1 bg-accent-green" />
-                  </div>
-                </div>
-                <span className="text-xs font-bold uppercase tracking-widest text-slate-300">
-                  Efficiency Goal
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
+
+        {/* Featured cutaway diagram */}
+        <figure className="mt-12 animate-fade-in md:mt-16">
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-navy shadow-xl">
+            <img
+              src="/house-cutaway.webp"
+              width="1408"
+              height="768"
+              alt="Cutaway blueprint of a British house showing insulation, ventilation and condensation management — loft and cavity wall insulation, MVHR, trickle vents, vapour barriers and a damp proof course."
+              className="block h-auto w-full"
+              loading="eager"
+            />
+          </div>
+          <figcaption className="mt-3 flex flex-col items-center gap-1.5 text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+              Anatomy of an energy-efficient British home — insulation, ventilation &amp; condensation
+            </span>
+            <a
+              href="/house-cutaway.webp"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-brand-blue hover:underline"
+            >
+              View full diagram
+              <ArrowUpRight size={14} />
+            </a>
+          </figcaption>
+        </figure>
       </section>
 
       {/* Core services */}
