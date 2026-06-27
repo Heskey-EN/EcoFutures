@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-navy antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-6;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-wide transition-all;
+  }
+
+  .btn-primary {
+    @apply btn bg-navy px-8 py-4 text-white hover:bg-brand-blue;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-navy px-8 py-4 text-navy hover:bg-navy hover:text-white;
+  }
+
+  /* Thin accent rule under section headings */
+  .heading-rule {
+    @apply h-1 w-20 rounded-full bg-brand-blue;
+  }
+}
