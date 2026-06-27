@@ -1,31 +1,41 @@
 import { Link } from 'react-router-dom'
-import { BadgeCheck, Clock, Leaf } from 'lucide-react'
+import {
+  BadgeCheck,
+  Clock,
+  Leaf,
+  ClipboardList,
+  Settings2,
+  DraftingCompass,
+} from 'lucide-react'
 import JourneyDiagram from '../components/illustrations/JourneyDiagram.jsx'
 
-const timeline = [
+const process = [
   {
     num: '01',
-    period: '2021 — 2023',
+    period: 'Stage One',
     accent: 'text-accent-orange',
     border: 'border-accent-orange',
-    title: 'Our Roots: Blackpool Beginnings',
-    body: 'Starting in Blackpool, we focused on practical solutions. Our team worked on the front lines, installing loft and cavity wall insulation to help local families reduce their heating bills and carbon footprint. This hands-on experience remains the foundation of our technical knowledge.',
+    icon: ClipboardList,
+    title: 'Initial Assessment',
+    body: "A comprehensive on-site energy evaluation carried out by our certified professionals. We map your property's current performance and identify the key areas for improvement.",
   },
   {
     num: '02',
-    period: '2023 — 2025',
+    period: 'Stage Two',
     accent: 'text-accent-yellow',
     border: 'border-accent-yellow',
-    title: 'The Transition to Surveys',
-    body: 'As the energy landscape changed, we realised that installation was only half the battle. We began investing in certifications, moving into Domestic Energy Assessment and detailed EPC surveys to provide deeper insights for homeowners looking to future-proof their properties.',
+    icon: Settings2,
+    title: 'Coordination & Planning',
+    body: 'Managing the logistics and building a tailored retrofit plan. We ensure every recommendation aligns with your goals, your budget, and local building regulations.',
   },
   {
     num: '03',
-    period: 'Present Day',
+    period: 'Stage Three',
     accent: 'text-accent-green',
     border: 'border-accent-green',
-    title: 'Our Evolution: Professional Retrofit',
-    body: 'Today, Eco Futures is a leader in Retrofit Assessments and EPCs. We bridge the gap between complex energy requirements and practical home improvements, serving homeowners and local authorities with professional, data-driven advice at a national scale.',
+    icon: DraftingCompass,
+    title: 'Technical Design',
+    body: 'Delivery of detailed technical specifications and design documents — a PAS 2035-compliant roadmap that gives contractors the blueprints to execute high-quality energy improvements.',
   },
 ]
 
@@ -76,27 +86,37 @@ export default function About() {
         </div>
       </section>
 
-      {/* Our story */}
+      {/* Retrofit process */}
       <section className="bg-white py-24">
         <div className="mx-auto max-w-4xl px-6">
           <div className="mb-20">
-            <h2 className="mb-4 font-display text-4xl font-extrabold uppercase tracking-tight text-navy">
-              Our Story
+            <span className="text-xs font-bold uppercase tracking-widest text-accent-green">
+              How we work
+            </span>
+            <h2 className="mb-4 mt-2 font-display text-4xl font-extrabold uppercase tracking-tight text-navy">
+              The Retrofit Process
             </h2>
             <div className="h-2 w-24 bg-accent-yellow" />
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-500">
+              A clear, PAS 2035-aligned pathway that takes your property from a first survey to a
+              fundable, future-proof retrofit plan.
+            </p>
           </div>
           <div className="space-y-24">
-            {timeline.map((t) => (
-              <div key={t.num} className="flex flex-col gap-12 md:flex-row">
+            {process.map((step) => (
+              <div key={step.num} className="flex flex-col gap-12 md:flex-row">
                 <div className="md:w-1/4">
-                  <span className="mb-2 block text-5xl font-black text-slate-100">{t.num}</span>
-                  <span className={`text-sm font-extrabold uppercase tracking-widest ${t.accent}`}>
-                    {t.period}
+                  <span className="mb-2 block text-5xl font-black text-slate-100">{step.num}</span>
+                  <span className={`text-sm font-extrabold uppercase tracking-widest ${step.accent}`}>
+                    {step.period}
                   </span>
                 </div>
-                <div className={`border-l-4 pl-8 md:w-3/4 md:pl-12 ${t.border}`}>
-                  <h3 className="mb-4 font-display text-2xl font-extrabold text-navy">{t.title}</h3>
-                  <p className="text-lg leading-relaxed text-slate-500">{t.body}</p>
+                <div className={`border-l-4 pl-8 md:w-3/4 md:pl-12 ${step.border}`}>
+                  <div className="mb-4 flex items-center gap-3">
+                    <step.icon size={26} className={step.accent} />
+                    <h3 className="font-display text-2xl font-extrabold text-navy">{step.title}</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-slate-500">{step.body}</p>
                 </div>
               </div>
             ))}
