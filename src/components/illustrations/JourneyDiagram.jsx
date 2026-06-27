@@ -2,9 +2,9 @@
 // local insulation work to national energy assessment, matching the timeline.
 export default function JourneyDiagram({ className = '' }) {
   const nodes = [
-    { x: 84, y: 452, color: '#ff6b00', year: '2021', tag: 'Insulation' },
-    { x: 244, y: 322, color: '#ffcc00', year: '2023', tag: 'EPC Surveys' },
-    { x: 404, y: 168, color: '#4caf50', year: 'Now', tag: 'National Retrofit' },
+    { x: 88, y: 452, color: '#ff6b00', year: '2021', tag: 'Insulation' },
+    { x: 240, y: 320, color: '#ffcc00', year: '2023', tag: 'EPC Surveys' },
+    { x: 384, y: 184, color: '#4caf50', year: 'Now', tag: 'National Retrofit' },
   ]
 
   return (
@@ -41,18 +41,14 @@ export default function JourneyDiagram({ className = '' }) {
         ))}
       </g>
 
-      {/* Sun accent */}
-      <circle cx="404" cy="96" r="40" fill="#ffcc00" opacity="0.16" />
-      <circle cx="404" cy="96" r="22" fill="#ffcc00" opacity="0.85" />
-
       {/* Area under the trend line */}
-      <path d="M84 452 L244 322 L404 168 L404 520 L84 520 Z" fill="url(#jd-area)" />
+      <path d="M88 452 L240 320 L384 184 L384 520 L88 520 Z" fill="url(#jd-area)" />
 
       {/* Trend line */}
       <polyline
-        points="84,452 244,322 404,168"
+        points="88,452 240,320 384,184"
         fill="none"
-        stroke="#aacc00"
+        stroke="#8bc34a"
         strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"

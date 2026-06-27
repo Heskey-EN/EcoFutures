@@ -17,7 +17,7 @@ export default function HeroHouse({ className = '' }) {
           <stop offset="1" stopColor="#f4f9fd" />
         </linearGradient>
         <linearGradient id="hh-roof" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#1a365d" />
+          <stop offset="0" stopColor="#22456f" />
           <stop offset="1" stopColor="#0d1b2a" />
         </linearGradient>
       </defs>
@@ -26,54 +26,48 @@ export default function HeroHouse({ className = '' }) {
       <rect width="480" height="600" fill="url(#hh-sky)" />
 
       {/* Sun */}
-      <circle cx="378" cy="116" r="70" fill="#ffcc00" opacity="0.18" />
-      <circle cx="378" cy="116" r="46" fill="#ffcc00" />
+      <circle cx="384" cy="118" r="66" fill="#ffcc00" opacity="0.16" />
+      <circle cx="384" cy="118" r="44" fill="#ffcc00" />
 
-      {/* Floating leaves */}
-      <g fill="#4caf50" opacity="0.9">
-        <path d="M96 150c22-26 56-26 70-22-2 22-22 48-44 50-14 1-28-12-26-28Z" />
-      </g>
-      <g fill="#aacc00" opacity="0.85">
-        <path d="M150 96c-4 18-22 34-38 34 0-18 14-38 38-34Z" />
+      {/* Leaf accent */}
+      <g transform="translate(150 158) rotate(-22)">
+        <path d="M0 -34 C18 -20 18 14 0 32 C-18 14 -18 -20 0 -34 Z" fill="#4caf50" />
+        <path d="M0 -26 L0 26" stroke="#eafaf0" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
       </g>
 
       {/* Hills */}
-      <path d="M0 472 Q140 432 268 462 T480 452 V600 H0 Z" fill="#4caf50" />
-      <path d="M0 516 Q160 476 300 506 T480 504 V600 H0 Z" fill="#3d9142" />
+      <path d="M0 474 Q140 436 268 466 T480 456 V600 H0 Z" fill="#4caf50" />
+      <path d="M0 518 Q160 478 300 508 T480 506 V600 H0 Z" fill="#3d9142" />
 
       {/* House */}
       <g>
         {/* Body */}
-        <rect x="150" y="300" width="180" height="172" fill="#ffffff" stroke="#0d1b2a" strokeWidth="4" />
-        {/* Roof */}
-        <path d="M132 302 L240 222 L348 302 Z" fill="url(#hh-roof)" />
-        {/* Chimney */}
-        <rect x="300" y="250" width="22" height="40" fill="#1a365d" />
-        {/* Solar panel on right roof slope */}
-        <g transform="translate(252 250) rotate(36.5)">
-          <rect width="92" height="42" rx="2" fill="#1e3a5f" stroke="#0d1b2a" strokeWidth="2" />
-          <line x1="0" y1="14" x2="92" y2="14" stroke="#3b5a82" strokeWidth="1.5" />
-          <line x1="0" y1="28" x2="92" y2="28" stroke="#3b5a82" strokeWidth="1.5" />
-          <line x1="31" y1="0" x2="31" y2="42" stroke="#3b5a82" strokeWidth="1.5" />
-          <line x1="61" y1="0" x2="61" y2="42" stroke="#3b5a82" strokeWidth="1.5" />
-        </g>
-        {/* Door */}
-        <rect x="200" y="384" width="48" height="88" fill="#ff6b00" />
-        <circle cx="240" cy="430" r="3.5" fill="#0d1b2a" />
-        {/* Windows */}
-        <rect x="270" y="332" width="44" height="44" fill="#ffcc00" stroke="#0d1b2a" strokeWidth="3" />
-        <line x1="292" y1="332" x2="292" y2="376" stroke="#0d1b2a" strokeWidth="3" />
-        <line x1="270" y1="354" x2="314" y2="354" stroke="#0d1b2a" strokeWidth="3" />
-        <rect x="270" y="396" width="44" height="44" fill="#ffcc00" stroke="#0d1b2a" strokeWidth="3" />
-        <line x1="292" y1="396" x2="292" y2="440" stroke="#0d1b2a" strokeWidth="3" />
-        <line x1="270" y1="418" x2="314" y2="418" stroke="#0d1b2a" strokeWidth="3" />
-      </g>
+        <rect x="168" y="330" width="168" height="142" fill="#ffffff" stroke="#0d1b2a" strokeWidth="4" />
 
-      {/* Ascending energy bars (echoes the logo) */}
-      <g>
-        <rect x="86" y="392" width="20" height="40" fill="#ff6b00" />
-        <rect x="112" y="372" width="20" height="60" fill="#ffcc00" />
-        <rect x="138" y="348" width="20" height="84" fill="#4caf50" />
+        {/* Roof */}
+        <path d="M148 332 L252 250 L356 332 Z" fill="url(#hh-roof)" />
+
+        {/* Solar panel — seated flush on the right roof slope */}
+        <g transform="translate(269 271) rotate(38.3)">
+          <rect width="69" height="24" rx="2" fill="#1e3a5f" stroke="#16324f" strokeWidth="1.5" />
+          <line x1="0" y1="12" x2="69" y2="12" stroke="#3b5a82" strokeWidth="1.4" />
+          <line x1="23" y1="0" x2="23" y2="24" stroke="#3b5a82" strokeWidth="1.4" />
+          <line x1="46" y1="0" x2="46" y2="24" stroke="#3b5a82" strokeWidth="1.4" />
+        </g>
+
+        {/* Door */}
+        <rect x="230" y="396" width="44" height="76" fill="#ff6b00" />
+        <circle cx="266" cy="434" r="3.5" fill="#0d1b2a" />
+
+        {/* Left window */}
+        <rect x="184" y="360" width="36" height="36" fill="#ffcc00" stroke="#0d1b2a" strokeWidth="3" />
+        <line x1="202" y1="360" x2="202" y2="396" stroke="#0d1b2a" strokeWidth="3" />
+        <line x1="184" y1="378" x2="220" y2="378" stroke="#0d1b2a" strokeWidth="3" />
+
+        {/* Right window */}
+        <rect x="284" y="360" width="36" height="36" fill="#ffcc00" stroke="#0d1b2a" strokeWidth="3" />
+        <line x1="302" y1="360" x2="302" y2="396" stroke="#0d1b2a" strokeWidth="3" />
+        <line x1="284" y1="378" x2="320" y2="378" stroke="#0d1b2a" strokeWidth="3" />
       </g>
     </svg>
   )
