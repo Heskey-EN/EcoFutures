@@ -48,14 +48,39 @@ export default function Epcs() {
       {/* Hero */}
       <section className="bg-navy py-16">
         <div className="container-site">
-          <div className="flex min-h-[360px] flex-col items-center justify-center gap-6 overflow-hidden bg-gradient-to-br from-brand-blue/40 to-navy p-8 text-center">
-            <span className="rounded-full bg-accent-green/20 px-4 py-1 text-sm font-bold uppercase tracking-widest text-accent-green">
+          <div className="relative flex min-h-[380px] flex-col items-center justify-center gap-6 overflow-hidden bg-gradient-to-br from-brand-blue/40 to-navy p-8 text-center">
+            {/* Decorative depth */}
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-16 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-accent-green/10 blur-3xl" />
+              <div className="absolute -right-16 top-1/3 h-72 w-72 rounded-full bg-accent-orange/10 blur-3xl" />
+              {/* Faint A–G rating ladder watermark */}
+              <svg
+                className="absolute right-10 top-1/2 hidden h-56 -translate-y-1/2 opacity-25 lg:block"
+                viewBox="0 0 150 196"
+                fill="none"
+                aria-hidden="true"
+              >
+                {[
+                  { w: 150, c: '#008041' },
+                  { w: 132, c: '#00a651' },
+                  { w: 114, c: '#8cc63f' },
+                  { w: 96, c: '#fff200' },
+                  { w: 78, c: '#f7941d' },
+                  { w: 60, c: '#f26522' },
+                  { w: 42, c: '#ed1c24' },
+                ].map((b, i) => (
+                  <rect key={i} x="0" y={i * 28} width={b.w} height="22" rx="3" fill={b.c} />
+                ))}
+              </svg>
+            </div>
+
+            <span className="relative z-10 rounded-full bg-accent-green/20 px-4 py-1 text-sm font-bold uppercase tracking-widest text-accent-green">
               Educational Resource
             </span>
-            <h1 className="max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl">
+            <h1 className="relative z-10 max-w-2xl font-display text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl">
               Understanding Your EPC
             </h1>
-            <p className="max-w-2xl text-lg font-medium leading-relaxed text-slate-300 md:text-xl">
+            <p className="relative z-10 max-w-2xl text-lg font-medium leading-relaxed text-slate-300 md:text-xl">
               Essential energy performance information for UK homeowners, landlords, and property
               sellers.
             </p>

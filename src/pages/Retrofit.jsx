@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom'
-import { ClipboardList, Settings2, DraftingCompass, ShieldCheck, ArrowRight } from 'lucide-react'
+import {
+  ClipboardList,
+  Settings2,
+  DraftingCompass,
+  ShieldCheck,
+  ArrowRight,
+  CheckCircle2,
+  PoundSterling,
+} from 'lucide-react'
 import RetrofitDiagram from '../components/illustrations/RetrofitDiagram.jsx'
+import Stars from '../components/Stars.jsx'
 
 const PAS_2035_PDF =
   'https://retrofitacademy.org/wp-content/uploads/2023/10/PAS2035_2023.pdf'
@@ -30,6 +39,10 @@ export default function Retrofit() {
       <section className="bg-navy py-16">
         <div className="container-site grid items-center gap-12 md:grid-cols-2">
           <div className="flex flex-col gap-6">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-accent-green/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-accent-green">
+              <ShieldCheck size={14} />
+              PAS 2035 Retrofit Specialists
+            </span>
             <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-white lg:text-5xl">
               Expert Retrofit Surveys for a Sustainable Future
             </h1>
@@ -44,6 +57,16 @@ export default function Retrofit() {
               >
                 Book Your Survey
               </Link>
+            </div>
+            <div className="mt-2 flex flex-wrap gap-x-8 gap-y-3">
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-300">
+                <CheckCircle2 size={18} className="text-accent-green" />
+                PAS 2035 Compliant
+              </div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-slate-300">
+                <PoundSterling size={18} className="text-accent-green" />
+                Government Funding Eligible
+              </div>
             </div>
           </div>
           <div className="hidden md:block">
@@ -151,19 +174,8 @@ export default function Retrofit() {
               Learn About EPCs
             </Link>
           </div>
-          <div className="mt-4 flex items-center gap-6">
-            <div className="flex -space-x-3">
-              {['JM', 'SK', 'RP'].map((initials, i) => (
-                <span
-                  key={initials}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 border-white text-xs font-bold text-white ${
-                    ['bg-brand-blue', 'bg-accent-green', 'bg-accent-orange'][i]
-                  }`}
-                >
-                  {initials}
-                </span>
-              ))}
-            </div>
+          <div className="mt-4 flex items-center gap-3">
+            <Stars />
             <p className="text-sm font-medium text-slate-500">Trusted by 500+ homeowners</p>
           </div>
         </div>

@@ -9,6 +9,7 @@ import {
   Leaf,
 } from 'lucide-react'
 import CtaBand from '../components/CtaBand.jsx'
+import Stars from '../components/Stars.jsx'
 import HeroHouse from '../components/illustrations/HeroHouse.jsx'
 
 const GOV_EPC_SEARCH =
@@ -92,15 +93,8 @@ export default function Home() {
                 Check if you have an EPC
               </a>
             </div>
-            <div className="flex items-center gap-4 text-sm text-slate-500">
-              <div className="flex -space-x-3">
-                <span className="flex h-10 w-10 items-center justify-center border-2 border-white bg-brand-blue text-xs font-bold text-white">
-                  EF
-                </span>
-                <span className="flex h-10 w-10 items-center justify-center border-2 border-white bg-accent-green text-xs font-bold text-white">
-                  A+
-                </span>
-              </div>
+            <div className="flex items-center gap-3 text-sm text-slate-500">
+              <Stars />
               <span className="font-medium uppercase tracking-tight">
                 Trusted by over <span className="font-bold text-navy">2,000+</span> UK property
                 owners
