@@ -113,7 +113,7 @@ export const MEASURES = [
     epc: '—',
     disruption: 'Low–Medium',
     grant: null,
-    pin: { x: 392, y: 74 },
+    pin: { x: 558, y: 246 },
   },
   {
     id: 'solar',
@@ -129,7 +129,7 @@ export const MEASURES = [
     epc: '+ up to 12 pts',
     disruption: 'Low · 1–2 days',
     grant: '0% VAT until 2027',
-    pin: { x: 252, y: 150 },
+    pin: { x: 206, y: 116 },
   },
 ]
 
@@ -159,8 +159,8 @@ export default function InteractiveHouse() {
     const isSel = selectedId === id
     const isHov = hovered === id
     const color = isPlanned ? '#3E9A63' : TONE[m.tone]
-    const fillOpacity = isPlanned ? 0.6 : isSel ? 0.62 : isHov ? 0.5 : 0.32
-    const strokeWidth = isSel ? 3.5 : isHov ? 2.5 : 1.6
+    const fillOpacity = isPlanned ? 0.45 : isSel ? 0.42 : isHov ? 0.3 : 0.17
+    const strokeWidth = isSel ? 2.6 : isHov ? 2 : 1.4
     return { fill: color, fillOpacity, stroke: color, strokeWidth, strokeLinejoin: 'round' }
   }
 
@@ -392,106 +392,145 @@ function HouseSvg({ styleFor, onSelect, onHover, selectedId, planned, labelFor }
           ))}
         </g>
 
-        {/* Roof + shell */}
+        {/* Roof + chimney (decorative — nothing vents through it) */}
         <path d="M132 192 L340 88 L548 192" strokeLinejoin="round" />
+        <path d="M460 148 L460 114 L480 114 L480 158" strokeLinejoin="round" opacity="0.8" />
+        <rect x="455" y="106" width="30" height="8" rx="1.5" opacity="0.8" />
+
+        {/* Shell */}
         <rect x="150" y="190" width="380" height="250" />
         {/* inner wall faces */}
         <line x1="172" y1="190" x2="172" y2="440" opacity="0.5" />
         <line x1="508" y1="190" x2="508" y2="440" opacity="0.5" />
         {/* mid floor between storeys */}
-        <line x1="150" y1="294" x2="530" y2="294" />
-        <line x1="150" y1="306" x2="530" y2="306" opacity="0.4" />
+        <line x1="172" y1="294" x2="508" y2="294" />
+        <line x1="172" y1="306" x2="508" y2="306" opacity="0.4" />
         {/* ground-floor slab top */}
-        <line x1="150" y1="424" x2="530" y2="424" opacity="0.65" />
-        {/* loft floor / ceiling */}
-        <line x1="150" y1="190" x2="530" y2="190" opacity="0.45" />
+        <line x1="172" y1="424" x2="508" y2="424" opacity="0.65" />
 
         {/* room labels */}
-        <text x="196" y="250" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
+        <text x="196" y="252" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
           BEDROOM
         </text>
-        <text x="300" y="372" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
+        <text x="360" y="290" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
+          BATHROOM
+        </text>
+        <text x="292" y="376" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
           LIVING ROOM
         </text>
 
-        {/* radiators */}
-        <rect x="474" y="280" width="30" height="13" rx="1.5" opacity="0.55" />
-        <rect x="474" y="398" width="30" height="15" rx="1.5" opacity="0.55" />
+        {/* window mullions (show through the translucent glazing tint) */}
+        <g strokeWidth="1.5" opacity="0.5">
+          <line x1="234" y1="220" x2="234" y2="272" />
+          <line x1="210" y1="246" x2="258" y2="246" />
+          <line x1="446" y1="220" x2="446" y2="272" />
+          <line x1="422" y1="246" x2="470" y2="246" />
+          <line x1="446" y1="336" x2="446" y2="398" />
+          <line x1="422" y1="367" x2="470" y2="367" />
+        </g>
+        {/* door handle */}
+        <circle cx="252" cy="390" r="2.5" fill={stroke} stroke="none" opacity="0.7" />
+
+        {/* radiators (under the windows) */}
+        <rect x="431" y="278" width="30" height="14" rx="1.5" opacity="0.55" />
+        <rect x="300" y="406" width="34" height="16" rx="1.5" opacity="0.55" />
         {/* heat-pump flow/return to wall */}
         <line x1="530" y1="406" x2="548" y2="406" opacity="0.55" />
-
-        {/* subtle airflow toward the vent */}
-        <g strokeWidth="1.5" opacity="0.4" strokeLinecap="round">
-          <path d="M322 262 q 50 -34 62 -98" />
-          <path d="M300 386 q 42 -16 60 -42" />
-        </g>
       </g>
 
       {/* ---- Interactive zones (tinted over the drawing) ---- */}
 
       {/* Floor */}
       <Zone id="floor" label="Underfloor insulation" planned={planned.has('floor')} onSelect={onSelect} onHover={onHover} style={styleFor('floor')}>
-        {(s) => <rect x="152" y="424" width="376" height="16" {...s} />}
+        {(s) => <rect x="172" y="424" width="336" height="16" {...s} />}
       </Zone>
 
       {/* Walls (two side strips) */}
       <Zone id="walls" label="Wall insulation" planned={planned.has('walls')} onSelect={onSelect} onHover={onHover} style={styleFor('walls')}>
         {(s) => (
-          <g {...s}>
+          <g {...s} fillOpacity={Math.min(s.fillOpacity + 0.12, 0.6)}>
             <rect x="150" y="190" width="22" height="250" />
             <rect x="508" y="190" width="22" height="250" />
           </g>
         )}
       </Zone>
 
-      {/* Loft / roof */}
+      {/* Loft: soft heat glow across the roof space + insulation batt at ceiling level */}
       <Zone id="loft" label="Loft & roof insulation" planned={planned.has('loft')} onSelect={onSelect} onHover={onHover} style={styleFor('loft')}>
-        {(s) => <path d="M140 192 L340 90 L540 192 Z" {...s} />}
+        {(s) => (
+          <g>
+            <path d="M140 192 L340 90 L540 192 Z" {...s} strokeWidth="1.2" />
+            <rect x="172" y="172" width="336" height="16" rx="2" {...s} fillOpacity={Math.min(s.fillOpacity + 0.22, 0.68)} />
+          </g>
+        )}
       </Zone>
 
       {/* Windows, doors & draughts */}
       <Zone id="glazing" label="Windows, doors & draughts" planned={planned.has('glazing')} onSelect={onSelect} onHover={onHover} style={styleFor('glazing')}>
         {(s) => (
-          <g {...s}>
+          <g {...s} fillOpacity={Math.min(s.fillOpacity + 0.08, 0.55)}>
             <rect x="210" y="220" width="48" height="52" />
             <rect x="422" y="220" width="48" height="52" />
             <rect x="422" y="336" width="48" height="62" />
-            <rect x="212" y="352" width="50" height="88" />
+            <rect x="212" y="352" width="50" height="72" />
           </g>
         )}
       </Zone>
 
       {/* Heat pump (outdoor unit beside the house) */}
       <Zone id="heating" label="Heat pump & controls" planned={planned.has('heating')} onSelect={onSelect} onHover={onHover} style={styleFor('heating')}>
-        {(s) => <rect x="548" y="388" width="74" height="52" rx="3" {...s} />}
+        {(s) => <rect x="548" y="388" width="74" height="52" rx="3" {...s} fillOpacity={Math.min(s.fillOpacity + 0.08, 0.55)} />}
       </Zone>
 
-      {/* Ventilation (roof vent terminal) */}
+      {/* Ventilation: extract fan through the bathroom wall + trickle vents above windows */}
       <Zone id="ventilation" label="Ventilation & airtightness" planned={planned.has('ventilation')} onSelect={onSelect} onHover={onHover} style={styleFor('ventilation')}>
         {(s) => (
-          <g {...s}>
-            <rect x="380" y="60" width="12" height="54" />
-            <rect x="371" y="52" width="30" height="9" rx="2" />
+          <g>
+            {/* generous invisible hit areas */}
+            <rect x="498" y="224" width="56" height="44" fill="transparent" stroke="none" />
+            <rect x="214" y="204" width="40" height="18" fill="transparent" stroke="none" />
+            <rect x="426" y="204" width="40" height="18" fill="transparent" stroke="none" />
+            <rect x="426" y="320" width="40" height="18" fill="transparent" stroke="none" />
+            {/* extract fan mounted through the external wall */}
+            <rect x="508" y="232" width="22" height="28" rx="2" {...s} fillOpacity={Math.min(s.fillOpacity + 0.1, 0.55)} />
+            <circle cx="519" cy="246" r="8.5" {...s} fillOpacity={Math.min(s.fillOpacity + 0.22, 0.7)} />
+            {/* trickle vents sitting on the window heads */}
+            <rect x="222" y="213" width="24" height="5" rx="1.5" {...s} fillOpacity={Math.min(s.fillOpacity + 0.25, 0.75)} />
+            <rect x="434" y="213" width="24" height="5" rx="1.5" {...s} fillOpacity={Math.min(s.fillOpacity + 0.25, 0.75)} />
+            <rect x="434" y="329" width="24" height="5" rx="1.5" {...s} fillOpacity={Math.min(s.fillOpacity + 0.25, 0.75)} />
           </g>
         )}
       </Zone>
 
-      {/* Solar (flush on the left roof slope) */}
+      {/* Solar (sitting just above the left roof plane) */}
       <Zone id="solar" label="Solar PV & battery" planned={planned.has('solar')} onSelect={onSelect} onHover={onHover} style={styleFor('solar')}>
         {(s) => (
-          <g transform="translate(198.8 168.2) rotate(-27.5)">
-            <rect x="0" y="0" width="117" height="26" rx="1.5" {...s} />
+          <g transform="translate(176.4 150.8) rotate(-26.57)">
+            <rect x="-6" y="-8" width="122" height="30" fill="transparent" stroke="none" />
+            <rect x="0" y="0" width="110" height="14" rx="1.5" {...s} fillOpacity={Math.min(s.fillOpacity + 0.18, 0.62)} />
           </g>
         )}
       </Zone>
 
       {/* ---- Detail decoration on top (non-interactive) ---- */}
-      {/* solar cells */}
-      <g pointerEvents="none" transform="translate(198.8 168.2) rotate(-27.5)" stroke="#0D1B2A" strokeWidth="1" opacity="0.28">
-        <line x1="29" y1="0" x2="29" y2="26" />
-        <line x1="58" y1="0" x2="58" y2="26" />
-        <line x1="88" y1="0" x2="88" y2="26" />
-        <line x1="0" y1="13" x2="117" y2="13" />
+      {/* solar cell dividers + mounting feet */}
+      <g pointerEvents="none" transform="translate(176.4 150.8) rotate(-26.57)" stroke="#0D1B2A" strokeWidth="1" opacity="0.3">
+        <line x1="27.5" y1="0" x2="27.5" y2="14" />
+        <line x1="55" y1="0" x2="55" y2="14" />
+        <line x1="82.5" y1="0" x2="82.5" y2="14" />
+      </g>
+      <g pointerEvents="none" transform="translate(176.4 150.8) rotate(-26.57)" stroke={stroke} strokeWidth="1.6" opacity="0.6">
+        <line x1="18" y1="14" x2="18" y2="18" />
+        <line x1="92" y1="14" x2="92" y2="18" />
+      </g>
+      {/* extract-fan blades + louvre grille outside the wall */}
+      <g pointerEvents="none" stroke={stroke} strokeWidth="1.3" fill="none" opacity="0.8">
+        <path d="M519 246 l6 -2 M519 246 l-2 6 M519 246 l-5 -5" strokeLinecap="round" />
+        <g opacity="0.6">
+          <line x1="534" y1="240" x2="545" y2="240" />
+          <line x1="534" y1="246" x2="545" y2="246" />
+          <line x1="534" y1="252" x2="545" y2="252" />
+        </g>
       </g>
       {/* heat-pump fan + louvres */}
       <g pointerEvents="none" stroke={stroke} strokeWidth="1.4" fill="none" opacity="0.7">
