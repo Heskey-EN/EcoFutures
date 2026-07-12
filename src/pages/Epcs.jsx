@@ -93,7 +93,7 @@ export default function Epcs() {
       <section className="container-site py-20 md:py-28">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {facts.map((f) => (
-            <div key={f.title} className="card p-6">
+            <div key={f.title} className="card card-hover p-6">
               <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-ember/10 text-ember">
                 <f.icon size={22} />
               </span>

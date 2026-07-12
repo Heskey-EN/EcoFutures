@@ -135,7 +135,7 @@ export default function Home() {
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {steps.map((s) => (
-            <div key={s.n} className="card flex flex-col p-7">
+            <div key={s.n} className="card card-hover flex flex-col p-7">
               <div className="flex items-center justify-between">
                 <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
                   <s.icon size={22} />
@@ -171,7 +171,7 @@ export default function Home() {
             {measures.map((m) => (
               <div
                 key={m.name}
-                className="group flex items-start gap-4 rounded-lg border border-ink/10 bg-paper-card p-5 transition-colors hover:border-ember/40"
+                className="card-hover group flex items-start gap-4 rounded-lg border border-ink/10 bg-paper-card p-5"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ember/10 text-ember">
                   <m.icon size={20} />

@@ -5,8 +5,9 @@ import Logo from './Logo.jsx'
 
 const navItems = [
   { label: 'Home', to: '/' },
-  { label: 'EPCs', to: '/epcs' },
   { label: 'Retrofit', to: '/retrofit' },
+  { label: 'EPCs', to: '/epcs' },
+  { label: 'Technology', to: '/technology' },
   { label: 'About', to: '/about' },
 ]
 
@@ -38,7 +39,7 @@ export default function Header() {
         <Logo />
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav className="hidden items-center gap-7 md:flex lg:gap-9">
           {navItems.map((item) => (
             <NavLink key={item.to} to={item.to} className={linkClass} end={item.to === '/'}>
               {item.label}

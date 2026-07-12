@@ -33,7 +33,7 @@ export const MEASURES = [
     epc: '+4 to +8 pts',
     disruption: 'Low · ~1 day',
     grant: null,
-    pin: { x: 342, y: 132 },
+    pin: { x: 340, y: 150 },
   },
   {
     id: 'walls',
@@ -49,7 +49,7 @@ export const MEASURES = [
     epc: '+5 to +15 pts',
     disruption: 'Low–High · 1–10 days',
     grant: 'ECO4 / GBIS grants may apply',
-    pin: { x: 150, y: 300 },
+    pin: { x: 161, y: 300 },
   },
   {
     id: 'floor',
@@ -65,7 +65,7 @@ export const MEASURES = [
     epc: '+2 to +4 pts',
     disruption: 'Medium · 1–3 days',
     grant: null,
-    pin: { x: 300, y: 424 },
+    pin: { x: 300, y: 430 },
   },
   {
     id: 'glazing',
@@ -81,7 +81,7 @@ export const MEASURES = [
     epc: '+3 to +8 pts',
     disruption: 'Low–Medium',
     grant: null,
-    pin: { x: 452, y: 236 },
+    pin: { x: 446, y: 246 },
   },
   {
     id: 'heating',
@@ -97,7 +97,7 @@ export const MEASURES = [
     epc: '+ up to 10 pts',
     disruption: 'Medium · 2–4 days',
     grant: '£7,500 Boiler Upgrade Scheme grant',
-    pin: { x: 590, y: 392 },
+    pin: { x: 586, y: 404 },
   },
   {
     id: 'ventilation',
@@ -113,7 +113,7 @@ export const MEASURES = [
     epc: '—',
     disruption: 'Low–Medium',
     grant: null,
-    pin: { x: 356, y: 52 },
+    pin: { x: 392, y: 74 },
   },
   {
     id: 'solar',
@@ -129,7 +129,7 @@ export const MEASURES = [
     epc: '+ up to 12 pts',
     disruption: 'Low · 1–2 days',
     grant: '0% VAT until 2027',
-    pin: { x: 214, y: 150 },
+    pin: { x: 252, y: 150 },
   },
 ]
 
@@ -382,109 +382,126 @@ function HouseSvg({ styleFor, onSelect, onHover, selectedId, planned, labelFor }
       role="group"
       aria-label="Cross-section of a house. Select a part to see how it can be upgraded."
     >
-      {/* Decorative base drawing (non-interactive) */}
+      {/* Base drawing (non-interactive) */}
       <g fill="none" stroke={stroke} strokeWidth="2" pointerEvents="none">
-        {/* Ground */}
-        <line x1="40" y1="432" x2="640" y2="432" strokeWidth="2.5" />
-        <g stroke={stroke} strokeWidth="1" opacity="0.4">
+        {/* Ground + hatch */}
+        <line x1="44" y1="440" x2="636" y2="440" strokeWidth="2.5" />
+        <g strokeWidth="1" opacity="0.32">
           {Array.from({ length: 12 }).map((_, i) => (
-            <line key={i} x1={44 + i * 52} y1="432" x2={30 + i * 52} y2="448" />
+            <line key={i} x1={58 + i * 48} y1="440" x2={46 + i * 48} y2="452" />
           ))}
         </g>
 
-        {/* Roof + house shell */}
-        <path d="M110 184 L340 66 L570 184" strokeLinejoin="round" />
-        <rect x="140" y="182" width="400" height="250" />
-        {/* wall inner faces */}
-        <line x1="166" y1="182" x2="166" y2="432" opacity="0.6" />
-        <line x1="514" y1="182" x2="514" y2="432" opacity="0.6" />
-        {/* floor divider */}
-        <line x1="140" y1="300" x2="540" y2="300" />
-        <line x1="140" y1="308" x2="540" y2="308" opacity="0.4" />
-        {/* ceiling line under loft */}
-        <line x1="140" y1="182" x2="540" y2="182" opacity="0.5" />
+        {/* Roof + shell */}
+        <path d="M132 192 L340 88 L548 192" strokeLinejoin="round" />
+        <rect x="150" y="190" width="380" height="250" />
+        {/* inner wall faces */}
+        <line x1="172" y1="190" x2="172" y2="440" opacity="0.5" />
+        <line x1="508" y1="190" x2="508" y2="440" opacity="0.5" />
+        {/* mid floor between storeys */}
+        <line x1="150" y1="294" x2="530" y2="294" />
+        <line x1="150" y1="306" x2="530" y2="306" opacity="0.4" />
+        {/* ground-floor slab top */}
+        <line x1="150" y1="424" x2="530" y2="424" opacity="0.65" />
+        {/* loft floor / ceiling */}
+        <line x1="150" y1="190" x2="530" y2="190" opacity="0.45" />
+
         {/* room labels */}
-        <text x="230" y="245" fill={stroke} stroke="none" fontSize="11" fontFamily="'IBM Plex Mono', monospace" opacity="0.5">
+        <text x="196" y="250" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
           BEDROOM
         </text>
-        <text x="360" y="370" fill={stroke} stroke="none" fontSize="11" fontFamily="'IBM Plex Mono', monospace" opacity="0.5">
-          LIVING
+        <text x="300" y="372" fill={stroke} stroke="none" fontSize="10.5" fontFamily="'IBM Plex Mono', monospace" opacity="0.42">
+          LIVING ROOM
         </text>
+
         {/* radiators */}
-        <rect x="300" y="392" width="34" height="20" rx="2" opacity="0.6" />
-        <rect x="196" y="262" width="30" height="18" rx="2" opacity="0.6" />
-        {/* ventilation airflow arrows */}
-        <g stroke={stroke} strokeWidth="1.5" opacity="0.55">
-          <path d="M356 176 L356 120" />
-          <path d="M350 130 L356 118 L362 130" />
-          <path d="M300 330 q 40 -10 70 0" opacity="0.5" />
+        <rect x="474" y="280" width="30" height="13" rx="1.5" opacity="0.55" />
+        <rect x="474" y="398" width="30" height="15" rx="1.5" opacity="0.55" />
+        {/* heat-pump flow/return to wall */}
+        <line x1="530" y1="406" x2="548" y2="406" opacity="0.55" />
+
+        {/* subtle airflow toward the vent */}
+        <g strokeWidth="1.5" opacity="0.4" strokeLinecap="round">
+          <path d="M322 262 q 50 -34 62 -98" />
+          <path d="M300 386 q 42 -16 60 -42" />
         </g>
       </g>
 
-      {/* ---- Interactive zones (tints over the drawing) ---- */}
+      {/* ---- Interactive zones (tinted over the drawing) ---- */}
 
       {/* Floor */}
       <Zone id="floor" label="Underfloor insulation" planned={planned.has('floor')} onSelect={onSelect} onHover={onHover} style={styleFor('floor')}>
-        {(s) => <rect x="142" y="414" width="396" height="17" {...s} />}
+        {(s) => <rect x="152" y="424" width="376" height="16" {...s} />}
       </Zone>
 
       {/* Walls (two side strips) */}
       <Zone id="walls" label="Wall insulation" planned={planned.has('walls')} onSelect={onSelect} onHover={onHover} style={styleFor('walls')}>
         {(s) => (
           <g {...s}>
-            <rect x="142" y="184" width="23" height="248" />
-            <rect x="515" y="184" width="23" height="248" />
+            <rect x="150" y="190" width="22" height="250" />
+            <rect x="508" y="190" width="22" height="250" />
           </g>
         )}
       </Zone>
 
       {/* Loft / roof */}
       <Zone id="loft" label="Loft & roof insulation" planned={planned.has('loft')} onSelect={onSelect} onHover={onHover} style={styleFor('loft')}>
-        {(s) => <path d="M116 182 L340 68 L564 182 Z" {...s} />}
+        {(s) => <path d="M140 192 L340 90 L540 192 Z" {...s} />}
       </Zone>
 
       {/* Windows, doors & draughts */}
       <Zone id="glazing" label="Windows, doors & draughts" planned={planned.has('glazing')} onSelect={onSelect} onHover={onHover} style={styleFor('glazing')}>
         {(s) => (
           <g {...s}>
-            {/* upstairs windows */}
-            <rect x="196" y="210" width="52" height="52" />
-            <rect x="426" y="210" width="52" height="52" />
-            {/* downstairs window */}
-            <rect x="426" y="330" width="52" height="60" />
-            {/* door */}
-            <rect x="196" y="342" width="48" height="90" />
+            <rect x="210" y="220" width="48" height="52" />
+            <rect x="422" y="220" width="48" height="52" />
+            <rect x="422" y="336" width="48" height="62" />
+            <rect x="212" y="352" width="50" height="88" />
           </g>
         )}
       </Zone>
 
-      {/* Heat pump */}
+      {/* Heat pump (outdoor unit beside the house) */}
       <Zone id="heating" label="Heat pump & controls" planned={planned.has('heating')} onSelect={onSelect} onHover={onHover} style={styleFor('heating')}>
+        {(s) => <rect x="548" y="388" width="74" height="52" rx="3" {...s} />}
+      </Zone>
+
+      {/* Ventilation (roof vent terminal) */}
+      <Zone id="ventilation" label="Ventilation & airtightness" planned={planned.has('ventilation')} onSelect={onSelect} onHover={onHover} style={styleFor('ventilation')}>
         {(s) => (
           <g {...s}>
-            <rect x="560" y="372" width="66" height="52" rx="3" />
+            <rect x="380" y="60" width="12" height="54" />
+            <rect x="371" y="52" width="30" height="9" rx="2" />
           </g>
         )}
       </Zone>
 
-      {/* Ventilation (ridge terminal) */}
-      <Zone id="ventilation" label="Ventilation & airtightness" planned={planned.has('ventilation')} onSelect={onSelect} onHover={onHover} style={styleFor('ventilation')}>
-        {(s) => <rect x="338" y="34" width="36" height="40" rx="3" {...s} />}
-      </Zone>
-
-      {/* Solar (left roof) */}
+      {/* Solar (flush on the left roof slope) */}
       <Zone id="solar" label="Solar PV & battery" planned={planned.has('solar')} onSelect={onSelect} onHover={onHover} style={styleFor('solar')}>
         {(s) => (
-          <g transform="translate(158 158) rotate(-27.2)">
-            <rect x="0" y="0" width="118" height="40" rx="2" {...s} />
+          <g transform="translate(198.8 168.2) rotate(-27.5)">
+            <rect x="0" y="0" width="117" height="26" rx="1.5" {...s} />
           </g>
         )}
       </Zone>
 
-      {/* Heat-pump fan + solar grid details (decoration on top) */}
+      {/* ---- Detail decoration on top (non-interactive) ---- */}
+      {/* solar cells */}
+      <g pointerEvents="none" transform="translate(198.8 168.2) rotate(-27.5)" stroke="#0D1B2A" strokeWidth="1" opacity="0.28">
+        <line x1="29" y1="0" x2="29" y2="26" />
+        <line x1="58" y1="0" x2="58" y2="26" />
+        <line x1="88" y1="0" x2="88" y2="26" />
+        <line x1="0" y1="13" x2="117" y2="13" />
+      </g>
+      {/* heat-pump fan + louvres */}
       <g pointerEvents="none" stroke={stroke} strokeWidth="1.4" fill="none" opacity="0.7">
-        <circle cx="593" cy="398" r="14" />
-        <path d="M593 398 l9 -3 M593 398 l-3 10 M593 398 l-7 -7" />
+        <circle cx="572" cy="405" r="15" />
+        <path d="M572 405 l10 -3 M572 405 l-3 11 M572 405 l-8 -8" strokeLinecap="round" />
+        <g opacity="0.5">
+          <line x1="594" y1="398" x2="616" y2="398" />
+          <line x1="594" y1="405" x2="616" y2="405" />
+          <line x1="594" y1="412" x2="616" y2="412" />
+        </g>
       </g>
 
       {/* ---- Pins ---- */}

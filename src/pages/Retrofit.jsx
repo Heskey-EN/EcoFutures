@@ -90,7 +90,7 @@ export default function Retrofit() {
         </div>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {stages.map((s) => (
-            <div key={s.n} className="card flex flex-col p-7">
+            <div key={s.n} className="card card-hover flex flex-col p-7">
               <div className="flex items-center justify-between">
                 <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
                   <s.icon size={22} />

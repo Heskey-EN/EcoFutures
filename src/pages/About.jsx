@@ -68,7 +68,7 @@ export default function About() {
         </div>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {values.map((v) => (
-            <div key={v.title} className="card p-7">
+            <div key={v.title} className="card card-hover p-7">
               <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-navy text-white">
                 <v.icon size={24} />
               </span>
