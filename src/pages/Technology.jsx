@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, ArrowRight, Check, Cpu, FileSearch, PencilRuler, ShieldCheck, Home } from 'lucide-react'
+import { ArrowUpRight, ArrowRight, Check, Cpu, FileSearch, PencilRuler, Home } from 'lucide-react'
 import CtaSection from '../components/CtaSection.jsx'
 
 const featured = [
   {
     url: 'epc-checker.com',
     href: 'https://epc-checker.com',
-    tag: 'Live · Next.js',
+    tag: 'Live · Free to try',
     icon: FileSearch,
     name: 'EPC Checker',
     tagline: 'Look up any UK property — energy rating, fabric, heating and heritage constraints.',
@@ -17,27 +17,13 @@ const featured = [
       'Built for DEA and retrofit assessors',
     ],
   },
-  {
-    url: 'cav-wall-tech-survey-creator.vercel.app',
-    href: 'https://cav-wall-tech-survey-creator.vercel.app/',
-    tag: 'Live · PWA',
-    icon: PencilRuler,
-    name: 'Cavity Wall Survey Creator',
-    tagline: 'Draw to-scale elevation diagrams and export a 1:1 CWI survey PDF.',
-    points: [
-      'Manual drawing or AI auto-draft from floor plans',
-      'Windows, doors & untreatable areas to scale',
-      'Calculates treatable area and POPT %',
-      'Installable on iPad for on-site surveys',
-    ],
-  },
 ]
 
 const also = [
   {
-    icon: ShieldCheck,
-    name: 'Compliant Certificates',
-    body: 'A member & admin portal for managing certificates, assessors and jobs — the back office for a certification business.',
+    icon: PencilRuler,
+    name: 'Cavity Wall Survey Creator',
+    body: 'Our in-house tool for drawing to-scale elevation diagrams — windows, doors and untreatable areas — with AI auto-drafting from floor plans and a print-ready CWI survey PDF. We use it on our own surveys.',
   },
   {
     icon: Home,
@@ -133,7 +119,7 @@ export default function Technology() {
             Live tools, used every day.
           </h2>
         </div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <div className="mt-12 max-w-2xl">
           {featured.map((p) => (
             <BrowserCard key={p.url} p={p} />
           ))}
