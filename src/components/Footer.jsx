@@ -1,119 +1,100 @@
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
 
 const GOV_EPC_SEARCH =
   'https://find-energy-certificate.service.gov.uk/find-a-certificate/search-by-postcode?lang=en&property_type=domestic'
 const GOV_ADVICE = 'https://www.gov.uk/improve-energy-efficiency'
 
+const columns = [
+  {
+    heading: 'Retrofit',
+    accent: 'text-ember',
+    links: [
+      { label: 'How it works', to: '/retrofit' },
+      { label: 'Assessments & EPCs', to: '/epcs' },
+      { label: 'Book a survey', to: '/contact' },
+    ],
+  },
+  {
+    heading: 'Company',
+    accent: 'text-amber',
+    links: [
+      { label: 'About us', to: '/about' },
+      { label: 'Check for an EPC', href: GOV_EPC_SEARCH },
+      { label: 'Government advice', href: GOV_ADVICE },
+    ],
+  },
+]
+
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-navy px-6 pb-12 pt-20 text-white md:px-12">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4 md:gap-16">
+    <footer className="bg-navy bg-blueprint px-5 pb-10 pt-16 text-white sm:px-8">
+      <div className="mx-auto max-w-site">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-8">
           {/* Brand */}
-          <div>
-            <div className="mb-6 flex items-center gap-2">
-              <div className="flex h-5 items-end gap-1">
-                <div className="h-1.5 w-1.5 bg-accent-orange" />
-                <div className="h-2.5 w-1.5 bg-accent-yellow" />
-                <div className="h-3.5 w-1.5 bg-accent-green" />
-              </div>
-              <span className="font-display text-xl font-extrabold uppercase italic tracking-tight">
-                Eco Futures
-              </span>
-            </div>
-            <p className="text-sm leading-relaxed text-gray-400">
-              Professional energy performance certification and retrofit assessment services based
-              in Preston and Blackpool, serving the North West and beyond.
+          <div className="col-span-2 md:col-span-1">
+            <img
+              src="/eco-futures-logo.png"
+              width="307"
+              height="183"
+              alt="Eco Futures"
+              className="h-14 w-auto"
+            />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/60">
+              Independent PAS 2035 retrofit surveys and whole-house upgrades across Preston,
+              Blackpool and the North West.
             </p>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 className="mb-6 text-xs font-black uppercase tracking-[0.2em] text-accent-orange">
-              Services
-            </h4>
-            <ul className="space-y-4 text-sm font-medium text-gray-300">
-              <li>
-                <Link className="transition-colors hover:text-white" to="/contact">
-                  Book a Survey
-                </Link>
-              </li>
-              <li>
-                <Link className="transition-colors hover:text-white" to="/retrofit">
-                  Retrofit Assessments
-                </Link>
-              </li>
-              <li>
-                <Link className="transition-colors hover:text-white" to="/epcs">
-                  About EPCs
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="mb-6 text-xs font-black uppercase tracking-[0.2em] text-accent-yellow">
-              Company
-            </h4>
-            <ul className="space-y-4 text-sm font-medium text-gray-300">
-              <li>
-                <Link className="transition-colors hover:text-white" to="/about">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <a
-                  className="transition-colors hover:text-white"
-                  href={GOV_EPC_SEARCH}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Check for an EPC
-                </a>
-              </li>
-              <li>
-                <a
-                  className="transition-colors hover:text-white"
-                  href={GOV_ADVICE}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Government Advice
-                </a>
-              </li>
-            </ul>
-          </div>
+          {columns.map((col) => (
+            <div key={col.heading}>
+              <h4 className={`spec mb-5 ${col.accent}`}>{col.heading}</h4>
+              <ul className="space-y-3 text-sm text-white/75">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    {l.to ? (
+                      <Link className="transition-colors hover:text-white" to={l.to}>
+                        {l.label}
+                      </Link>
+                    ) : (
+                      <a
+                        className="inline-flex items-center gap-1 transition-colors hover:text-white"
+                        href={l.href}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {l.label} <ArrowUpRight size={13} className="opacity-60" />
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
           {/* Contact */}
           <div>
-            <h4 className="mb-6 text-xs font-black uppercase tracking-[0.2em] text-accent-green">
-              Contact
-            </h4>
-            <ul className="space-y-4 text-sm font-medium text-gray-300">
-              <li className="flex items-center gap-3">
-                <Mail size={16} className="text-accent-green" />
-                <a className="hover:text-white" href="mailto:Info@ecofutures.uk">
-                  Info@ecofutures.uk
+            <h4 className="spec mb-5 text-moss-soft">Contact</h4>
+            <ul className="space-y-3 text-sm text-white/75">
+              <li>
+                <a className="inline-flex items-center gap-2.5 hover:text-white" href="mailto:Info@ecofutures.uk">
+                  <Mail size={15} className="text-moss-soft" /> Info@ecofutures.uk
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={16} className="text-accent-green" />
-                <a className="hover:text-white" href="tel:+447359069886">
-                  07359 069886
+              <li>
+                <a className="inline-flex items-center gap-2.5 hover:text-white" href="tel:+447359069886">
+                  <Phone size={15} className="text-moss-soft" /> 07359 069886
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <MapPin size={16} className="text-accent-green" />
-                Preston, North West
+              <li className="inline-flex items-center gap-2.5">
+                <MapPin size={15} className="text-moss-soft" /> Preston, North West
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 md:flex-row">
-          <p>© {new Date().getFullYear()} Eco Futures Ltd. All rights reserved.</p>
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-white/40 sm:flex-row">
+          <p>© {new Date().getFullYear()} Eco Futures Ltd</p>
           <p>Preston · Blackpool · North West</p>
         </div>
       </div>

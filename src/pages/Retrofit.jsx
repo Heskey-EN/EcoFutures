@@ -1,34 +1,40 @@
 import { Link } from 'react-router-dom'
 import {
-  ClipboardList,
-  Settings2,
-  DraftingCompass,
-  ShieldCheck,
   ArrowRight,
-  CheckCircle2,
+  ClipboardCheck,
+  ListChecks,
+  HardHat,
+  ShieldCheck,
   PoundSterling,
+  Gauge,
+  Leaf,
 } from 'lucide-react'
-import RetrofitDiagram from '../components/illustrations/RetrofitDiagram.jsx'
-import Stars from '../components/Stars.jsx'
+import { MEASURES, TONE } from '../components/InteractiveHouse.jsx'
+import CtaSection from '../components/CtaSection.jsx'
 
-const PAS_2035_PDF =
-  'https://retrofitacademy.org/wp-content/uploads/2023/10/PAS2035_2023.pdf'
+const PAS_2035_PDF = 'https://retrofitacademy.org/wp-content/uploads/2023/10/PAS2035_2023.pdf'
 
-const steps = [
+const stages = [
   {
-    icon: ClipboardList,
-    title: 'Initial Assessment',
-    body: "A comprehensive on-site energy evaluation conducted by our certified professionals. We map out your property's current performance and identify key areas for improvement.",
+    n: '01',
+    icon: ClipboardCheck,
+    title: 'Retrofit survey',
+    body: 'A PAS 2035 whole-house assessment: fabric, heating, ventilation, moisture risk and occupancy. We measure, we don’t guess — and we’re independent of any one product.',
+    points: ['Heat-loss & fabric survey', 'Ventilation & damp risk', 'EPC / RdSAP assessment'],
   },
   {
-    icon: Settings2,
-    title: 'Coordination & Planning',
-    body: 'Managing the logistics and creating a tailored retrofit plan. We ensure all recommendations align with your goals, budget, and local building regulations.',
+    n: '02',
+    icon: ListChecks,
+    title: 'Medium-term plan',
+    body: 'A prioritised, costed plan in the correct fabric-first order, phased to your budget, with the grants you qualify for and the savings you can expect at each step.',
+    points: ['Fabric-first sequencing', 'Costs & expected savings', 'Grant eligibility check'],
   },
   {
-    icon: DraftingCompass,
-    title: 'Technical Design',
-    body: 'Delivery of detailed technical specifications and design documents. This roadmap provides the blueprints for contractors to execute high-quality energy improvements.',
+    n: '03',
+    icon: HardHat,
+    title: 'Managed installs',
+    body: 'We coordinate accredited, insured installers, oversee the work against the plan, and sign it off — so the measures perform as designed and any funding stays valid.',
+    points: ['Vetted installers', 'On-site oversight', 'Sign-off & handover'],
   },
 ]
 
@@ -36,150 +42,179 @@ export default function Retrofit() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-navy py-16">
-        <div className="container-site grid items-center gap-12 md:grid-cols-2">
-          <div className="flex flex-col gap-6">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-accent-green/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-accent-green">
-              <ShieldCheck size={14} />
-              PAS 2035 Retrofit Specialists
+      <section className="border-b border-ink/10 bg-navy bg-blueprint text-white">
+        <div className="container-site grid items-center gap-10 py-16 md:grid-cols-[1.3fr_1fr] md:py-24">
+          <div>
+            <span className="eyebrow text-ember">
+              <ShieldCheck size={14} /> PAS 2035 · Fabric-first
             </span>
-            <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-white lg:text-5xl">
-              Expert Retrofit Surveys for a Sustainable Future
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.02] tracking-tight md:text-6xl">
+              Retrofit, done in the right order.
             </h1>
-            <p className="max-w-[500px] text-lg leading-relaxed text-slate-300">
-              Professional home evaluations designed to drive energy efficiency, reduce costs, and
-              ensure your property meets modern sustainability standards.
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
+              A one-off product rarely fixes a cold, expensive home. We assess the whole house, plan
+              the upgrades in the order that actually works, and manage the installs from start to
+              finish.
             </p>
-            <div>
-              <Link
-                to="/contact"
-                className="inline-flex bg-accent-orange px-8 py-4 text-base font-bold uppercase tracking-wide text-white transition-all hover:brightness-110"
-              >
-                Book Your Survey
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link to="/contact" className="btn-primary">
+                Book a survey <ArrowRight size={18} />
+              </Link>
+              <Link to="/" className="btn-ghost-light">
+                Explore the house
               </Link>
             </div>
-            <div className="mt-2 flex flex-wrap gap-x-8 gap-y-3">
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-300">
-                <CheckCircle2 size={18} className="text-accent-green" />
-                PAS 2035 Compliant
-              </div>
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-300">
-                <PoundSterling size={18} className="text-accent-green" />
-                Government Funding Eligible
-              </div>
-            </div>
           </div>
-          <div className="hidden md:block">
-            <div className="h-[400px] overflow-hidden rounded-xl bg-[#0f1f33] ring-1 ring-white/10">
-              <RetrofitDiagram className="h-full w-full" />
-            </div>
-          </div>
+          <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10">
+            {[
+              ['~£1,700', 'typical £/yr saved'],
+              ['A–G', 'EPC we lift'],
+              ['1', 'accountable team'],
+            ].map(([v, l]) => (
+              <div key={l} className="bg-navy p-4 text-center">
+                <div className="font-mono text-2xl font-semibold text-amber">{v}</div>
+                <div className="spec mt-1 text-white/50">{l}</div>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
       {/* Process */}
-      <section className="container-site pb-8 pt-16">
-        <div className="flex flex-col gap-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-accent-green">
-            How we work
-          </span>
-          <h2 className="font-display text-3xl font-bold text-navy">Our Retrofit Process</h2>
-          <div className="mt-2 h-1 w-16 bg-accent-orange" />
+      <section className="container-site py-20 md:py-28">
+        <div className="max-w-prose">
+          <span className="eyebrow text-ink-faint">How it works</span>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+            Survey, plan, install — one accountable team.
+          </h2>
         </div>
-      </section>
-
-      <section className="container-site py-8">
-        <div className="flex flex-col gap-0">
-          {steps.map((step, i) => (
-            <div key={step.title} className="grid grid-cols-[48px_1fr] gap-x-6 md:grid-cols-[60px_1fr]">
-              {/* Number + connector */}
-              <div className="flex flex-col items-center">
-                <div className="z-10 flex h-12 w-12 items-center justify-center rounded-full bg-accent-green text-xl font-bold text-white shadow-lg">
-                  {i + 1}
-                </div>
-                {i < steps.length - 1 && (
-                  <div className="-mt-1 hidden h-full w-1 bg-slate-200 md:block" />
-                )}
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {stages.map((s) => (
+            <div key={s.n} className="card flex flex-col p-7">
+              <div className="flex items-center justify-between">
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
+                  <s.icon size={22} />
+                </span>
+                <span className="font-mono text-3xl font-semibold text-ink/10">{s.n}</span>
               </div>
-              <div
-                className={`rounded-xl border border-slate-100 bg-white p-8 shadow-sm transition-colors hover:border-accent-green/50 ${
-                  i < steps.length - 1 ? 'mb-8' : ''
-                }`}
-              >
-                <div className="mb-2 flex items-center gap-3">
-                  <step.icon size={24} className="text-accent-green" />
-                  <h3 className="font-display text-xl font-bold text-navy">{step.title}</h3>
-                </div>
-                <p className="text-lg leading-relaxed text-slate-600">{step.body}</p>
-              </div>
+              <h3 className="mt-5 text-xl font-bold text-ink">{s.title}</h3>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft">{s.body}</p>
+              <ul className="mt-4 space-y-2 border-t border-ink/10 pt-4">
+                {s.points.map((p) => (
+                  <li key={p} className="flex items-center gap-2 text-sm text-ink-soft">
+                    <span className="h-1.5 w-1.5 rounded-full bg-ember" /> {p}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
       </section>
 
-      {/* PAS 2035 compliance panel */}
-      <section className="container-site py-16">
-        <div className="flex flex-col items-center gap-8 rounded-2xl border border-slate-700 bg-navy p-8 shadow-2xl md:flex-row md:p-12">
-          <div className="rounded-xl bg-accent-green/20 p-6">
-            <ShieldCheck size={64} className="text-accent-green" />
-          </div>
-          <div className="flex flex-1 flex-col gap-4 text-center md:text-left">
-            <h3 className="font-display text-2xl font-black text-white">
-              PAS 2035 Compliant Surveys
-            </h3>
-            <p className="text-lg leading-relaxed text-slate-300">
-              All our surveys meet the industry standard for high-quality energy efficiency
-              retrofits. This ensures your project is eligible for government funding and adheres to
-              the highest safety and performance criteria.
+      {/* Measures deep-dive */}
+      <section className="border-y border-ink/10 bg-paper-warm/60 py-20 md:py-28">
+        <div className="container-site">
+          <div className="max-w-prose">
+            <span className="eyebrow text-ink-faint">The measures</span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+              Every part of the home, explained.
+            </h2>
+            <p className="mt-4 text-lg text-ink-soft">
+              These are the upgrades a survey draws from. Which ones suit your home — and in what
+              order — is exactly what the assessment tells you.
             </p>
           </div>
-          <div className="flex flex-col items-center gap-4 md:items-end">
+
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {MEASURES.map((m) => (
+              <article key={m.id} className="card flex flex-col p-6 sm:flex-row sm:gap-6">
+                <div className="mb-4 sm:mb-0">
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-full font-mono text-sm font-bold text-white"
+                    style={{ background: TONE[m.tone] }}
+                  >
+                    {m.n}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h3 className="text-lg font-bold text-ink">{m.label}</h3>
+                    <span className="spec text-ink-faint">{m.loss}</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{m.what}</p>
+                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-ink/10 pt-3 font-mono text-xs text-ink-soft">
+                    <span className="inline-flex items-center gap-1.5">
+                      <PoundSterling size={13} className="text-ink-faint" /> {m.cost}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Leaf size={13} className="text-moss" /> £{m.saving}/yr
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Gauge size={13} className="text-ink-faint" /> {m.epc}
+                    </span>
+                  </div>
+                  {m.grant && (
+                    <p className="mt-3 inline-block rounded bg-moss/[0.08] px-2.5 py-1 font-mono text-[0.68rem] font-medium text-moss-deep">
+                      ✓ {m.grant}
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="mt-8 text-center font-mono text-xs text-ink-faint">
+            Indicative figures for a typical older home — confirmed by your survey.
+          </p>
+        </div>
+      </section>
+
+      {/* Fabric-first explainer */}
+      <section className="container-site py-20 md:py-28">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+          <div>
+            <span className="eyebrow text-ink-faint">Why order matters</span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+              Fabric first, then systems.
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+              Insulate and seal the building fabric before you size the heating. Do it the other way
+              round and you pay for a bigger heat pump than you need — and it never runs at its best.
+            </p>
             <a
               href={PAS_2035_PDF}
               target="_blank"
               rel="noreferrer"
-              className="group flex items-center gap-2 font-bold text-white transition-colors hover:text-accent-orange"
+              className="mt-6 inline-flex items-center gap-1.5 font-semibold text-ember hover:gap-2.5"
             >
-              Learn more about compliance
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              Read about PAS 2035 <ArrowRight size={18} />
             </a>
-            <div className="rounded bg-white/10 px-4 py-2 text-xs font-medium uppercase tracking-widest text-slate-300">
-              Industry Standard Verified
-            </div>
           </div>
+          <ol className="flex flex-col gap-3">
+            {[
+              ['Insulate the fabric', 'Loft, walls, floor — cut the heat loss first.'],
+              ['Sort ventilation', 'Controlled fresh air so a tighter home stays healthy.'],
+              ['Upgrade the heat source', 'Size a heat pump to the improved, lower demand.'],
+              ['Add generation', 'Solar and battery to cut running costs further.'],
+            ].map(([t, b], i) => (
+              <li key={t} className="flex items-start gap-4 rounded-lg border border-ink/10 bg-paper-card p-5">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy font-mono text-sm font-semibold text-white">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="font-bold text-ink">{t}</h3>
+                  <p className="mt-0.5 text-sm text-ink-soft">{b}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="border-t border-slate-200 bg-slate-100 py-20">
-        <div className="mx-auto flex max-w-[800px] flex-col items-center gap-8 px-6 text-center">
-          <h2 className="font-display text-4xl font-black leading-tight text-navy">
-            Ready to improve your property's efficiency?
-          </h2>
-          <p className="text-xl leading-relaxed text-slate-600">
-            Join hundreds of homeowners who have transformed their living spaces with Eco Futures.
-            Get your professional survey booked today.
-          </p>
-          <div className="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
-            <Link
-              to="/contact"
-              className="bg-accent-orange px-12 py-5 text-center text-base font-black uppercase tracking-wide text-white shadow-lg transition-all hover:scale-[1.02]"
-            >
-              Book a Survey Now
-            </Link>
-            <Link
-              to="/epcs"
-              className="border-2 border-slate-300 bg-white px-12 py-5 text-center text-base font-bold uppercase tracking-wide text-navy transition-all hover:bg-slate-50"
-            >
-              Learn About EPCs
-            </Link>
-          </div>
-          <div className="mt-4 flex items-center gap-3">
-            <Stars />
-            <p className="text-sm font-medium text-slate-500">Trusted by 500+ homeowners</p>
-          </div>
-        </div>
-      </section>
+      <CtaSection
+        eyebrow="Start with a survey"
+        title="Get a plan built for your home."
+        body="One survey gives you the whole picture — the measures, the order, the grants and the savings. Then we manage the installs."
+      />
     </>
   )
 }

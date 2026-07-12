@@ -1,53 +1,42 @@
 import { useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { Phone, Mail, MapPin, BadgeCheck, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
-import CoverageMap from '../components/illustrations/CoverageMap.jsx'
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  ClipboardCheck,
+  ListChecks,
+  HardHat,
+} from 'lucide-react'
 
-// EmailJS is designed to run in the browser — these are public client-side
-// identifiers (not secrets). They can optionally be overridden with Vite env
-// vars (VITE_EMAILJS_*) at build time.
+// EmailJS runs in the browser — these are public client-side identifiers
+// (overridable via VITE_EMAILJS_* at build time).
 const EMAILJS_SERVICE = import.meta.env.VITE_EMAILJS_SERVICE || 'service_tcu1ci3'
 const EMAILJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE || 'template_ldu2ckm'
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'Ew-e7AM5p0vx0GqrC'
 
-const contactCards = [
-  {
-    icon: Phone,
-    bg: 'bg-accent-yellow',
-    label: 'Call Us',
-    value: '07359 069886',
-    href: 'tel:+447359069886',
-    accent: 'text-accent-yellow',
-    hover: 'hover:border-accent-yellow',
-  },
-  {
-    icon: Mail,
-    bg: 'bg-accent-orange',
-    label: 'Email Us',
-    value: 'Info@ecofutures.uk',
-    href: 'mailto:Info@ecofutures.uk',
-    accent: 'text-accent-orange',
-    hover: 'hover:border-accent-orange',
-  },
-  {
-    icon: MapPin,
-    bg: 'bg-accent-green',
-    label: 'Our Office',
-    value: 'Preston, UK',
-    href: null,
-    accent: 'text-accent-green',
-    hover: 'hover:border-accent-green',
-  },
+const contacts = [
+  { icon: Phone, label: 'Call', value: '07359 069886', href: 'tel:+447359069886' },
+  { icon: Mail, label: 'Email', value: 'Info@ecofutures.uk', href: 'mailto:Info@ecofutures.uk' },
+  { icon: MapPin, label: 'Area', value: 'Preston · Blackpool · North West', href: null },
+]
+
+const next = [
+  { icon: ClipboardCheck, text: 'We arrange a whole-house survey at a time that suits you.' },
+  { icon: ListChecks, text: 'You get a clear, costed retrofit plan with grants and savings.' },
+  { icon: HardHat, text: 'We facilitate the installs and sign the work off.' },
 ]
 
 export default function Contact() {
   const formRef = useRef(null)
-  const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [status, setStatus] = useState('idle')
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setStatus('sending')
-
     emailjs
       .sendForm(EMAILJS_SERVICE, EMAILJS_TEMPLATE, formRef.current, {
         publicKey: EMAILJS_PUBLIC_KEY,
@@ -57,202 +46,164 @@ export default function Contact() {
           setStatus('success')
           formRef.current.reset()
         },
-        (error) => {
-          console.error('EmailJS error:', error)
+        (err) => {
+          console.error('EmailJS error:', err)
           setStatus('error')
         },
       )
   }
 
-  const inputClass =
-    'border border-slate-200 bg-gray-50 p-4 text-sm outline-none transition-all placeholder:text-gray-400 focus:border-navy'
-  const labelClass = 'text-xs font-bold uppercase tracking-wider text-navy'
+  const field =
+    'w-full rounded border border-ink/15 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ember'
+  const lbl = 'spec mb-1.5 block text-ink-soft'
 
   return (
-    <div className="container-site py-16">
-      {/* Heading */}
-      <div className="mb-16 max-w-2xl border-l-4 border-accent-green pl-6">
-        <h1 className="mb-4 font-display text-4xl font-bold leading-tight tracking-tight text-navy md:text-5xl">
-          Contact Our Experts
-        </h1>
-        <p className="text-lg text-slate-600">
-          Ready to upgrade your property's efficiency? We're here to help with your EPC and Retrofit
-          needs. Our experts serve Preston, Blackpool and the North West with professional, reliable
-          advice.
-        </p>
-      </div>
+    <>
+      {/* Hero */}
+      <section className="border-b border-ink/10 bg-navy bg-blueprint text-white">
+        <div className="container-site py-14 md:py-20">
+          <span className="eyebrow text-ember">Get started</span>
+          <h1 className="mt-4 max-w-2xl text-4xl font-extrabold leading-[1.02] tracking-tight md:text-6xl">
+            Book your survey.
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
+            Tell us about your home and we'll be in touch to arrange an independent PAS 2035 survey.
+            No pressure, no product pitch.
+          </p>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-        {/* Contact details */}
-        <div className="flex flex-col gap-6">
-          <div className="grid gap-6">
-            {contactCards.map((c) => {
-              const Inner = (
+      <section className="container-site grid gap-10 py-16 md:py-24 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+        {/* Left: contact + what happens next */}
+        <div className="flex flex-col gap-8">
+          <div className="grid gap-3">
+            {contacts.map((c) => {
+              const inner = (
                 <>
-                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center text-white ${c.bg}`}>
-                    <c.icon size={22} />
-                  </div>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ember/10 text-ember">
+                    <c.icon size={18} />
+                  </span>
                   <div>
-                    <h3 className={`mb-1 text-xs font-bold uppercase tracking-wider ${c.accent}`}>
-                      {c.label}
-                    </h3>
-                    <p className="break-words text-lg font-bold text-navy sm:text-xl">{c.value}</p>
+                    <div className="spec text-ink-faint">{c.label}</div>
+                    <div className="font-semibold text-ink">{c.value}</div>
                   </div>
                 </>
               )
-              const cardClass = `flex flex-col gap-4 border border-slate-200 bg-white p-6 transition-all sm:flex-row sm:items-center sm:gap-5 sm:p-8 ${c.hover}`
+              const cls = 'flex items-center gap-4 rounded-lg border border-ink/10 bg-paper-card p-4'
               return c.href ? (
-                <a key={c.label} href={c.href} className={cardClass}>
-                  {Inner}
+                <a key={c.label} href={c.href} className={`${cls} transition-colors hover:border-ember/40`}>
+                  {inner}
                 </a>
               ) : (
-                <div key={c.label} className={cardClass}>
-                  {Inner}
+                <div key={c.label} className={cls}>
+                  {inner}
                 </div>
               )
             })}
           </div>
 
-          {/* Coverage panel */}
-          <div className="mt-2 border-t-4 border-accent-orange bg-slate-50 p-8">
-            <div className="mb-3 flex items-center gap-2 text-accent-orange">
-              <BadgeCheck size={20} />
-              <span className="text-xs font-bold uppercase tracking-[0.15em]">Service Coverage</span>
-            </div>
-            <h3 className="mb-3 font-display text-2xl font-bold uppercase tracking-tight text-navy">
-              Preston &amp; North West
-            </h3>
-            <p className="text-sm leading-relaxed text-slate-600">
-              Our certified assessors are available across all major boroughs and surrounding
-              counties for rapid property surveys and EPC assessments.
-            </p>
+          <div className="rounded-xl border border-ink/10 bg-paper-warm/70 p-6">
+            <span className="spec text-ink-faint">What happens next</span>
+            <ul className="mt-4 flex flex-col gap-4">
+              {next.map((s, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-white">
+                    <s.icon size={15} />
+                  </span>
+                  <p className="pt-1 text-sm leading-relaxed text-ink-soft">{s.text}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Inquiry form */}
-        <div className="border border-slate-200 bg-white p-8 md:p-10">
-          <h2 className="mb-8 font-display text-2xl font-bold uppercase tracking-tight text-navy">
-            Inquiry Form
-          </h2>
-
+        {/* Right: form */}
+        <div className="card p-6 md:p-8">
           {status === 'success' ? (
-            <div className="flex flex-col items-center gap-4 py-12 text-center">
-              <CheckCircle2 size={56} className="text-accent-green" />
-              <h3 className="font-display text-xl font-bold text-navy">Message sent!</h3>
-              <p className="text-slate-600">
-                Thanks for getting in touch — we'll get back to you as soon as possible.
+            <div className="flex min-h-[360px] flex-col items-center justify-center gap-4 text-center">
+              <CheckCircle2 size={52} className="text-moss" />
+              <h2 className="text-2xl font-bold text-ink">Message sent</h2>
+              <p className="max-w-sm text-ink-soft">
+                Thanks — we'll be in touch shortly to arrange your survey.
               </p>
               <button
                 type="button"
                 onClick={() => setStatus('idle')}
-                className="mt-2 text-sm font-bold uppercase tracking-wide text-brand-blue hover:underline"
+                className="mt-2 font-semibold text-ember hover:underline"
               >
                 Send another message
               </button>
             </div>
           ) : (
-            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div className="flex flex-col gap-2">
-                  <label className={labelClass} htmlFor="name">
-                    Full Name
+            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <h2 className="text-xl font-bold text-ink">Request a survey</h2>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label className={lbl} htmlFor="name">
+                    Full name
                   </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    placeholder="e.g. John Smith"
-                    className={inputClass}
-                  />
+                  <input id="name" name="name" type="text" required placeholder="Jane Smith" className={field} />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <label className={labelClass} htmlFor="email">
-                    Email Address
+                <div>
+                  <label className={lbl} htmlFor="email">
+                    Email
                   </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
-                    placeholder="john@example.com"
-                    className={inputClass}
+                    placeholder="jane@example.com"
+                    className={field}
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <label className={labelClass} htmlFor="address">
-                  Property Address{' '}
-                  <span className="text-[10px] font-normal lowercase italic text-slate-500">
-                    (optional)
-                  </span>
+              <div>
+                <label className={lbl} htmlFor="address">
+                  Property address / postcode
                 </label>
-                <input
-                  id="address"
-                  name="address"
-                  type="text"
-                  placeholder="e.g. PR1 2AB"
-                  className={inputClass}
-                />
+                <input id="address" name="address" type="text" placeholder="PR1 2AB" className={field} />
               </div>
-              <div className="flex flex-col gap-2">
-                <label className={labelClass} htmlFor="message">
-                  Your Message
+              <div>
+                <label className={lbl} htmlFor="message">
+                  About your home
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows={5}
                   required
-                  placeholder="Tell us about your requirements..."
-                  className={`${inputClass} resize-none`}
+                  placeholder="Age of property, what you'd like to improve, any damp or cold rooms…"
+                  className={`${field} resize-none`}
                 />
               </div>
 
               {status === 'error' && (
-                <div className="flex items-center gap-2 border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-                  <AlertCircle size={18} />
-                  Something went wrong. Please try again or email us directly.
+                <div className="flex items-center gap-2 rounded border border-ember/30 bg-ember/[0.06] px-3 py-2.5 text-sm text-ember-deep">
+                  <AlertCircle size={18} /> Something went wrong. Please try again or email us directly.
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="mt-2 flex w-full items-center justify-center gap-2 bg-navy py-5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-brand-blue disabled:cursor-not-allowed disabled:opacity-70"
+                className="btn-primary w-full py-3.5 disabled:opacity-70"
               >
                 {status === 'sending' ? (
                   <>
                     <Loader2 size={16} className="animate-spin" /> Sending…
                   </>
                 ) : (
-                  'Send Inquiry'
+                  'Send request'
                 )}
               </button>
+              <p className="font-mono text-[0.68rem] text-ink-faint">
+                We'll only use your details to arrange your survey.
+              </p>
             </form>
           )}
         </div>
-      </div>
-
-      {/* Coverage map band */}
-      <div className="relative mt-24 h-[360px] w-full overflow-hidden border border-slate-200 bg-slate-100">
-        <CoverageMap className="absolute inset-0 h-full w-full" />
-        <div className="relative z-10 flex h-full flex-col justify-center px-6 md:px-12">
-          <div className="max-w-md border-t-4 border-accent-orange bg-white p-8 shadow-xl md:p-10">
-            <div className="mb-4 flex items-center gap-2 text-accent-orange">
-              <BadgeCheck size={20} />
-              <span className="text-xs font-bold uppercase tracking-[0.15em]">Service Coverage</span>
-            </div>
-            <h3 className="mb-4 font-display text-2xl font-bold uppercase tracking-tight text-navy">
-              Preston &amp; North West
-            </h3>
-            <p className="text-sm leading-relaxed text-slate-600">
-              Our certified assessors are available across all major boroughs and surrounding
-              counties for rapid property surveys and EPC assessments.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   )
 }

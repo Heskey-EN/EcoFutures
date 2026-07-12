@@ -28,12 +28,12 @@ export default function Header() {
   }, [open])
 
   const linkClass = ({ isActive }) =>
-    `text-sm font-bold transition-colors hover:text-brand-blue ${
-      isActive ? 'text-brand-blue' : 'text-navy'
+    `text-sm font-semibold transition-colors hover:text-white ${
+      isActive ? 'text-amber' : 'text-white/80'
     }`
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-navy/95 backdrop-blur">
       <div className="container-site flex h-20 items-center justify-between">
         <Logo />
 
@@ -46,7 +46,7 @@ export default function Header() {
           ))}
           <Link
             to="/contact"
-            className="bg-navy px-6 py-2.5 text-sm font-bold text-white transition-all hover:bg-brand-blue"
+            className="rounded bg-ember px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-ember-deep"
           >
             Book a Survey
           </Link>
@@ -56,7 +56,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="text-navy md:hidden"
+          className="text-white md:hidden"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
         >
@@ -66,21 +66,21 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        <div className="border-t border-white/10 bg-navy md:hidden">
           <nav className="container-site flex flex-col gap-1 py-4">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.to === '/'}
-                className="py-2 text-sm font-bold text-navy hover:text-brand-blue"
+                className="py-2 text-sm font-bold text-white/85 hover:text-white"
               >
                 {item.label}
               </NavLink>
             ))}
             <Link
               to="/contact"
-              className="mt-2 bg-navy px-6 py-3 text-center text-sm font-bold text-white"
+              className="mt-2 rounded bg-ember px-6 py-3 text-center text-sm font-semibold text-white"
             >
               Book a Survey
             </Link>

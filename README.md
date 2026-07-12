@@ -1,8 +1,13 @@
 # Eco Futures
 
-Marketing website for **Eco Futures** — accredited EPC assessments and PAS 2035 retrofit surveys across Preston, Blackpool and the North West.
+Website for **Eco Futures** — a North West retrofit company that runs independent PAS 2035 surveys and facilitates the installs.
 
-A modern rebuild of the original static site, now a fast single-page app with a unified design system and a working contact form.
+Its centrepiece is an **interactive house**: visitors highlight any part of the home (loft, walls, floor, glazing, heating, ventilation, solar) to see how it can be upgraded — the measure, indicative cost, annual £ and carbon saving, EPC uplift and available grants — building a running "retrofit plan" as they go, shown on a thermal heat-loss diagram that cools from red to green as measures are added.
+
+## Design language
+
+- Palette: cool "drafting paper" ground, slate ink, brand navy, **ember** (heat loss / actions), **moss** (upgraded), amber, plus a blue→red thermal scale.
+- Type: **Bricolage Grotesque** (display), **Hanken Grotesk** (body), **IBM Plex Mono** (specs & data).
 
 ## Tech stack
 
@@ -12,6 +17,8 @@ A modern rebuild of the original static site, now a fast single-page app with a 
 - [lucide-react](https://lucide.dev/) icons
 - [EmailJS](https://www.emailjs.com/) for the contact form
 - Google Analytics (gtag)
+
+The interactive house lives in `src/components/InteractiveHouse.jsx` (SVG cross-section + measure data).
 
 ## Pages
 
