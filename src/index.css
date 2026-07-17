@@ -95,6 +95,41 @@
   .eyebrow {
     @apply inline-flex w-fit items-center gap-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-ember;
   }
+
+  /* Long-form legal / prose content */
+  .prose-legal {
+    @apply text-[0.95rem] text-ink-soft;
+  }
+  .prose-legal h2 {
+    @apply mb-3 mt-10 font-display text-xl font-bold text-ink first:mt-0;
+  }
+  .prose-legal h3 {
+    @apply mb-2 mt-6 font-display text-base font-bold text-ink;
+  }
+  .prose-legal p {
+    @apply my-3 leading-relaxed;
+  }
+  .prose-legal ul {
+    @apply my-3 list-disc space-y-1.5 pl-5;
+  }
+  .prose-legal a {
+    @apply font-medium text-ember underline underline-offset-2 hover:text-ember-deep;
+  }
+  .prose-legal strong {
+    @apply font-semibold text-ink;
+  }
+  .prose-legal button {
+    @apply no-underline;
+  }
+  .prose-legal table {
+    @apply my-5 w-full border-collapse text-sm;
+  }
+  .prose-legal th {
+    @apply border border-ink/10 bg-paper px-3 py-2 text-left align-top font-semibold text-ink [overflow-wrap:anywhere];
+  }
+  .prose-legal td {
+    @apply border border-ink/10 px-3 py-2 align-top [overflow-wrap:anywhere];
+  }
 }
 
 @layer utilities {

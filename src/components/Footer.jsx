@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
+import { COMPANY } from '../data/company.js'
+import { COOKIE_SETTINGS_EVENT } from './CookieBanner.jsx'
 
 const GOV_EPC_SEARCH =
   'https://find-energy-certificate.service.gov.uk/find-a-certificate/search-by-postcode?lang=en&property_type=domestic'
@@ -28,6 +30,8 @@ const columns = [
 ]
 
 export default function Footer() {
+  const openCookieSettings = () => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))
+
   return (
     <footer className="bg-navy bg-blueprint px-5 pb-10 pt-16 text-white sm:px-8">
       <div className="mx-auto max-w-site">
@@ -94,9 +98,42 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-white/40 sm:flex-row">
-          <p>© {new Date().getFullYear()} Eco Futures Ltd</p>
-          <p>Preston · Blackpool · North West</p>
+        {/* Legal */}
+        <div className="mt-14 border-t border-white/10 pt-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-lg space-y-1 text-xs leading-relaxed text-white/45">
+              <p className="font-semibold text-white/65">{COMPANY.legalName}</p>
+              {COMPANY.isLtd && (
+                <p>
+                  Registered in {COMPANY.placeOfRegistration} · Company no. {COMPANY.companyNumber}
+                </p>
+              )}
+              <p>Registered office: {COMPANY.registeredOffice}</p>
+              {COMPANY.vatNumber && <p>VAT no. {COMPANY.vatNumber}</p>}
+            </div>
+            <nav className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-white/60">
+              <Link to="/privacy" className="transition-colors hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link to="/cookies" className="transition-colors hover:text-white">
+                Cookie Policy
+              </Link>
+              <Link to="/terms" className="transition-colors hover:text-white">
+                Terms of Use
+              </Link>
+              <button
+                type="button"
+                onClick={openCookieSettings}
+                className="transition-colors hover:text-white"
+              >
+                Cookie settings
+              </button>
+            </nav>
+          </div>
+          <div className="mt-7 flex flex-col items-center justify-between gap-3 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-white/35 sm:flex-row">
+            <p>© {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.</p>
+            <p>Preston · Blackpool · North West</p>
+          </div>
         </div>
       </div>
     </footer>

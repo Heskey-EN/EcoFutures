@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /hub
 
 Sitemap: https://ecofutures.uk/sitemap.xml
