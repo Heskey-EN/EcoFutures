@@ -21,7 +21,7 @@ const facts = [
   {
     icon: Ruler,
     title: 'Measured, not guessed',
-    body: 'Our assessors survey the real fabric and services on RdSAP — the same data that drives the retrofit plan.',
+    body: 'EPCs are produced by an accredited assessor on RdSAP — the same measured data that drives your retrofit plan.',
   },
 ]
 
@@ -120,7 +120,7 @@ export default function Epcs() {
               the home, and the right sequence of works.
             </p>
             <p className="mt-4">
-              We do both, so the certificate and the plan come from one consistent survey of your
+              We arrange both, so your certificate and plan come from one consistent survey of your
               home — no contradictions, no repeated visits.
             </p>
             <Link to="/retrofit" className="mt-6 inline-flex items-center gap-1.5 font-semibold text-ember hover:gap-2.5">
