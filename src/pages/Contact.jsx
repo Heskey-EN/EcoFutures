@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import {
   Phone,
@@ -198,7 +199,12 @@ export default function Contact() {
                 )}
               </button>
               <p className="font-mono text-[0.68rem] text-ink-faint">
-                We'll only use your details to arrange your survey.
+                We'll only use your details to respond to your enquiry and arrange your survey. See
+                our{' '}
+                <Link to="/privacy" className="underline underline-offset-2 hover:text-ink">
+                  Privacy Policy
+                </Link>
+                .
               </p>
             </form>
           )}

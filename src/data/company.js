@@ -31,8 +31,11 @@ export const COMPANY = {
   phoneHref: '+447359069886',
   area: 'Preston, Blackpool and the North West',
 
-  // Update whenever you edit the policies
-  lastUpdated: '17 July 2026',
+  // Update the relevant date whenever you edit that policy
+  lastUpdated: '17 July 2026', // fallback
+  lastUpdatedPrivacy: '17 July 2026',
+  lastUpdatedCookies: '17 July 2026',
+  lastUpdatedTerms: '17 July 2026',
 }
 
 // True while a field still holds its placeholder, so the UI can flag it.

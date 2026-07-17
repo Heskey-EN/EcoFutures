@@ -6,6 +6,7 @@ export default function Privacy() {
     <LegalPage
       title="Privacy Policy"
       intro={`How ${COMPANY.tradingName} collects, uses and protects your personal data.`}
+      updated={COMPANY.lastUpdatedPrivacy}
     >
       <h2>Who we are</h2>
       <p>
@@ -19,18 +20,22 @@ export default function Privacy() {
         Email: <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
         <br />
         Phone: <a href={`tel:${COMPANY.phoneHref}`}>{COMPANY.phone}</a>
-        {COMPANY.isLtd && (
+        <br />
+        {COMPANY.isLtd ? (
           <>
-            <br />
             {COMPANY.legalName}, registered in {COMPANY.placeOfRegistration} (company no.{' '}
             {COMPANY.companyNumber}). Registered office: {COMPANY.registeredOffice}.
           </>
+        ) : (
+          <>Business address: {COMPANY.registeredOffice}.</>
         )}
       </p>
-      <p>
-        We are registered with the Information Commissioner’s Office (ICO)
-        {COMPANY.icoNumber ? <> under reference {COMPANY.icoNumber}</> : <> [registration reference]</>}.
-      </p>
+      {COMPANY.icoNumber && (
+        <p>
+          We are registered with the Information Commissioner’s Office (ICO) under reference{' '}
+          {COMPANY.icoNumber}.
+        </p>
+      )}
 
       <h2>The personal data we collect</h2>
       <ul>
@@ -65,7 +70,10 @@ export default function Privacy() {
         <tbody>
           <tr>
             <td>Respond to your enquiry and provide quotes or arrange a survey</td>
-            <td>Legitimate interests, and taking steps at your request before entering a contract</td>
+            <td>
+              Legitimate interests (responding to and managing enquiries about our services), and
+              taking steps at your request before entering a contract
+            </td>
           </tr>
           <tr>
             <td>Deliver the surveys, plans and installations you engage us for</td>
@@ -81,10 +89,16 @@ export default function Privacy() {
           </tr>
           <tr>
             <td>Keep the website secure and working</td>
-            <td>Legitimate interests</td>
+            <td>Legitimate interests (keeping our website secure, available and free from abuse)</td>
           </tr>
         </tbody>
       </table>
+      <p>
+        Providing your details is not a statutory requirement. If you don’t give us the information
+        we need to arrange or deliver a survey or installation, we won’t be able to provide that
+        service. We don’t make decisions about you based solely on automated processing, and we don’t
+        carry out profiling.
+      </p>
 
       <h2>Who we share your data with</h2>
       <p>We do not sell your personal data. We share it only with:</p>

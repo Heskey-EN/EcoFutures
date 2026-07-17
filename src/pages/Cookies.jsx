@@ -11,6 +11,7 @@ export default function Cookies() {
     <LegalPage
       title="Cookie Policy"
       intro="What cookies we use, and how to control them."
+      updated={COMPANY.lastUpdatedCookies}
     >
       <h2>What cookies are</h2>
       <p>
@@ -51,7 +52,7 @@ export default function Cookies() {
             <td>ecofutures-cookie-consent</td>
             <td>Essential</td>
             <td>Remembers your cookie choice so we don’t ask again (stored in your browser).</td>
-            <td>Until you clear it</td>
+            <td>Up to 12 months, then we ask again</td>
           </tr>
           <tr>
             <td>_ga, _ga_&lt;id&gt;</td>
@@ -61,6 +62,13 @@ export default function Cookies() {
           </tr>
         </tbody>
       </table>
+
+      <h2>Fonts and other requests</h2>
+      <p>
+        Our web fonts are served by Google Fonts, which may receive your IP address when a page
+        loads. This doesn’t set or read a cookie, but we mention it for transparency — see our{' '}
+        <a href="/privacy">Privacy Policy</a> for more on third parties.
+      </p>
 
       <h2>Managing cookies</h2>
       <p>

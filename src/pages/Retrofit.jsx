@@ -65,18 +65,23 @@ export default function Retrofit() {
               </Link>
             </div>
           </div>
-          <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10">
-            {[
-              ['~£1,700', 'typical £/yr saved'],
-              ['A–G', 'EPC we lift'],
-              ['1', 'accountable team'],
-            ].map(([v, l]) => (
-              <div key={l} className="bg-navy p-4 text-center">
-                <div className="font-mono text-2xl font-semibold text-amber">{v}</div>
-                <div className="spec mt-1 text-white/50">{l}</div>
-              </div>
-            ))}
-          </dl>
+          <div>
+            <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10">
+              {[
+                ['≤ £1,700', 'saved by a full retrofit'],
+                ['A–G', 'any EPC band'],
+                ['1', 'accountable team'],
+              ].map(([v, l]) => (
+                <div key={l} className="bg-navy p-4 text-center">
+                  <div className="font-mono text-2xl font-semibold text-amber">{v}</div>
+                  <div className="spec mt-1 text-white/50">{l}</div>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-2 text-center font-mono text-[0.65rem] text-white/40">
+              Indicative for an older home — your survey confirms the figures.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -48,18 +48,19 @@ export default function CookieBanner() {
             </Link>
             .
           </p>
-          <div className="mt-4 flex flex-wrap gap-2.5">
+          {/* Equal-prominence choices (ICO: reject must be as easy as accept) */}
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
             <button
               type="button"
               onClick={() => choose('granted')}
-              className="rounded bg-ember px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ember-deep"
+              className="rounded border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/20"
             >
               Accept all
             </button>
             <button
               type="button"
               onClick={() => choose('denied')}
-              className="rounded border border-white/25 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+              className="rounded border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/20"
             >
               Reject non-essential
             </button>

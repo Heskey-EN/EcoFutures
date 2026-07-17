@@ -23,7 +23,7 @@ const values = [
 const stats = [
   ['2020', 'Founded in the North West'],
   ['PAS 2035', 'Assessment framework'],
-  ['A–G', 'Every EPC band improved'],
+  ['A–G', 'Improvements for any band'],
   ['1', 'Accountable team'],
 ]
 

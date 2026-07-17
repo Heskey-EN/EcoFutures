@@ -6,15 +6,18 @@ export default function Terms() {
     <LegalPage
       title="Terms of Use"
       intro={`The terms on which you may use the ${COMPANY.tradingName} website.`}
+      updated={COMPANY.lastUpdatedTerms}
     >
       <h2>About us</h2>
       <p>
         This website is operated by {COMPANY.legalName}
-        {COMPANY.isLtd && (
+        {COMPANY.isLtd ? (
           <>
             , registered in {COMPANY.placeOfRegistration} (company no. {COMPANY.companyNumber}),
             registered office {COMPANY.registeredOffice}
           </>
+        ) : (
+          <> (business address: {COMPANY.registeredOffice})</>
         )}
         . By using this website you accept these terms. If you don’t agree with them, please don’t
         use the site.
@@ -52,6 +55,16 @@ export default function Terms() {
         administrator, which are outside our control. Where you are a consumer, you may have a right
         to cancel certain contracts within 14 days under the Consumer Contracts Regulations 2013 —
         details are provided with your quote.
+      </p>
+
+      <h2>Complaints</h2>
+      <p>
+        If something isn’t right with a survey or installation, please contact us first at{' '}
+        <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a> and we’ll do our best to put it
+        right. Where your work is carried out under a certification scheme (such as TrustMark or a
+        PAS 2035 scheme), that scheme’s complaints and dispute-resolution process also applies, and
+        we’ll tell you how to use it. A data-protection complaint can be raised separately with the
+        ICO — see our <a href="/privacy">Privacy Policy</a>.
       </p>
 
       <h2>Third-party links</h2>

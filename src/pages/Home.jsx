@@ -18,7 +18,6 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import InteractiveHouse from '../components/InteractiveHouse.jsx'
-import Stars from '../components/Stars.jsx'
 
 const steps = [
   {
@@ -236,7 +235,9 @@ export default function Home() {
             ))}
           </div>
           <p className="mt-5 font-mono text-xs text-white/40">
-            Eligibility varies by property and income — we check what you qualify for during the survey.
+            Eligibility varies by property and income — we check what you qualify for during the
+            survey. Amounts are correct at the time of writing; see GOV.UK for current figures and
+            dates.
           </p>
         </div>
       </section>
@@ -246,11 +247,9 @@ export default function Home() {
         <div className="overflow-hidden rounded-2xl border border-ink/10 bg-paper-card shadow-card">
           <div className="grid gap-8 p-8 md:grid-cols-[1.4fr_1fr] md:items-center md:p-12">
             <div>
-              <div className="flex items-center gap-3">
-                <Stars />
-                <span className="text-sm font-medium text-ink-soft">
-                  Trusted by homeowners across the North West
-                </span>
+              <div className="flex items-center gap-2.5 text-sm font-medium text-ink-soft">
+                <ShieldCheck size={18} className="text-moss" />
+                Independent, fabric-first retrofit surveys across the North West
               </div>
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-ink md:text-4xl">
                 Ready to see what your home needs?

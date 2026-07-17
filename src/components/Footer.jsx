@@ -108,7 +108,10 @@ export default function Footer() {
                   Registered in {COMPANY.placeOfRegistration} · Company no. {COMPANY.companyNumber}
                 </p>
               )}
-              <p>Registered office: {COMPANY.registeredOffice}</p>
+              <p>
+                {COMPANY.isLtd ? 'Registered office' : 'Business address'}:{' '}
+                {COMPANY.registeredOffice}
+              </p>
               {COMPANY.vatNumber && <p>VAT no. {COMPANY.vatNumber}</p>}
             </div>
             <nav className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-white/60">

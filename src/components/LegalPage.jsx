@@ -2,7 +2,13 @@ import { COMPANY } from '../data/company.js'
 
 // Shared shell for the legal pages: navy hero + prose body (styled by
 // the .prose-legal rules in index.css).
-export default function LegalPage({ eyebrow = 'Legal', title, intro, children }) {
+export default function LegalPage({
+  eyebrow = 'Legal',
+  title,
+  intro,
+  updated = COMPANY.lastUpdated,
+  children,
+}) {
   return (
     <>
       <section className="border-b border-ink/10 bg-navy bg-blueprint text-white">
@@ -13,7 +19,7 @@ export default function LegalPage({ eyebrow = 'Legal', title, intro, children })
           </h1>
           {intro && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>}
           <p className="mt-6 font-mono text-xs uppercase tracking-widest text-white/45">
-            Last updated: {COMPANY.lastUpdated}
+            Last updated: {updated}
           </p>
         </div>
       </section>
