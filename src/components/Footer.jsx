@@ -14,6 +14,7 @@ const columns = [
     links: [
       { label: 'How it works', to: '/retrofit' },
       { label: 'Assessments & EPCs', to: '/epcs' },
+      { label: 'Pricing', to: '/pricing' },
       { label: 'Book a survey', to: '/contact' },
     ],
   },

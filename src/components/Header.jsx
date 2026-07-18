@@ -7,6 +7,7 @@ const navItems = [
   { label: 'Home', to: '/' },
   { label: 'Retrofit', to: '/retrofit' },
   { label: 'EPCs', to: '/epcs' },
+  { label: 'Pricing', to: '/pricing' },
   { label: 'Technology', to: '/technology' },
   { label: 'About', to: '/about' },
 ]
@@ -60,7 +61,7 @@ export default function Header() {
         <Logo />
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex lg:gap-8">
+        <nav className="hidden items-center gap-5 md:flex lg:gap-7">
           {navItems.map((item) => (
             <NavLink key={item.to} to={item.to} className={linkClass} end={item.to === '/'}>
               {item.label}

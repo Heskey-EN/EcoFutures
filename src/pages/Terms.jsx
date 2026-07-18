@@ -57,6 +57,27 @@ export default function Terms() {
         details are provided with your quote.
       </p>
 
+      <h2>Payments, deposits &amp; memberships</h2>
+      <p>
+        Payments on this website are processed securely by Stripe; we don’t see or store your card
+        details. Prices are in pounds sterling and include VAT where it applies.
+      </p>
+      <p>
+        <strong>EPC deposit.</strong> The £20 EPC deposit reserves your assessment and is deducted
+        from your final EPC fee. If we’re unable to carry out your EPC (for example your property is
+        outside our service area), the deposit is refunded.
+      </p>
+      <p>
+        <strong>Memberships.</strong> Software memberships (EPC Checker, Cavwall) are billed monthly
+        and renew automatically until cancelled. You can cancel at any time to stop future payments;
+        cancellation takes effect at the end of the current billing month.
+      </p>
+      <p>
+        Where you are a consumer buying at a distance, you may have a 14-day right to cancel under
+        the Consumer Contracts Regulations 2013, except where a service or digital content has
+        already been provided with your agreement.
+      </p>
+
       <h2>Complaints</h2>
       <p>
         If something isn’t right with a survey or installation, please contact us first at{' '}

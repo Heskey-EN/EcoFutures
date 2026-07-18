@@ -6,7 +6,7 @@ const featured = [
   {
     url: 'epc-checker.com',
     href: 'https://epc-checker.com',
-    tag: 'Live · Free to try',
+    tag: 'Live · Membership',
     icon: FileSearch,
     name: 'EPC Checker',
     tagline: 'Look up any UK property — energy rating, fabric, heating and heritage constraints.',
@@ -16,15 +16,26 @@ const featured = [
       'Bulk spreadsheet uploads & saved searches',
       'Built for DEA and retrofit assessors',
     ],
+    price: '£20/mo',
+  },
+  {
+    url: 'cavwall.com',
+    href: 'https://cavwall.com',
+    tag: 'Live · Membership',
+    icon: PencilRuler,
+    name: 'Cavwall',
+    tagline: 'Draw to-scale cavity-wall elevation diagrams and export a print-ready CWI survey PDF.',
+    points: [
+      'Manual drawing or AI auto-draft from floor plans',
+      'Windows, doors & untreatable areas to scale',
+      'Calculates the treatable area automatically',
+      'Installable for on-site surveys',
+    ],
+    price: '£10/mo',
   },
 ]
 
 const also = [
-  {
-    icon: PencilRuler,
-    name: 'Cavity Wall Survey Creator',
-    body: 'Our in-house tool for drawing to-scale elevation diagrams — windows, doors and untreatable areas — with AI auto-drafting from floor plans and a print-ready CWI survey PDF. We use it on our own surveys.',
-  },
   {
     icon: Home,
     name: 'This interactive house',
@@ -70,6 +81,14 @@ function BrowserCard({ p }) {
         >
           Visit {p.url} <ArrowUpRight size={16} />
         </a>
+        {p.price && (
+          <Link
+            to="/pricing"
+            className="mt-2.5 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-ember hover:underline"
+          >
+            Membership {p.price} — subscribe <ArrowRight size={14} />
+          </Link>
+        )}
       </div>
     </article>
   )
@@ -119,7 +138,7 @@ export default function Technology() {
             Live tools, used every day.
           </h2>
         </div>
-        <div className="mt-12 max-w-2xl">
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
           {featured.map((p) => (
             <BrowserCard key={p.url} p={p} />
           ))}
