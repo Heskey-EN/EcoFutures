@@ -91,6 +91,9 @@ export default async function handler(req, res) {
         product,
         ...(cfg.postcodeGated ? { postcode: String(postcode || '').toUpperCase() } : {}),
       },
+      // Stamp the product on the subscription too, so lifecycle webhooks
+      // (renewal / cancel / failed payment) can route to the right app.
+      ...(cfg.mode === 'subscription' ? { subscription_data: { metadata: { product } } } : {}),
     })
 
     return res.status(200).json({ url: session.url })
