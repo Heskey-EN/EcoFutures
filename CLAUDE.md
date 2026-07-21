@@ -95,8 +95,17 @@ Schema + policies live in `supabase/hub/` — run order and setup in its README.
 - `src/lib/hub/permissions.js` — levels + `can()`.
 - `src/lib/hub/registry.js` — apps + statuses.
 - `src/pages/RetrofitSuite.jsx` — signed-out marketing + auth / no-org
-  onboarding / launcher. Lazy-loaded in `App.jsx` so marketing pages don't
-  ship Supabase.
+  onboarding / launcher (incl. change-password, which also completes invite
+  and reset flows). Lazy-loaded in `App.jsx` so marketing pages don't ship
+  Supabase.
+- `src/pages/RetrofitSuiteTeam.jsx` — `/retrofit-suite/team` (Tier 3+):
+  invite by email, set levels 1–3, deactivate/reactivate, remove. Level and
+  status changes go through the client under RLS; only invites call
+  `api/team-invite.js`.
+- `api/team-invite.js` — the ONE place the hub service_role key is used
+  (`HUB_SUPABASE_SERVICE_ROLE_KEY`). Verifies the caller's JWT, re-checks
+  org-admin authority itself (service_role bypasses RLS), creates/looks up
+  the auth user, upserts the membership. Never touches level-4 rows.
 
 ## 7. Design system
 
@@ -125,9 +134,9 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
 - [x] Session approach decided (subdomain cookie)
 - [x] Hub schema written (`supabase/hub/0001` + `0002`)
 - [x] Auth + Retrofit Suite page (sign in/up, create org, launcher)
-- [ ] George: create the hub Supabase project + run the SQL + set Vercel env vars
-- [ ] Org admin page (Tier 3+): list/manage the org's users — needs a
-      serverless invite function (service_role stays in `api/`)
+- [x] Hub Supabase project live; George is Master Admin (level 4)
+- [x] Org admin page (Tier 3+): `/retrofit-suite/team` + `api/team-invite.js`
+      + `0003_profiles.sql` (George: run 0003 + set the service-role env var)
 - [ ] Master admin panel (Tier 4): all active users, all orgs
 - [ ] Org dashboard aggregations (needs app data in the shared project)
 - [ ] Migrate apps onto the shared project: cavwall → jobs → epc (in that

@@ -5,6 +5,7 @@
 //   signed in, no org     → create an organisation (or wait to be added)
 //   signed in with an org → the tile launcher
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -19,7 +20,7 @@ import {
 } from 'lucide-react'
 import { HubAuthProvider, useHubAuth } from '../lib/hub/HubAuthContext.jsx'
 import { APPS, STATUS_LABELS } from '../lib/hub/registry.js'
-import { levelName, LEVEL_INFO } from '../lib/hub/permissions.js'
+import { can, levelName, LEVEL_INFO } from '../lib/hub/permissions.js'
 
 const field =
   'w-full rounded border border-ink/15 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ember'
@@ -440,6 +441,102 @@ function NoOrgYet() {
 
 /* ── Signed in — the launcher ────────────────────────────────────────── */
 
+function PasswordCard() {
+  const { passwordRecovery, updatePassword } = useHubAuth()
+  const [open, setOpen] = useState(false)
+  const [skipped, setSkipped] = useState(false) // user closed the auto-opened form
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
+  const show = open || (passwordRecovery && !skipped)
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const password = String(new FormData(form).get('newPassword') || '')
+    setError('')
+    setNotice('')
+    setBusy(true)
+    const { error: err } = await updatePassword(password)
+    setBusy(false)
+    if (err) setError(err.message)
+    else {
+      setNotice('Password saved — use it next time you sign in.')
+      form.reset()
+      setOpen(false)
+    }
+  }
+
+  return (
+    <div className="mt-10 border-t border-ink/10 pt-6">
+      {!show ? (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center gap-1.5 font-semibold text-ink-faint transition-colors hover:text-ink"
+          >
+            <KeyRound size={14} /> Change password
+          </button>
+          {notice && (
+            <span role="status" className="text-moss-deep">
+              {notice}
+            </span>
+          )}
+        </div>
+      ) : (
+        <form onSubmit={onSubmit} className="max-w-sm">
+          {passwordRecovery && (
+            <p className="mb-3 text-sm font-medium text-ink">
+              Choose a password to finish setting up your login.
+            </p>
+          )}
+          <label className="spec mb-1.5 block text-ink-soft" htmlFor="new-password">
+            New password
+          </label>
+          <input
+            id="new-password"
+            name="newPassword"
+            type="password"
+            required
+            minLength={8}
+            autoComplete="new-password"
+            placeholder="At least 8 characters"
+            className="w-full rounded border border-ink/15 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ember"
+          />
+          {error && (
+            <div role="alert" className="mt-3 rounded border border-ember/30 bg-ember/[0.06] px-3 py-2.5 text-sm text-ember-deep">
+              {error}
+            </div>
+          )}
+          <div className="mt-3 flex items-center gap-3">
+            <button type="submit" disabled={busy} className="btn-dark px-5 py-2.5 text-sm disabled:opacity-60">
+              {busy ? (
+                <>
+                  <Loader2 size={15} className="animate-spin" /> Saving…
+                </>
+              ) : (
+                'Save password'
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false)
+                setSkipped(true)
+                setError('')
+              }}
+              className="text-sm font-semibold text-ink-faint hover:text-ink"
+            >
+              {passwordRecovery ? 'Skip for now' : 'Cancel'}
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  )
+}
+
 function Launcher() {
   const { user, org, accessLevel, signOut } = useHubAuth()
   const firstName =
@@ -482,10 +579,32 @@ function Launcher() {
             <AppTile key={app.slug} app={app} locked={false} />
           ))}
         </div>
+
+        {can(accessLevel, 'org.manage_users') && (
+          <Link
+            to="/retrofit-suite/team"
+            className="card card-hover mt-8 flex items-center justify-between p-6"
+          >
+            <span className="flex items-center gap-4">
+              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
+                <Users size={22} />
+              </span>
+              <span>
+                <span className="block font-bold text-ink">Manage your team</span>
+                <span className="block text-sm text-ink-soft">
+                  Invite people and set their access levels
+                </span>
+              </span>
+            </span>
+            <ArrowRight size={18} className="shrink-0 text-ember" />
+          </Link>
+        )}
+
         <p className="mt-8 text-sm text-ink-faint">
-          Organisation dashboard and user management are on the way — they'll appear
-          here for admins.
+          The organisation dashboard is on the way — it'll appear here.
         </p>
+
+        <PasswordCard />
       </section>
     </>
   )

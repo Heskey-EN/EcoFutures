@@ -8,11 +8,24 @@ import { supabase, isHubConfigured } from './supabase.js'
 
 const HubAuthContext = createContext(null)
 
+// Invite links land with `type=invite` in the URL fragment (implicit flow —
+// admin invites have no PKCE verifier) and emit only SIGNED_IN, never
+// PASSWORD_RECOVERY. Snapshot the URL BEFORE supabase-js strips it so the
+// launcher knows to open the set-a-password form for invited users too.
+// (PKCE reset links carry no `type` param; the PASSWORD_RECOVERY event
+// covers those.)
+const arrivedNeedingPassword = () =>
+  typeof window !== 'undefined' &&
+  /[#&?]type=(invite|recovery)\b/.test(window.location.hash + window.location.search)
+
 export function HubAuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [memberships, setMemberships] = useState([])
   // 'loading' until both the session and (if signed in) memberships resolve.
   const [status, setStatus] = useState(isHubConfigured ? 'loading' : 'unconfigured')
+  // True when the user arrived via an invite/reset link — the launcher
+  // auto-opens its "change password" form.
+  const [passwordRecovery, setPasswordRecovery] = useState(arrivedNeedingPassword)
 
   // Memberships + org names for the signed-in user (RLS scopes the query).
   // Throws on failure so callers can tell "no orgs" from "couldn't load".
@@ -22,6 +35,7 @@ export function HubAuthProvider({ children }) {
       .select('id, org_id, access_level, is_active, organisations ( id, name, is_platform_owner )')
       .eq('is_active', true)
       .order('access_level', { ascending: false })
+      .order('created_at', { ascending: true }) // stable tie-break for the active org
     if (error) throw new Error(error.message)
     return data ?? []
   }, [])
@@ -36,8 +50,12 @@ export function HubAuthProvider({ children }) {
     const apply = async (nextSession) => {
       const mySeq = ++seq
       setSession(nextSession)
+      if (!nextSession) setPasswordRecovery(false) // never carry into the next sign-in
       let rows = []
       if (nextSession) {
+        // Back to the spinner while memberships load, so an interactive
+        // sign-in never flashes the wrong screen (NoOrgYet / "Admins only").
+        setStatus('loading')
         try {
           rows = await loadMemberships()
         } catch (err) {
@@ -57,6 +75,7 @@ export function HubAuthProvider({ children }) {
         setSession(nextSession)
         return
       }
+      if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true)
       apply(nextSession)
     })
 
@@ -106,6 +125,13 @@ export function HubAuthProvider({ children }) {
           redirectTo: `${window.location.origin}/retrofit-suite`,
         }),
 
+      passwordRecovery,
+      updatePassword: async (password) => {
+        const { error } = await supabase.auth.updateUser({ password })
+        if (!error) setPasswordRecovery(false)
+        return { error }
+      },
+
       createOrganisation: async (name) => {
         const { data, error } = await supabase.rpc('create_organisation', { org_name: name })
         if (error) return { data, error }
@@ -122,7 +148,7 @@ export function HubAuthProvider({ children }) {
         return { data, error: null }
       },
     }),
-    [status, session, memberships, active, loadMemberships]
+    [status, session, memberships, active, passwordRecovery, loadMemberships]
   )
 
   return <HubAuthContext.Provider value={value}>{children}</HubAuthContext.Provider>

@@ -10,13 +10,16 @@ keep running untouched for now; they merge in later.)
    `ecofutures-hub`, region London (`eu-west-2`). Save the database password in
    a password manager.
 
-2. **Run the SQL** — in the project's *SQL Editor*, paste and run, in order:
+2. **Run the SQL** — in the project's *SQL Editor*, paste and run, in order
+   (paste the file *contents*, not the filename):
    1. `0001_hub_auth.sql` — organisations, memberships, access levels 1–4,
       helper functions, RLS.
    2. `0002_seed_platform_owner.sql` — **only after you have signed up in the
       app** (Retrofit Suite page → Create account). It promotes your account
       to Master Admin (level 4). Edit the email at the top first if you sign
       up with a different address.
+   3. `0003_profiles.sql` — profiles table (emails/names the team page can
+      read) + sync triggers. Needed for *Manage your team*.
 
 3. **Auth settings** — *Authentication → URL Configuration*:
    - Site URL: `https://ecofutures.uk`
@@ -40,6 +43,15 @@ keep running untouched for now; they merge in later.)
 
    The **anon key is safe in the browser** (RLS is the enforcement). The
    `service_role` key must NEVER be a `VITE_` var or appear in the repo.
+
+   For team invites (`/api/team-invite`), also set — server-side, no `VITE_`:
+
+   ```
+   HUB_SUPABASE_SERVICE_ROLE_KEY=<service_role key from the same API page>
+   ```
+
+   Invite emails are sent by Supabase's built-in mailer (fine to start;
+   configure custom SMTP under *Authentication → Emails* when volume grows).
 
 ## What lives where
 

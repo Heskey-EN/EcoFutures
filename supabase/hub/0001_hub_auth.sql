@@ -150,6 +150,12 @@ begin
      and not is_master_admin() then
     raise exception 'access level 4 can only be granted by the master admin';
   end if;
+  -- And a master admin can never be silently downgraded — by ANY caller,
+  -- service_role included. If it's ever truly needed, drop this trigger,
+  -- make the change in the SQL editor, and recreate it.
+  if tg_op = 'UPDATE' and old.access_level = 4 and new.access_level <> 4 then
+    raise exception 'a master admin membership cannot be downgraded';
+  end if;
   return new;
 end
 $$;
