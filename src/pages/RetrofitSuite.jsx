@@ -10,6 +10,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Building2,
+  Globe2,
   KeyRound,
   Loader2,
   Lock,
@@ -21,6 +22,7 @@ import {
 import { HubAuthProvider, useHubAuth } from '../lib/hub/HubAuthContext.jsx'
 import { APPS, STATUS_LABELS } from '../lib/hub/registry.js'
 import { can, levelName, LEVEL_INFO } from '../lib/hub/permissions.js'
+import SuiteLoadError from '../components/SuiteLoadError.jsx'
 
 const field =
   'w-full rounded border border-ink/15 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ember'
@@ -294,7 +296,7 @@ function SignedOut({ configured }) {
             </p>
             <div className="mt-8 flex flex-wrap gap-6 text-sm text-white/70">
               <span className="inline-flex items-center gap-2">
-                <Users size={16} className="text-amber" /> Team accounts with four access levels
+                <Users size={16} className="text-amber" /> Team accounts with role-based access
               </span>
               <span className="inline-flex items-center gap-2">
                 <Lock size={16} className="text-amber" /> Your organisation's data stays yours
@@ -344,8 +346,9 @@ function SignedOut({ configured }) {
           <h2 className="mt-3 font-display text-2xl font-bold text-ink">
             The right power for every role
           </h2>
-          <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((level) => (
+          {/* Public levels only — the platform tier is internal. */}
+          <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((level) => (
               <div key={level} className="card p-5">
                 <span className="font-mono text-xs font-semibold text-ember">
                   LEVEL {level}
@@ -550,7 +553,8 @@ function Launcher() {
             <div>
               <span className="eyebrow">
                 <Building2 size={14} /> {org.name}
-                {org.is_platform_owner && ' · Platform'}
+                {/* Only the platform owner themself ever sees this marker */}
+                {org.is_platform_owner && can(accessLevel, 'platform.view_all') && ' · Platform'}
               </span>
               <h1 className="mt-3 font-display text-3xl font-bold md:text-4xl">
                 Hello, {firstName}
@@ -581,23 +585,48 @@ function Launcher() {
         </div>
 
         {can(accessLevel, 'org.manage_users') && (
-          <Link
-            to="/retrofit-suite/team"
-            className="card card-hover mt-8 flex items-center justify-between p-6"
+          <div
+            className={`mt-8 grid gap-5 ${
+              can(accessLevel, 'platform.view_all') ? 'lg:grid-cols-2' : ''
+            }`}
           >
-            <span className="flex items-center gap-4">
-              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
-                <Users size={22} />
-              </span>
-              <span>
-                <span className="block font-bold text-ink">Manage your team</span>
-                <span className="block text-sm text-ink-soft">
-                  Invite people and set their access levels
+            <Link
+              to="/retrofit-suite/team"
+              className="card card-hover flex items-center justify-between p-6"
+            >
+              <span className="flex items-center gap-4">
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
+                  <Users size={22} />
+                </span>
+                <span>
+                  <span className="block font-bold text-ink">Manage your team</span>
+                  <span className="block text-sm text-ink-soft">
+                    Invite people and set their access levels
+                  </span>
                 </span>
               </span>
-            </span>
-            <ArrowRight size={18} className="shrink-0 text-ember" />
-          </Link>
+              <ArrowRight size={18} className="shrink-0 text-ember" />
+            </Link>
+            {can(accessLevel, 'platform.view_all') && (
+              <Link
+                to="/retrofit-suite/platform"
+                className="card card-hover flex items-center justify-between p-6"
+              >
+                <span className="flex items-center gap-4">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
+                    <Globe2 size={22} />
+                  </span>
+                  <span>
+                    <span className="block font-bold text-ink">Platform overview</span>
+                    <span className="block text-sm text-ink-soft">
+                      Every organisation and user on the platform
+                    </span>
+                  </span>
+                </span>
+                <ArrowRight size={18} className="shrink-0 text-ember" />
+              </Link>
+            )}
+          </div>
         )}
 
         <p className="mt-8 text-sm text-ink-faint">
@@ -613,7 +642,7 @@ function Launcher() {
 /* ── Page shell ──────────────────────────────────────────────────────── */
 
 function SuiteContent() {
-  const { status, session, memberships } = useHubAuth()
+  const { status, session, memberships, loadError } = useHubAuth()
 
   if (status === 'loading') {
     return (
@@ -626,6 +655,7 @@ function SuiteContent() {
   if (status === 'unconfigured' || !session) {
     return <SignedOut configured={status !== 'unconfigured'} />
   }
+  if (loadError) return <SuiteLoadError />
   if (memberships.length === 0) return <NoOrgYet />
   return <Launcher />
 }

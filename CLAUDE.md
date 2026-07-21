@@ -106,6 +106,12 @@ Schema + policies live in `supabase/hub/` — run order and setup in its README.
   (`HUB_SUPABASE_SERVICE_ROLE_KEY`). Verifies the caller's JWT, re-checks
   org-admin authority itself (service_role bypasses RLS), creates/looks up
   the auth user, upserts the membership. Never touches level-4 rows.
+- `src/pages/RetrofitSuitePlatform.jsx` — `/retrofit-suite/platform`
+  (level 4 only): every org + every user, active-now via `last_seen`.
+  Pure client queries — `is_master_admin()` opens the RLS read policies.
+  **The public never sees the top tier**: the signed-out page lists levels
+  1–3 only, the gate copy is deliberately vague, and the panel is only
+  linked from a level-4 launcher. Keep it that way.
 
 ## 7. Design system
 
@@ -137,7 +143,8 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
 - [x] Hub Supabase project live; George is Master Admin (level 4)
 - [x] Org admin page (Tier 3+): `/retrofit-suite/team` + `api/team-invite.js`
       + `0003_profiles.sql` (George: run 0003 + set the service-role env var)
-- [ ] Master admin panel (Tier 4): all active users, all orgs
+- [x] Master admin panel: `/retrofit-suite/platform` (all orgs, all users,
+      online-now) — public UI scrubbed of any top-tier mention
 - [ ] Org dashboard aggregations (needs app data in the shared project)
 - [ ] Migrate apps onto the shared project: cavwall → jobs → epc (in that
       order — see the migration notes below)

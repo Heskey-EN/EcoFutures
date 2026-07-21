@@ -18,6 +18,7 @@ import NotFound from './pages/NotFound.jsx'
 // Lazy so the Supabase client never loads on marketing pages.
 const RetrofitSuite = lazy(() => import('./pages/RetrofitSuite.jsx'))
 const RetrofitSuiteTeam = lazy(() => import('./pages/RetrofitSuiteTeam.jsx'))
+const RetrofitSuitePlatform = lazy(() => import('./pages/RetrofitSuitePlatform.jsx'))
 
 const suiteFallback = (
   <div className="container-site flex items-center justify-center py-32 text-ink-faint">
@@ -49,6 +50,14 @@ export default function App() {
             element={
               <Suspense fallback={suiteFallback}>
                 <RetrofitSuiteTeam />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/retrofit-suite/platform"
+            element={
+              <Suspense fallback={suiteFallback}>
+                <RetrofitSuitePlatform />
               </Suspense>
             }
           />

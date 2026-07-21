@@ -26,6 +26,9 @@ export function HubAuthProvider({ children }) {
   // True when the user arrived via an invite/reset link — the launcher
   // auto-opens its "change password" form.
   const [passwordRecovery, setPasswordRecovery] = useState(arrivedNeedingPassword)
+  // True when the memberships query failed — pages show "couldn't load"
+  // instead of wrongly telling an admin they have no access.
+  const [loadError, setLoadError] = useState(false)
 
   // Memberships + org names for the signed-in user (RLS scopes the query).
   // Throws on failure so callers can tell "no orgs" from "couldn't load".
@@ -52,6 +55,7 @@ export function HubAuthProvider({ children }) {
       setSession(nextSession)
       if (!nextSession) setPasswordRecovery(false) // never carry into the next sign-in
       let rows = []
+      let failed = false
       if (nextSession) {
         // Back to the spinner while memberships load, so an interactive
         // sign-in never flashes the wrong screen (NoOrgYet / "Admins only").
@@ -60,10 +64,12 @@ export function HubAuthProvider({ children }) {
           rows = await loadMemberships()
         } catch (err) {
           console.error('[suite] memberships load failed:', err.message)
+          failed = true
         }
       }
       if (cancelled || mySeq !== seq) return // superseded by a newer event
       setMemberships(rows)
+      setLoadError(failed)
       setStatus('ready')
     }
 
@@ -102,6 +108,7 @@ export function HubAuthProvider({ children }) {
       session,
       user: session?.user ?? null,
       memberships,
+      loadError,
       org: active?.organisations ?? null,
       accessLevel: active?.access_level ?? 0,
 
@@ -148,7 +155,7 @@ export function HubAuthProvider({ children }) {
         return { data, error: null }
       },
     }),
-    [status, session, memberships, active, passwordRecovery, loadMemberships]
+    [status, session, memberships, active, passwordRecovery, loadError, loadMemberships]
   )
 
   return <HubAuthContext.Provider value={value}>{children}</HubAuthContext.Provider>

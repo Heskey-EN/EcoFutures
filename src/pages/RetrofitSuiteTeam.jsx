@@ -20,21 +20,12 @@ import {
 import { HubAuthProvider, useHubAuth } from '../lib/hub/HubAuthContext.jsx'
 import { supabase } from '../lib/hub/supabase.js'
 import { can, levelName, LEVEL_INFO } from '../lib/hub/permissions.js'
+import { lastSeenLabel } from '../lib/hub/format.js'
+import SuiteLoadError from '../components/SuiteLoadError.jsx'
 
 const field =
   'w-full rounded border border-ink/15 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ember'
 const lbl = 'spec mb-1.5 block text-ink-soft'
-
-const lastSeenLabel = (ts) => {
-  if (!ts) return 'Never signed in'
-  const mins = Math.round((Date.now() - new Date(ts).getTime()) / 60000)
-  if (mins < 2) return 'Active now'
-  if (mins < 60) return `Seen ${mins} min ago`
-  const hours = Math.round(mins / 60)
-  if (hours < 24) return `Seen ${hours}h ago`
-  const days = Math.round(hours / 24)
-  return days === 1 ? 'Seen yesterday' : `Seen ${days} days ago`
-}
 
 function Note({ tone, children }) {
   if (!children) return null
@@ -289,7 +280,7 @@ function MemberRow({ row, isSelf, onChanged, onError }) {
 /* ── Page body ───────────────────────────────────────────────────────── */
 
 function TeamContent() {
-  const { status, session, user, org, accessLevel } = useHubAuth()
+  const { status, session, user, org, accessLevel, loadError } = useHubAuth()
   const [rows, setRows] = useState(null) // null = loading
   const [listError, setListError] = useState('')
   const [rowError, setRowError] = useState('')
@@ -322,6 +313,9 @@ function TeamContent() {
       </div>
     )
   }
+
+  // A failed account load must never read as a permissions verdict.
+  if (session && loadError) return <SuiteLoadError />
 
   // Signed out (or backend not configured): send them to the suite page.
   if (status === 'unconfigured' || !session || !org || !allowed) {
