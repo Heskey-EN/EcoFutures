@@ -1,4 +1,6 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
 import Layout from './components/Layout.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Home from './pages/Home.jsx'
@@ -13,6 +15,9 @@ import Cookies from './pages/Cookies.jsx'
 import Terms from './pages/Terms.jsx'
 import NotFound from './pages/NotFound.jsx'
 
+// Lazy so the Supabase client never loads on marketing pages.
+const RetrofitSuite = lazy(() => import('./pages/RetrofitSuite.jsx'))
+
 export default function App() {
   return (
     <>
@@ -24,6 +29,20 @@ export default function App() {
           <Route path="/retrofit" element={<Retrofit />} />
           <Route path="/about" element={<About />} />
           <Route path="/technology" element={<Technology />} />
+          <Route
+            path="/retrofit-suite"
+            element={
+              <Suspense
+                fallback={
+                  <div className="container-site flex items-center justify-center py-32 text-ink-faint">
+                    <Loader2 size={22} className="animate-spin" />
+                  </div>
+                }
+              >
+                <RetrofitSuite />
+              </Suspense>
+            }
+          />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />

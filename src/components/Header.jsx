@@ -9,6 +9,7 @@ const navItems = [
   { label: 'EPCs', to: '/epcs' },
   { label: 'Pricing', to: '/pricing' },
   { label: 'Technology', to: '/technology' },
+  { label: 'Suite', to: '/retrofit-suite' },
   { label: 'About', to: '/about' },
 ]
 
