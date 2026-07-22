@@ -50,7 +50,7 @@ hub Supabase project in this sequence:
 |---|-----|------|--------------|
 | 1 | Retrofit Job Manager | `jobs` | **integrating now** — RetrofitManagementTool repo wired to the hub project (shared cookie session, `org_id` jobs table via `supabase/hub/0004_jobs.sql`); needs jobs.ecofutures.uk domain + env vars |
 | 2 | Business Tracker | `business` | **integrating now** — private repo `Heskey-EN/Eco-Futures-Tracker` (calendar, expenses, tax, invoices; was localStorage+passcode) wired to the hub: shared cookie session, level-3+ gate, org blob in `biz_data` via `supabase/hub/0005_business.sql`, one-time local→cloud migration prompt; needs business.ecofutures.uk domain + env vars |
-| 3 | Retrofit Assessment | `assessment` | not made yet |
+| 3 | Future Forms | `assessment` | **built 2026-07-22** — new repo `Future-Forms` (FastField-style form builder specialised for UK retrofit surveying; master admin authors forms, members fill; server-side transferable drafts; PAS 2035 seed template). Hub side: `supabase/hub/0006_future_forms.sql` (forms, form_submissions, assessment-photos bucket). Needs GitHub repo + forms.ecofutures.uk + env vars |
 | 4 | EPC Checker | `epc` | live at epc-checker.com, own Supabase, joins later |
 | 5 | Cav Wall Surveys | `cavwall` | live at cavwall.com, own Supabase — **explicitly not a priority** |
 | — | Floor Plan Creator | `floorplan` | planned, unranked |

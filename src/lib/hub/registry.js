@@ -39,11 +39,11 @@ export const APPS = [
   },
   {
     slug: 'assessment',
-    name: 'Retrofit Assessment',
-    tagline: 'On-site assessment capture with an advisory RdSAP sheet.',
+    name: 'Future Forms',
+    tagline: 'Build survey forms; capture retrofit assessments in the field.',
     icon: ClipboardList,
-    status: 'planned',
-    url: null,
+    status: 'joining', // flip to 'live' once forms.ecofutures.uk is deployed
+    url: 'https://forms.ecofutures.uk',
     minLevel: 1,
   },
   {
