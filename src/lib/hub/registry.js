@@ -24,7 +24,7 @@ export const APPS = [
     name: 'Retrofit Job Manager',
     tagline: 'Job docs, timelines and status tracking for every property.',
     icon: Briefcase,
-    status: 'joining', // flip to 'live' once jobs.ecofutures.uk is deployed
+    status: 'live', // jobs.ecofutures.uk live in suite mode (2026-07-22)
     url: 'https://jobs.ecofutures.uk',
     minLevel: 1,
   },
@@ -33,7 +33,7 @@ export const APPS = [
     name: 'Business Hub',
     tagline: 'Job calendar, expenses, tax estimates and instant invoices.',
     icon: PiggyBank,
-    status: 'joining', // flip to 'live' once business.ecofutures.uk is deployed
+    status: 'live', // business.ecofutures.uk live in suite mode (2026-07-22)
     url: 'https://business.ecofutures.uk',
     minLevel: 3, // finances are Organisation Admin territory
   },
