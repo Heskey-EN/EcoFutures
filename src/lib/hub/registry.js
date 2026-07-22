@@ -30,7 +30,7 @@ export const APPS = [
   },
   {
     slug: 'business',
-    name: 'Business Tracker',
+    name: 'Business Hub',
     tagline: 'Job calendar, expenses, tax estimates and instant invoices.',
     icon: PiggyBank,
     status: 'joining', // flip to 'live' once business.ecofutures.uk is deployed
