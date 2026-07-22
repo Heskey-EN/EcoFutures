@@ -42,7 +42,7 @@ export const APPS = [
     name: 'Future Forms',
     tagline: 'Build survey forms; capture retrofit assessments in the field.',
     icon: ClipboardList,
-    status: 'joining', // flip to 'live' once forms.ecofutures.uk is deployed
+    status: 'live', // forms.ecofutures.uk live in suite mode (2026-07-22)
     url: 'https://forms.ecofutures.uk',
     minLevel: 1,
   },
