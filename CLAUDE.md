@@ -43,14 +43,17 @@ without George:
 Registry = **single source of truth**: `src/lib/hub/registry.js`. Add a row →
 a tile appears. Do not hardcode app lists anywhere else.
 
-| App | Slug | Status today |
-|-----|------|--------------|
-| Retrofit Job Manager | `jobs` | exists (RetrofitManagementTool repo), auth disabled, not yet joined |
-| Retrofit Assessment | `assessment` | not built |
-| EPC Checker | `epc` | live at epc-checker.com, own Supabase, joins later |
-| Cav Wall Surveys | `cavwall` | live at cavwall.com, own Supabase, joins later |
-| Eco Business Manager | `business` | not built |
-| Floor Plan Creator | `floorplan` | planned |
+**Integration order (George, 2026-07-21)** — apps join the shared login and
+hub Supabase project in this sequence:
+
+| # | App | Slug | Status today |
+|---|-----|------|--------------|
+| 1 | Retrofit Job Manager | `jobs` | **integrating now** — RetrofitManagementTool repo wired to the hub project (shared cookie session, `org_id` jobs table via `supabase/hub/0004_jobs.sql`); needs jobs.ecofutures.uk domain + env vars |
+| 2 | Business Tracker | `business` | **integrating now** — private repo `Heskey-EN/Eco-Futures-Tracker` (calendar, expenses, tax, invoices; was localStorage+passcode) wired to the hub: shared cookie session, level-3+ gate, org blob in `biz_data` via `supabase/hub/0005_business.sql`, one-time local→cloud migration prompt; needs business.ecofutures.uk domain + env vars |
+| 3 | Retrofit Assessment | `assessment` | not made yet |
+| 4 | EPC Checker | `epc` | live at epc-checker.com, own Supabase, joins later |
+| 5 | Cav Wall Surveys | `cavwall` | live at cavwall.com, own Supabase — **explicitly not a priority** |
+| — | Floor Plan Creator | `floorplan` | planned, unranked |
 
 ## 4. The four-tier access system (core of this project)
 
@@ -145,6 +148,18 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
       + `0003_profiles.sql` (George: run 0003 + set the service-role env var)
 - [x] Master admin panel: `/retrofit-suite/platform` (all orgs, all users,
       online-now) — public UI scrubbed of any top-tier mention
+- [x] Jobs integration code: `supabase/hub/0004_jobs.sql` here + the
+      RetrofitManagementTool repo rewired (shared cookie session, hub
+      memberships/levels, org_id on jobs, old admin console retired)
+- [x] Business Tracker integration code: `supabase/hub/0005_business.sql`
+      here + Eco-Futures-Tracker rewired (suite session, level-3+ gate,
+      cloud blob sync with realtime, local→cloud migration prompt; passcode
+      + localStorage kept as the unconfigured fallback)
+- [ ] George: run 0004 + 0005 in the hub SQL editor; add jobs.ecofutures.uk
+      (RMT) and business.ecofutures.uk (tracker) to their Vercel projects +
+      DNS; set `VITE_HUB_SUPABASE_*` env vars on both
+- [ ] Follow-ups: RMT documents + tracker receipts to org-scoped Supabase
+      Storage; per-row biz tables if concurrent-admin editing ever matters
 - [ ] Org dashboard aggregations (needs app data in the shared project)
 - [ ] Migrate apps onto the shared project: cavwall → jobs → epc (in that
       order — see the migration notes below)

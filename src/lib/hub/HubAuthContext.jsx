@@ -30,12 +30,15 @@ export function HubAuthProvider({ children }) {
   // instead of wrongly telling an admin they have no access.
   const [loadError, setLoadError] = useState(false)
 
-  // Memberships + org names for the signed-in user (RLS scopes the query).
+  // The signed-in user's OWN memberships + org names. The user_id filter is
+  // load-bearing: org admins' RLS lets them read every membership in their
+  // org, so without it memberships[0] could be a teammate's (higher) row.
   // Throws on failure so callers can tell "no orgs" from "couldn't load".
-  const loadMemberships = useCallback(async () => {
+  const loadMemberships = useCallback(async (userId) => {
     const { data, error } = await supabase
       .from('memberships')
       .select('id, org_id, access_level, is_active, organisations ( id, name, is_platform_owner )')
+      .eq('user_id', userId)
       .eq('is_active', true)
       .order('access_level', { ascending: false })
       .order('created_at', { ascending: true }) // stable tie-break for the active org
@@ -61,7 +64,7 @@ export function HubAuthProvider({ children }) {
         // sign-in never flashes the wrong screen (NoOrgYet / "Admins only").
         setStatus('loading')
         try {
-          rows = await loadMemberships()
+          rows = await loadMemberships(nextSession.user.id)
         } catch (err) {
           console.error('[suite] memberships load failed:', err.message)
           failed = true
@@ -143,7 +146,7 @@ export function HubAuthProvider({ children }) {
         const { data, error } = await supabase.rpc('create_organisation', { org_name: name })
         if (error) return { data, error }
         try {
-          setMemberships(await loadMemberships())
+          setMemberships(await loadMemberships(session.user.id))
         } catch {
           // The org WAS created — don't leave the user on the create form
           // thinking it failed and re-submitting into "already belongs".

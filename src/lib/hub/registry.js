@@ -17,15 +17,25 @@ import {
   LayoutTemplate,
 } from 'lucide-react'
 
+// Ordered by the suite integration plan (CLAUDE.md §3).
 export const APPS = [
   {
     slug: 'jobs',
     name: 'Retrofit Job Manager',
     tagline: 'Job docs, timelines and status tracking for every property.',
     icon: Briefcase,
-    status: 'joining',
-    url: null, // moves to jobs.ecofutures.uk when it joins the shared login
+    status: 'joining', // flip to 'live' once jobs.ecofutures.uk is deployed
+    url: 'https://jobs.ecofutures.uk',
     minLevel: 1,
+  },
+  {
+    slug: 'business',
+    name: 'Business Tracker',
+    tagline: 'Job calendar, expenses, tax estimates and instant invoices.',
+    icon: PiggyBank,
+    status: 'joining', // flip to 'live' once business.ecofutures.uk is deployed
+    url: 'https://business.ecofutures.uk',
+    minLevel: 3, // finances are Organisation Admin territory
   },
   {
     slug: 'assessment',
@@ -54,15 +64,6 @@ export const APPS = [
     status: 'live',
     url: 'https://cavwall.com',
     separateLogin: true,
-    minLevel: 1,
-  },
-  {
-    slug: 'business',
-    name: 'Eco Business Manager',
-    tagline: 'Profit, expenses, tax and accountant-ready CSV exports.',
-    icon: PiggyBank,
-    status: 'planned',
-    url: null,
     minLevel: 1,
   },
   {
