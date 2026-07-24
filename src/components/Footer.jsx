@@ -23,8 +23,7 @@ const columns = [
     accent: 'text-amber',
     links: [
       { label: 'About us', to: '/about' },
-      { label: 'Technology', to: '/technology' },
-      { label: 'Retrofit Suite sign in', to: '/retrofit-suite' },
+      { label: 'Retrofit Suite', to: '/retrofit-suite' },
       { label: 'Check for an EPC', href: GOV_EPC_SEARCH },
       { label: 'Government advice', href: GOV_ADVICE },
     ],

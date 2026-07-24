@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Menu, X, ArrowRight, Phone } from 'lucide-react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { Menu, X, Phone } from 'lucide-react'
 import Logo from './Logo.jsx'
 
 const navItems = [
   { label: 'Home', to: '/' },
-  { label: 'Retrofit', to: '/retrofit' },
-  { label: 'EPCs', to: '/epcs' },
-  { label: 'Pricing', to: '/pricing' },
-  { label: 'Technology', to: '/technology' },
   { label: 'Suite', to: '/retrofit-suite' },
+  { label: 'EPCs', to: '/epcs' },
+  { label: 'Retrofit', to: '/retrofit' },
   { label: 'About', to: '/about' },
 ]
+
+const PHONE = '07359 069886'
+const PHONE_HREF = 'tel:+447359069886'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -41,42 +42,43 @@ export default function Header() {
 
   // Desktop link: ember underline that fills for the active route and on hover.
   const linkClass = ({ isActive }) =>
-    `relative py-1 text-sm font-semibold transition-colors ${
-      isActive ? 'text-white' : 'text-white/70 hover:text-white'
-    } after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:rounded-full after:bg-ember after:transition-all after:duration-300 ${
+    `relative py-1 font-mono text-[0.82rem] font-medium uppercase tracking-[0.12em] transition-colors ${
+      isActive ? 'text-white' : 'text-white/65 hover:text-white'
+    } after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:rounded-full after:bg-ember after:transition-all after:duration-300 ${
       isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'
     }`
 
   const mobileLinkClass = ({ isActive }) =>
-    `border-b border-white/5 py-3.5 text-base font-semibold transition-colors ${
+    `flex items-center justify-between border-b border-white/5 py-4 font-mono text-sm font-medium uppercase tracking-[0.12em] transition-colors ${
       isActive ? 'text-ember' : 'text-white/85 hover:text-white'
     }`
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-navy/95 backdrop-blur transition-shadow duration-300 ${
+      className={`sticky top-0 z-50 border-b bg-navy/95 bg-blueprint backdrop-blur transition-shadow duration-300 ${
         scrolled ? 'border-white/10 shadow-lift' : 'border-white/[0.06]'
       }`}
     >
       <div className="container-site flex h-[4.5rem] items-center justify-between md:h-20">
         <Logo />
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-5 md:flex lg:gap-7">
-          {navItems.map((item) => (
-            <NavLink key={item.to} to={item.to} className={linkClass} end={item.to === '/'}>
-              {item.label}
-            </NavLink>
-          ))}
-          <span className="h-5 w-px bg-white/15" />
-          <Link
-            to="/contact"
-            className="group inline-flex items-center gap-1.5 rounded bg-ember px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-ember-deep"
+        {/* Desktop nav + contact */}
+        <div className="hidden items-center md:flex">
+          <nav className="flex items-center gap-6 lg:gap-8">
+            {navItems.map((item) => (
+              <NavLink key={item.to} to={item.to} className={linkClass} end={item.to === '/'}>
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+          <a
+            href={PHONE_HREF}
+            className="ml-7 hidden items-center gap-2 border-l border-white/15 pl-7 text-white/70 transition-colors hover:text-white lg:flex"
           >
-            Book a Survey
-            <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-          </Link>
-        </nav>
+            <Phone size={15} className="text-ember" />
+            <span className="font-mono text-[0.8rem] tracking-tight tabular-nums">{PHONE}</span>
+          </a>
+        </div>
 
         {/* Mobile toggle */}
         <button
@@ -92,33 +94,22 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-white/10 bg-navy md:hidden">
-          <nav className="container-site flex flex-col py-2">
+        <div className="border-t border-white/10 bg-navy bg-blueprint md:hidden">
+          <nav className="container-site flex flex-col pt-2">
             {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === '/'}
-                className={mobileLinkClass}
-              >
+              <NavLink key={item.to} to={item.to} end={item.to === '/'} className={mobileLinkClass}>
                 {item.label}
               </NavLink>
             ))}
-            <div className="mt-4 flex flex-col gap-3 pb-4">
-              <a
-                href="tel:+447359069886"
-                className="inline-flex items-center justify-center gap-2 rounded border border-white/20 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/5"
-              >
-                <Phone size={16} /> 07359 069886
-              </a>
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center gap-1.5 rounded bg-ember py-3.5 text-sm font-semibold text-white"
-              >
-                Book a Survey <ArrowRight size={16} />
-              </Link>
-            </div>
           </nav>
+          <div className="container-site pb-5 pt-5">
+            <a
+              href={PHONE_HREF}
+              className="flex items-center justify-center gap-2 rounded border border-white/20 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/5"
+            >
+              <Phone size={16} className="text-ember" /> {PHONE}
+            </a>
+          </div>
         </div>
       )}
     </header>
