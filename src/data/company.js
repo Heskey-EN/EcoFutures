@@ -26,7 +26,7 @@ export const COMPANY = {
   icoNumber: '', // TODO ICO data-protection register reference (see note in Privacy page)
 
   // Contact
-  email: 'Info@ecofutures.uk',
+  email: 'info@ecofutures.uk',
   phone: '07359 069886',
   phoneHref: '+447359069886',
   area: 'Preston, Blackpool and the North West',

@@ -394,8 +394,8 @@ function NoOrgYet() {
           You're signed in as <strong className="text-ink">{user.email}</strong>, but
           you're not part of an organisation yet. Create one below — or, if your
           company already uses the suite, email{' '}
-          <a href="mailto:Info@ecofutures.uk" className="font-medium text-ember underline underline-offset-2">
-            Info@ecofutures.uk
+          <a href="mailto:info@ecofutures.uk" className="font-medium text-ember underline underline-offset-2">
+            info@ecofutures.uk
           </a>{' '}
           and we'll add you to your team.
         </p>

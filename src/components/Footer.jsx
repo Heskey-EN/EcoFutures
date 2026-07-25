@@ -83,8 +83,8 @@ export default function Footer() {
             <h4 className="spec mb-5 text-moss-soft">Contact</h4>
             <ul className="space-y-3 text-sm text-white/75">
               <li>
-                <a className="inline-flex items-center gap-2.5 hover:text-white" href="mailto:Info@ecofutures.uk">
-                  <Mail size={15} className="text-moss-soft" /> Info@ecofutures.uk
+                <a className="inline-flex items-center gap-2.5 hover:text-white" href="mailto:info@ecofutures.uk">
+                  <Mail size={15} className="text-moss-soft" /> info@ecofutures.uk
                 </a>
               </li>
               <li>

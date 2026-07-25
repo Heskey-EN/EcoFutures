@@ -21,7 +21,7 @@ const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'Ew-e7AM5p
 
 const contacts = [
   { icon: Phone, label: 'Call', value: '07359 069886', href: 'tel:+447359069886' },
-  { icon: Mail, label: 'Email', value: 'Info@ecofutures.uk', href: 'mailto:Info@ecofutures.uk' },
+  { icon: Mail, label: 'Email', value: 'info@ecofutures.uk', href: 'mailto:info@ecofutures.uk' },
   { icon: MapPin, label: 'Area', value: 'Preston · Blackpool · North West', href: null },
 ]
 
