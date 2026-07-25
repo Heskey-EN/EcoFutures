@@ -48,8 +48,8 @@ hub Supabase project in this sequence:
 
 | # | App | Slug | Status today |
 |---|-----|------|--------------|
-| 1 | Retrofit Job Manager | `jobs` | **integrating now** — RetrofitManagementTool repo wired to the hub project (shared cookie session, `org_id` jobs table via `supabase/hub/0004_jobs.sql`); needs jobs.ecofutures.uk domain + env vars |
-| 2 | Business Tracker | `business` | **integrating now** — private repo `Heskey-EN/Eco-Futures-Tracker` (calendar, expenses, tax, invoices; was localStorage+passcode) wired to the hub: shared cookie session, level-3+ gate, org blob in `biz_data` via `supabase/hub/0005_business.sql`, one-time local→cloud migration prompt; needs business.ecofutures.uk domain + env vars |
+| 1 | Retrofit Job Manager | `jobs` | **merged with the Business Tracker into "RetroManager" (2026-07-25, George's request)** — the RetrofitManagementTool repo is now the whole app: the jobs UI plus an admin-only (level 3+) **Finance** tab holding the entire Business Hub (calendar dashboard, finance/tax, expenses, invoices). Worker expense logging via `supabase/hub/0007_team_expenses.sql` (memberships.can_add_expenses flag + biz_expenses table). Target domain **retromanager.ecofutures.uk** (George adds when ready); needs env vars |
+| 2 | Business Tracker | `business` | **folded into RetroManager** (row 1). The standalone repo `Heskey-EN/Eco-Futures-Tracker` / business.ecofutures.uk still runs (localStorage+passcode) until George moves his data over (Finance → Settings → backup/restore) and retires it — then update this registry's `business` entry to point at RetroManager or drop the tile |
 | 3 | Future Forms | `assessment` | **built 2026-07-22** — new repo `Future-Forms` (FastField-style form builder specialised for UK retrofit surveying; master admin authors forms, members fill; server-side transferable drafts; PAS 2035 seed template). Hub side: `supabase/hub/0006_future_forms.sql` (forms, form_submissions, assessment-photos bucket). Needs GitHub repo + forms.ecofutures.uk + env vars |
 | 4 | EPC Checker | `epc` | live at epc-checker.com, own Supabase, joins later |
 | 5 | Cav Wall Surveys | `cavwall` | live at cavwall.com, own Supabase — **explicitly not a priority** |
@@ -86,6 +86,12 @@ Schema + policies live in `supabase/hub/` — run order and setup in its README.
   - delete anything else: `>= 3`
   - Tier 1 write access = insert on comments/files only; **no delete policy at
     all** (absence of policy = denied)
+- Team expenses (`0007_team_expenses.sql`, RetroManager): per-membership
+  `can_add_expenses` flag (org admins flip it from RetroManager's Finance tab;
+  the existing memberships update policy covers the column) + `biz_expenses`
+  table — permitted levels 1–2 insert/read **their own rows only**
+  (`can_submit_expenses(org)` helper), admins read/update/delete the org's
+  rows, and no update/delete policy exists below level 3.
 
 ## 6. Frontend map
 
@@ -155,9 +161,15 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
       here + Eco-Futures-Tracker rewired (suite session, level-3+ gate,
       cloud blob sync with realtime, local→cloud migration prompt; passcode
       + localStorage kept as the unconfigured fallback)
-- [ ] George: run 0004 + 0005 in the hub SQL editor; add jobs.ecofutures.uk
-      (RMT) and business.ecofutures.uk (tracker) to their Vercel projects +
-      DNS; set `VITE_HUB_SUPABASE_*` env vars on both
+- [x] RetroManager merge (2026-07-25): Business Hub folded into the
+      RetrofitManagementTool repo as an admin-only Finance tab + worker
+      expense logging (`0007_team_expenses.sql` here)
+- [ ] George: run 0004 + 0005 + **0007** in the hub SQL editor; add
+      **retromanager.ecofutures.uk** to the RetrofitManagementTool Vercel
+      project + DNS; set `VITE_HUB_SUPABASE_*` env vars there; then move
+      business data off business.ecofutures.uk (Finance → Settings →
+      Download backup → Restore in RetroManager) and retire the old
+      jobs/business deployments + registry entries
 - [ ] Follow-ups: RMT documents + tracker receipts to org-scoped Supabase
       Storage; per-row biz tables if concurrent-admin editing ever matters
 - [ ] Org dashboard aggregations (needs app data in the shared project)
