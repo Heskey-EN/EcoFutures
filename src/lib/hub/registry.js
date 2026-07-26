@@ -13,29 +13,22 @@ import {
   FileSearch,
   PencilRuler,
   Briefcase,
-  PiggyBank,
   LayoutTemplate,
 } from 'lucide-react'
 
 // Ordered by the suite integration plan (CLAUDE.md §3).
 export const APPS = [
   {
-    slug: 'jobs',
-    name: 'Retrofit Job Manager',
-    tagline: 'Job docs, timelines and status tracking for every property.',
+    // The Job Manager and Business Hub merged into one app (2026-07-26):
+    // jobs for everyone, plus a Finance tab (calendar, expenses, tax,
+    // invoices) the app itself gates to Organisation Admins (level 3+).
+    slug: 'retromanager',
+    name: 'RetroManager',
+    tagline: 'Jobs, docs and timelines — plus finances and invoices for admins.',
     icon: Briefcase,
-    status: 'live', // jobs.ecofutures.uk live in suite mode (2026-07-22)
-    url: 'https://jobs.ecofutures.uk',
+    status: 'live',
+    url: 'https://retromanager.ecofutures.uk',
     minLevel: 1,
-  },
-  {
-    slug: 'business',
-    name: 'Business Hub',
-    tagline: 'Job calendar, expenses, tax estimates and instant invoices.',
-    icon: PiggyBank,
-    status: 'live', // business.ecofutures.uk live in suite mode (2026-07-22)
-    url: 'https://business.ecofutures.uk',
-    minLevel: 3, // finances are Organisation Admin territory
   },
   {
     slug: 'assessment',
