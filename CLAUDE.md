@@ -52,7 +52,7 @@ hub Supabase project in this sequence:
 | 2 | Business Tracker | `business` | **folded into RetroManager** (row 1). The standalone repo `Heskey-EN/Eco-Futures-Tracker` / business.ecofutures.uk still runs (localStorage+passcode) until George moves his data over (Finance → Settings → backup/restore) and retires it — then update this registry's `business` entry to point at RetroManager or drop the tile |
 | 3 | Future Forms | `assessment` | **built 2026-07-22** — new repo `Future-Forms` (FastField-style form builder specialised for UK retrofit surveying; master admin authors forms, members fill; server-side transferable drafts; PAS 2035 seed template). Hub side: `supabase/hub/0006_future_forms.sql` (forms, form_submissions, assessment-photos bucket). Needs GitHub repo + forms.ecofutures.uk + env vars |
 | 4 | EPC Checker | `epc` | live at epc-checker.com, own Supabase, joins later |
-| 5 | Cav Wall Surveys | `cavwall` | live at cavwall.com, own Supabase — **explicitly not a priority** |
+| 5 | Cavwall | `cavwall` | **migrated 2026-07-28 (full migration, George's call)** — the standalone product is retired: no usernames/passwords, no Stripe, no free/trial tiers, no Supabase project of its own. Repo `Cav-wall-tech-survey-creator` now reads the shared cookie session directly (vanilla JS, no build step) and stores plans in `supabase/hub/0009_cavwall.sql`. Server surface cut to `api/analyze.js` alone. Needs **cavwall.ecofutures.uk** + hub keys pasted into `HUB_CONFIG`; then migrate legacy plans and cancel the Stripe subs |
 | — | Floor Plan Creator | `floorplan` | planned, unranked |
 
 ## 4. The four-tier access system (core of this project)
@@ -141,8 +141,9 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
 - Let any level below 4 see across organisations.
 - Duplicate auth-init logic — `HubAuthContext.jsx` is the only place.
 - Invent brand colours — they're in `tailwind.config.js`.
-- Touch the per-app Supabase projects (EPC Checker / Cavwall) — they merge
-  in later, on their own migration plan.
+- Touch the EPC Checker's own Supabase project — it merges in later, on its
+  own migration plan. (Cavwall's legacy project is now dead weight: migrated
+  2026-07-28, kept only until its data is carried over.)
 
 ## 9. Status & next steps
 
@@ -172,9 +173,19 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
       jobs/business deployments + registry entries
 - [ ] Follow-ups: RMT documents + tracker receipts to org-scoped Supabase
       Storage; per-row biz tables if concurrent-admin editing ever matters
+- [x] Cavwall full migration (2026-07-28): `0009_cavwall.sql` here + the
+      Cav-wall-tech-survey-creator repo rewired to the shared cookie session
+      (hand-rolled cookie reader — it's vanilla JS with no build step), plans
+      org-scoped under RLS with no service-role key in that repo, and the
+      Stripe / username / free-tier product retired
+- [ ] George (Cavwall): run **0009** in the hub SQL editor; add
+      **cavwall.ecofutures.uk** to that Vercel project + DNS; paste the hub URL
+      + anon key into `HUB_CONFIG` in `index.html`; set `HUB_SUPABASE_URL` /
+      `HUB_SUPABASE_ANON_KEY` env vars; run `scripts/migrate-legacy-plans.js`;
+      then **cancel the live Stripe subscriptions and tell those customers** —
+      the paid public tier no longer exists
 - [ ] Org dashboard aggregations (needs app data in the shared project)
-- [ ] Migrate apps onto the shared project: cavwall → jobs → epc (in that
-      order — see the migration notes below)
+- [ ] Migrate the remaining app onto the shared project: epc
 
 **Migration note:** existing apps hold their own data with no `org_id`. When
 each joins the Hub: add `org_id`, backfill to the Eco Futures org, add RLS

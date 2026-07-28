@@ -1,8 +1,8 @@
 # Hub Supabase setup
 
 The Hub gets its **own, fresh Supabase project** — the shared backbone the whole
-suite will eventually sit on. (The per-app projects for EPC Checker and Cavwall
-keep running untouched for now; they merge in later.)
+suite will eventually sit on. (EPC Checker's own project keeps running untouched
+for now; it merges in later. Cavwall migrated in on 2026-07-28 — see `0009`.)
 
 ## One-time setup
 
@@ -20,6 +20,11 @@ keep running untouched for now; they merge in later.)
       up with a different address.
    3. `0003_profiles.sql` — profiles table (emails/names the team page can
       read) + sync triggers. Needed for *Manage your team*.
+
+   Then the per-app tables, each safe to re-run and order-independent after
+   `0001`: `0004_jobs.sql`, `0005_business.sql`, `0006_future_forms.sql`,
+   `0007_team_expenses.sql`, `0008_job_assignments.sql`,
+   `0009_cavwall.sql` (Cavwall's org-scoped `cwi_plans`).
 
 3. **Auth settings** — *Authentication → URL Configuration*:
    - Site URL: `https://ecofutures.uk`

@@ -50,13 +50,15 @@ export const APPS = [
     minLevel: 1,
   },
   {
+    // Full migration into the suite (2026-07-28): the standalone product —
+    // own Supabase project, username logins, Stripe billing, free/trial
+    // tiers — is retired. Hub login only, plans org-scoped via 0009_cavwall.
     slug: 'cavwall',
     name: 'Cavwall',
     tagline: 'To-scale cavity-wall diagrams and print-ready CWI survey PDFs.',
     icon: PencilRuler,
     status: 'live',
-    url: 'https://cavwall.com',
-    separateLogin: true,
+    url: 'https://cavwall.ecofutures.uk',
     minLevel: 1,
   },
   {
