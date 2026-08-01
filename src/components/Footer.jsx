@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
-import { COMPANY } from '../data/company.js'
+import { COMPANY, isPlaceholder } from '../data/company.js'
 import { COOKIE_SETTINGS_EVENT } from './CookieBanner.jsx'
 
 const GOV_EPC_SEARCH =
@@ -103,16 +103,22 @@ export default function Footer() {
         <div className="mt-14 border-t border-white/10 pt-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div className="max-w-lg space-y-1 text-xs leading-relaxed text-white/45">
+              {/* Unfilled details are omitted rather than printed as "[Company
+                  number]" — literal placeholder text on a page that takes paid
+                  traffic reads as an unfinished/untrustworthy business. Fill
+                  them in src/data/company.js and they appear automatically. */}
               <p className="font-semibold text-white/65">{COMPANY.legalName}</p>
-              {COMPANY.isLtd && (
+              {COMPANY.isLtd && !isPlaceholder(COMPANY.companyNumber) && (
                 <p>
                   Registered in {COMPANY.placeOfRegistration} · Company no. {COMPANY.companyNumber}
                 </p>
               )}
-              <p>
-                {COMPANY.isLtd ? 'Registered office' : 'Business address'}:{' '}
-                {COMPANY.registeredOffice}
-              </p>
+              {!isPlaceholder(COMPANY.registeredOffice) && (
+                <p>
+                  {COMPANY.isLtd ? 'Registered office' : 'Business address'}:{' '}
+                  {COMPANY.registeredOffice}
+                </p>
+              )}
               {COMPANY.vatNumber && <p>VAT no. {COMPANY.vatNumber}</p>}
             </div>
             <nav className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-white/60">

@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────
-//  ⚠️  ACTION REQUIRED BEFORE GO-LIVE
-//  Replace every value marked TODO with the business's real legal details.
-//  These are shown on the legal pages and in the footer and are legally
+//  The business's real legal details. These are shown on the legal pages,
+//  in the footer and on the /epcs paid-traffic landing page, and are legally
 //  required for a UK business website (Companies Act 2006 / E-Commerce
-//  Regulations 2002 / UK GDPR). Do NOT guess these — use the real values.
+//  Regulations 2002 / UK GDPR). Do NOT guess any of these — use the real
+//  values. Anything left as a "[placeholder]" is hidden by the UI rather
+//  than printed, so a blank never renders as a broken-looking claim.
 // ─────────────────────────────────────────────────────────────────────────
 
 export const COMPANY = {
@@ -15,11 +16,11 @@ export const COMPANY = {
   isLtd: true, // TODO false if you are a sole trader / partnership
 
   // Only used when isLtd is true:
-  companyNumber: '[Company number]', // TODO Companies House registration number
+  companyNumber: '15782816',
   placeOfRegistration: 'England & Wales',
 
   // Required on a UK business website (a real geographic address, not a PO box):
-  registeredOffice: '[Registered office address]', // TODO full postal address
+  registeredOffice: '35 Westfield Avenue, FY3 7LU',
 
   // Leave '' if not applicable:
   vatNumber: '', // TODO e.g. 'GB123456789' if VAT registered
@@ -30,6 +31,15 @@ export const COMPANY = {
   phone: '07359 069886',
   phoneHref: '+447359069886',
   area: 'Preston, Blackpool and the North West',
+
+  // ── Domestic energy assessor accreditation ──────────────────────────────
+  // Shown on the /epcs paid-traffic landing page. Google expects an EPC
+  // provider to name its accreditation scheme and assessor ID; without them a
+  // "buy an EPC" ad invites a misrepresentation review. The page hides this
+  // block while the values are blank rather than showing an empty claim —
+  // so fill these in before running ads. Do NOT guess them.
+  accreditationScheme: 'Elmhurst Energy Systems Ltd',
+  assessorNumber: 'EES/035222',
 
   // Update the relevant date whenever you edit that policy
   lastUpdated: '17 July 2026', // fallback

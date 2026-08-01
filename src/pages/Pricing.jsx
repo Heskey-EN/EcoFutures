@@ -15,17 +15,12 @@ import {
   XCircle,
 } from 'lucide-react'
 
-const isEligible = (pc) => /^(PR|FY)\d/i.test(pc.trim().replace(/\s+/g, ''))
-
 export default function Pricing() {
   const [params] = useSearchParams()
   const status = params.get('status')
 
-  const [postcode, setPostcode] = useState('')
   const [loading, setLoading] = useState(null) // product id in flight
   const [error, setError] = useState('')
-
-  const pcEligible = isEligible(postcode)
 
   async function checkout(product, extra = {}) {
     setError('')
@@ -92,62 +87,29 @@ export default function Pricing() {
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          {/* EPC deposit */}
+          {/* EPC — ordered on /epcs, which is the paid-traffic landing page.
+              Deliberately ONE price for an EPC across the whole site: a deposit
+              here plus a full price there would read as an undisclosed cost. */}
           <article className="card flex flex-col p-7">
             <div className="flex items-center justify-between">
               <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-white">
                 <FileText size={22} />
               </span>
               <div className="text-right">
-                <div className="font-mono text-2xl font-semibold text-ink">£20</div>
-                <div className="spec text-ink-faint">deposit</div>
+                <div className="font-mono text-2xl font-semibold text-ink">£65</div>
+                <div className="spec text-ink-faint">from</div>
               </div>
             </div>
             <h3 className="mt-5 text-xl font-bold text-ink">Energy Performance Certificate</h3>
-            <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft">
-              Reserve your EPC with a £20 deposit — it’s deducted from your final fee. Available for
-              Preston (PR) and Fylde/Blackpool (FY) postcodes.
+            <p className="mt-2 flex-1 text-[0.95rem] leading-relaxed text-ink-soft">
+              £65 for up to 3 bedrooms, then £5 per extra bedroom — paid in full online, with nothing
+              to pay afterwards. Available for Preston (PR) and Blackpool/Fylde (FY) postcodes.
             </p>
-
-            <div className="mt-5">
-              <label htmlFor="pc" className="spec mb-1.5 block text-ink-faint">
-                Your postcode
-              </label>
-              <input
-                id="pc"
-                value={postcode}
-                onChange={(e) => setPostcode(e.target.value)}
-                placeholder="e.g. PR1 2AB"
-                autoComplete="postal-code"
-                className="w-full rounded border border-ink/15 bg-white px-4 py-3 text-sm uppercase text-ink outline-none transition-colors placeholder:normal-case placeholder:text-ink-faint focus:border-ember"
-              />
-              {postcode.trim() && !pcEligible && (
-                <p className="mt-2 text-xs text-ember-deep">
-                  We take EPC deposits online for PR and FY postcodes only.{' '}
-                  <Link to="/contact" className="underline underline-offset-2">
-                    Contact us
-                  </Link>{' '}
-                  for other areas.
-                </p>
-              )}
-            </div>
-
-            <button
-              type="button"
-              disabled={!pcEligible || loading === 'epc-deposit'}
-              onClick={() => checkout('epc-deposit', { postcode })}
-              className="btn-primary mt-5 w-full py-3 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {loading === 'epc-deposit' ? (
-                <>
-                  <Loader2 size={16} className="animate-spin" /> Redirecting…
-                </>
-              ) : (
-                <>Pay £20 deposit <ArrowRight size={16} /></>
-              )}
-            </button>
+            <Link to="/epcs" className="btn-primary mt-6 w-full py-3">
+              Book your EPC <ArrowRight size={16} />
+            </Link>
             <p className="mt-3 font-mono text-[0.65rem] leading-relaxed text-ink-faint">
-              Refundable if we can’t complete your EPC. See our{' '}
+              Full refund if we can’t complete your EPC. See our{' '}
               <Link to="/terms" className="underline underline-offset-2">
                 Terms
               </Link>
