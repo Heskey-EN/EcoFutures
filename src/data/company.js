@@ -31,6 +31,15 @@ export const COMPANY = {
   phoneHref: '+447359069886',
   area: 'Preston, Blackpool and the North West',
 
+  // ── Domestic energy assessor accreditation ──────────────────────────────
+  // Shown on the /epcs paid-traffic landing page. Google expects an EPC
+  // provider to name its accreditation scheme and assessor ID; without them a
+  // "buy an EPC" ad invites a misrepresentation review. The page hides this
+  // block while the values are blank rather than showing an empty claim —
+  // so fill these in before running ads. Do NOT guess them.
+  accreditationScheme: '', // TODO e.g. 'Elmhurst Energy' / 'Stroma' / 'Quidos' / 'ECMK'
+  assessorNumber: '', // TODO your assessor ID on that scheme, e.g. 'EES/012345'
+
   // Update the relevant date whenever you edit that policy
   lastUpdated: '17 July 2026', // fallback
   lastUpdatedPrivacy: '17 July 2026',
