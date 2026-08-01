@@ -5,6 +5,7 @@ import Layout from './components/Layout.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Home from './pages/Home.jsx'
 import Epcs from './pages/Epcs.jsx'
+import EpcBooked from './pages/EpcBooked.jsx'
 import Retrofit from './pages/Retrofit.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
@@ -33,6 +34,8 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/epcs" element={<Epcs />} />
+          {/* Where Stripe returns a paying customer to choose their dates. */}
+          <Route path="/epcs/booked" element={<EpcBooked />} />
           <Route path="/retrofit" element={<Retrofit />} />
           <Route path="/about" element={<About />} />
           <Route

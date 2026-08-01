@@ -34,24 +34,10 @@ const PRODUCTS = {
     dynamic: 'epc', // amount comes from epcPricePence(bedrooms)
     postcodeGated: true,
     collectJobDetails: true,
-    returnTo: '/epcs',
-  },
-
-  // ⚠️ TEMPORARY — DELETE BEFORE THE ADS APPEAL ────────────────────────────
-  // A real £1 live transaction so the whole path (card → Stripe → webhook →
-  // receipt) can be proven once end to end. It is NOT reachable from the
-  // normal page: the button only renders at /epcs?test=1, so neither a
-  // visitor nor Google's reviewer ever sees a £1 price beside the £65 one.
-  // To remove: delete this entry and the `showTest` block in
-  // src/pages/Epcs.jsx. Nothing else references it.
-  'epc-test': {
-    mode: 'payment',
-    name: 'TEST — EPC payment check (£1)',
-    description: 'Temporary £1 test transaction to verify checkout. Not an EPC order.',
-    amount: 100, // £1.00
-    postcodeGated: false, // testable from any postcode
-    collectJobDetails: true, // exercise the same fields as a real order
-    returnTo: '/epcs',
+    // After paying, the customer picks preferred dates on /epcs/booked. The
+    // session id lets that page verify the payment and attach the dates to it.
+    successTo: '/epcs/booked?session_id={CHECKOUT_SESSION_ID}',
+    cancelTo: '/epcs?status=cancelled',
   },
   'epc-checker': {
     mode: 'subscription',
@@ -117,9 +103,10 @@ export default async function handler(req, res) {
     name = `Energy Performance Certificate — ${beds} bedroom${beds === 1 ? '' : 's'}`
   }
 
-  // The EPC page is a Google Ads landing page: the return URL must stay on the
-  // same origin the ad points at, with no cross-domain hop.
-  const returnPath = cfg.returnTo || '/pricing'
+  // The EPC page is a Google Ads landing page: both return URLs must stay on
+  // the same origin the ad points at, with no cross-domain hop.
+  const successPath = cfg.successTo || '/pricing?status=success'
+  const cancelPath = cfg.cancelTo || '/pricing?status=cancelled'
   const origin = req.headers.origin || `https://${req.headers.host}`
   const stripe = new Stripe(secretKey)
 
@@ -137,8 +124,8 @@ export default async function handler(req, res) {
           },
         },
       ],
-      success_url: `${origin}${returnPath}?status=success`,
-      cancel_url: `${origin}${returnPath}?status=cancelled`,
+      success_url: `${origin}${successPath}`,
+      cancel_url: `${origin}${cancelPath}`,
       billing_address_collection: cfg.postcodeGated ? 'required' : 'auto',
       allow_promotion_codes: cfg.mode === 'subscription',
       // We need to know where to go and how to reach them to book the visit.
