@@ -98,6 +98,17 @@ export default function Epcs() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  /* ⚠️ TEMPORARY — DELETE BEFORE THE ADS APPEAL.
+     /epcs?test=1 reveals a £1 live transaction so the full path (card →
+     Stripe → receipt) can be proven once. Deliberately NOT shown on the
+     normal page: a £1 option sitting beside the £65 price is exactly the
+     kind of thing a Google reviewer reads as bait pricing, and a real
+     customer could pick it by mistake. Without the parameter this page is
+     byte-for-byte what it was.
+     To remove: delete this const, the `testBuy` function and the
+     `showTest` block below, plus 'epc-test' in api/checkout.js. */
+  const showTest = params.get('test') === '1'
+
   const typed = postcode.trim().length > 0
   const eligible = isEligible(postcode)
   const price = priceFor(bedrooms)
@@ -125,6 +136,25 @@ export default function Epcs() {
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.url) throw new Error(data.error || 'Something went wrong. Please try again.')
+      window.location.href = data.url
+    } catch (e) {
+      setError(e.message)
+      setLoading(false)
+    }
+  }
+
+  /* ⚠️ TEMPORARY — see the note on `showTest`. Delete with it. */
+  async function testBuy() {
+    setError('')
+    setLoading(true)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: 'epc-test' }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.url) throw new Error(data.error || 'Test checkout failed.')
       window.location.href = data.url
     } catch (e) {
       setError(e.message)
@@ -259,6 +289,36 @@ export default function Epcs() {
                 </button>
               </div>
             </div>
+
+            {/* ⚠️ TEMPORARY test payment — only at /epcs?test=1. Delete this
+                whole block (and 'epc-test' in api/checkout.js) once live
+                payment is confirmed. */}
+            {showTest && (
+              <div className="mt-5 rounded-lg border-2 border-dashed border-amber bg-amber/[0.08] p-4">
+                <p className="font-mono text-[0.7rem] font-bold uppercase tracking-widest text-ink">
+                  ⚠ Temporary test mode
+                </p>
+                <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">
+                  Takes a <strong>real £1 payment</strong> to prove the checkout works end to end.
+                  Not visible on the normal page. Refund it in Stripe afterwards, then remove this
+                  block before appealing to Google.
+                </p>
+                <button
+                  type="button"
+                  onClick={testBuy}
+                  disabled={loading}
+                  className="btn-outline mt-3 w-full py-2.5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 size={15} className="animate-spin" /> Redirecting…
+                    </>
+                  ) : (
+                    <>Pay £1 test payment</>
+                  )}
+                </button>
+              </div>
+            )}
 
             {/* Price */}
             <div className="mt-6 flex items-end justify-between border-t border-ink/10 pt-5">

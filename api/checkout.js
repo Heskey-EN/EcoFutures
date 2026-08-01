@@ -33,6 +33,25 @@ const PRODUCTS = {
     description: 'A domestic EPC carried out at your property and lodged on the national register.',
     dynamic: 'epc', // amount comes from epcPricePence(bedrooms)
     postcodeGated: true,
+    collectJobDetails: true,
+    returnTo: '/epcs',
+  },
+
+  // ⚠️ TEMPORARY — DELETE BEFORE THE ADS APPEAL ────────────────────────────
+  // A real £1 live transaction so the whole path (card → Stripe → webhook →
+  // receipt) can be proven once end to end. It is NOT reachable from the
+  // normal page: the button only renders at /epcs?test=1, so neither a
+  // visitor nor Google's reviewer ever sees a £1 price beside the £65 one.
+  // To remove: delete this entry and the `showTest` block in
+  // src/pages/Epcs.jsx. Nothing else references it.
+  'epc-test': {
+    mode: 'payment',
+    name: 'TEST — EPC payment check (£1)',
+    description: 'Temporary £1 test transaction to verify checkout. Not an EPC order.',
+    amount: 100, // £1.00
+    postcodeGated: false, // testable from any postcode
+    collectJobDetails: true, // exercise the same fields as a real order
+    returnTo: '/epcs',
   },
   'epc-checker': {
     mode: 'subscription',
@@ -100,7 +119,7 @@ export default async function handler(req, res) {
 
   // The EPC page is a Google Ads landing page: the return URL must stay on the
   // same origin the ad points at, with no cross-domain hop.
-  const returnPath = cfg.dynamic === 'epc' ? '/epcs' : '/pricing'
+  const returnPath = cfg.returnTo || '/pricing'
   const origin = req.headers.origin || `https://${req.headers.host}`
   const stripe = new Stripe(secretKey)
 
@@ -123,7 +142,7 @@ export default async function handler(req, res) {
       billing_address_collection: cfg.postcodeGated ? 'required' : 'auto',
       allow_promotion_codes: cfg.mode === 'subscription',
       // We need to know where to go and how to reach them to book the visit.
-      ...(cfg.dynamic === 'epc'
+      ...(cfg.collectJobDetails
         ? {
             phone_number_collection: { enabled: true },
             custom_fields: [

@@ -14,6 +14,7 @@ import {
   PencilRuler,
   Briefcase,
   LayoutTemplate,
+  Sun,
 } from 'lucide-react'
 
 // Ordered by the suite integration plan (CLAUDE.md §3).
@@ -63,6 +64,19 @@ export const APPS = [
     status: 'live',
     url: 'https://cavwall.com',
     separateLogin: true,
+    minLevel: 1,
+  },
+  {
+    // Suite-native from day one (2026-08-01): hub login only, surveys
+    // org-scoped via 0010_solar. Yield is MCS-compliant (kWp × Kk × SF,
+    // MIS 3002) — deliberately NOT Google's own estimate, which must never
+    // appear on UK paperwork.
+    slug: 'solar',
+    name: 'Solar Survey',
+    tagline: 'Roof-by-roof PV feasibility and array design with MCS yield figures.',
+    icon: Sun,
+    status: 'joining',
+    url: 'https://solar.ecofutures.uk',
     minLevel: 1,
   },
   {
