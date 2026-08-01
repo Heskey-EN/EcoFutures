@@ -53,6 +53,7 @@ hub Supabase project in this sequence:
 | 3 | Future Forms | `assessment` | **built 2026-07-22** — new repo `Future-Forms` (FastField-style form builder specialised for UK retrofit surveying; master admin authors forms, members fill; server-side transferable drafts; PAS 2035 seed template). Hub side: `supabase/hub/0006_future_forms.sql` (forms, form_submissions, assessment-photos bucket). Needs GitHub repo + forms.ecofutures.uk + env vars |
 | 4 | EPC Checker | `epc` | live at epc-checker.com, own Supabase, joins later |
 | 5 | Cavwall | `cavwall` | **migrated 2026-07-28 (full migration, George's call)** — the standalone product is retired: no usernames/passwords, no Stripe, no free/trial tiers, no Supabase project of its own. Repo `Cav-wall-tech-survey-creator` now reads the shared cookie session directly (vanilla JS, no build step) and stores plans in `supabase/hub/0009_cavwall.sql`. Server surface cut to `api/analyze.js` alone. Needs **cavwall.ecofutures.uk** + hub keys pasted into `HUB_CONFIG`; then migrate legacy plans and cancel the Stripe subs |
+| 6 | Solar Survey | `solar` | **built 2026-08-01** — new repo/folder `SolarSurvey` (Vite/React, port 5873). Suite-native from day one: no standalone product, no own Supabase, hub cookie session copied verbatim. Technical PV feasibility + array design; yield is **MCS MIS 3002** (`kWp × Kk × SF`), NOT Google's `yearlyEnergyDcKwh` (not MCS-compliant, must never reach UK paperwork). Roof geometry from the Google Solar API; `NOT_FOUND` drives a first-class manual-entry path. Hub side: `supabase/hub/0010_solar.sql` (`solar_surveys`). **The MCS Kk dataset ships empty and the app fails closed** until George installs it. Needs GitHub repo + solar.ecofutures.uk + `GOOGLE_SOLAR_API_KEY` + env vars |
 | — | Floor Plan Creator | `floorplan` | planned, unranked |
 
 ## 4. The four-tier access system (core of this project)
@@ -184,6 +185,16 @@ spacing, mobile-first — George demos on iPhone (~380px). Reuse `.card`,
       `HUB_SUPABASE_ANON_KEY` env vars; run `scripts/migrate-legacy-plans.js`;
       then **cancel the live Stripe subscriptions and tell those customers** —
       the paid public tier no longer exists
+- [x] Solar Survey built (2026-08-01): `0010_solar.sql` here + registry entry
+      (`slug: 'solar'`, status `joining`) + the new `SolarSurvey` repo. MCS
+      engine is fail-closed — 57 passing assertions, no yield until the Kk
+      dataset is installed
+- [ ] George (Solar Survey): run **0010** in the hub SQL editor; create the
+      GitHub repo + Vercel project; add **solar.ecofutures.uk** + DNS; set
+      `VITE_HUB_SUPABASE_*` **and** the server-side `GOOGLE_SOLAR_API_KEY`
+      (restricted to the Solar API + that deployment) / `HUB_SUPABASE_*`;
+      install the MCS irradiance dataset per that repo's
+      `src/lib/mcs/data/README.md`; then flip the registry entry to `live`
 - [ ] Org dashboard aggregations (needs app data in the shared project)
 - [ ] Migrate the remaining app onto the shared project: epc
 
