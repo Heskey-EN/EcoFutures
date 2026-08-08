@@ -55,8 +55,20 @@ const PRODUCTS = {
   },
 }
 
-// Deposits are only offered in the Preston (PR) and Fylde/Blackpool (FY) areas.
+// We only carry out EPCs in the Preston (PR) and Fylde/Blackpool (FY) areas.
 const isEligiblePostcode = (raw) => /^(PR|FY)\d/i.test(String(raw || '').trim().replace(/\s+/g, ''))
+
+/* Where Stripe may send the customer back to. Never trust the caller for this:
+   an unpinned return URL is an open redirect on a real payment page. Localhost
+   is allowed so `vercel dev` still works. */
+const ALLOWED_ORIGINS = new Set([
+  'https://www.ecofutures.uk',
+  'https://ecofutures.uk',
+  'http://localhost:3000',
+  'http://localhost:5373',
+])
+const DEFAULT_ORIGIN = process.env.PUBLIC_SITE_URL || 'https://www.ecofutures.uk'
+const allowedOrigin = (origin) => (ALLOWED_ORIGINS.has(origin) ? origin : DEFAULT_ORIGIN)
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -81,7 +93,9 @@ export default async function handler(req, res) {
   }
   const { product, postcode, bedrooms } = body || {}
 
-  const cfg = PRODUCTS[product]
+  // hasOwnProperty, not a bare lookup: `{"product":"constructor"}` finds an
+  // inherited Object property and slips past a truthiness check.
+  const cfg = Object.prototype.hasOwnProperty.call(PRODUCTS, product) ? PRODUCTS[product] : null
   if (!cfg) return res.status(400).json({ error: 'Unknown product.' })
 
   if (cfg.postcodeGated && !isEligiblePostcode(postcode)) {
@@ -107,7 +121,13 @@ export default async function handler(req, res) {
   // the same origin the ad points at, with no cross-domain hop.
   const successPath = cfg.successTo || '/pricing?status=success'
   const cancelPath = cfg.cancelTo || '/pricing?status=cancelled'
-  const origin = req.headers.origin || `https://${req.headers.host}`
+
+  // The return address is PINNED server-side. Taking it from the request's
+  // Origin header let anyone mint a genuine checkout.stripe.com link, branded
+  // with this business, that returned the payer to a site of their choosing —
+  // carrying the session id, which is a bearer token for the payer's name,
+  // phone and address (see api/booking.js).
+  const origin = allowedOrigin(req.headers.origin)
   const stripe = new Stripe(secretKey)
 
   try {

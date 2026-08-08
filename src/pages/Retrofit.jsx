@@ -9,7 +9,7 @@ import {
   Gauge,
   Leaf,
 } from 'lucide-react'
-import { MEASURES, TONE } from '../components/InteractiveHouse.jsx'
+import { MEASURES, TONE } from '../data/measures.js'
 import CtaSection from '../components/CtaSection.jsx'
 
 const PAS_2035_PDF = 'https://retrofitacademy.org/wp-content/uploads/2023/10/PAS2035_2023.pdf'

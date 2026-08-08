@@ -16,27 +16,36 @@ import {
   Leaf,
   TrendingUp,
   ShieldCheck,
+  FileCheck2,
+  Scale,
 } from 'lucide-react'
-import InteractiveHouse from '../components/InteractiveHouse.jsx'
+import EpcBandLadder from '../components/EpcBandLadder.jsx'
+import { EPC_BASE_PRICE, MEES, MEES_NATIONS } from '../data/epcFacts.js'
 
 const steps = [
   {
     n: '01',
-    icon: ClipboardCheck,
-    title: 'We survey',
-    body: 'An independent, PAS 2035 whole-house assessment. We measure heat loss, fabric and ventilation — no guesswork, no sales pitch dressed up as advice.',
+    icon: FileCheck2,
+    title: 'Start with the certificate',
+    body: `A £${EPC_BASE_PRICE} EPC from an accredited assessor tells you the band you are on now and the measures that would lift it. Book it online and we come to you.`,
+    href: '/epcs',
+    cta: 'Book an EPC',
   },
   {
     n: '02',
     icon: ListChecks,
-    title: 'We plan',
-    body: 'A prioritised, costed retrofit plan in the right order (fabric first), with the grants you qualify for and the savings you can expect.',
+    title: 'Get the plan to C',
+    body: 'A PAS 2035 whole-house assessment turns that rating into a costed, prioritised plan — fabric first, in the right order, with the grants you qualify for.',
+    href: '/retrofit',
+    cta: 'How retrofit works',
   },
   {
     n: '03',
     icon: HardHat,
-    title: 'We facilitate the install',
-    body: 'We coordinate accredited, insured installers, oversee the work to standard, and sign it off — so your upgrades actually perform.',
+    title: 'We see the work through',
+    body: 'We coordinate accredited, insured installers, oversee the work to standard and sign it off — then re-assess so the new band is on record.',
+    href: '/contact',
+    cta: 'Talk to us',
   },
 ]
 
@@ -53,6 +62,11 @@ const measures = [
 
 const reasons = [
   {
+    icon: Scale,
+    title: 'Landlords: the standard is rising to C',
+    body: `Privately rented homes in ${MEES_NATIONS} must be at least band ${MEES.currentMinimumBand} today. The government has confirmed band ${MEES.futureBand} by ${MEES.futureDeadline} for ${MEES.futureAppliesTo}. Get to C on a certificate lodged before ${MEES.earlyCertificateGrace.lodgedBefore} and it counts until that certificate expires.`,
+  },
+  {
     icon: Thermometer,
     title: 'A warmer, healthier home',
     body: 'Even heat, no cold spots, and controlled ventilation that ends condensation, mould and damp.',
@@ -60,75 +74,76 @@ const reasons = [
   {
     icon: PoundSterling,
     title: 'Lower running costs',
-    body: 'Insulate first and a well-sized heat pump costs far less to run. Typical whole-house plans cut bills substantially.',
-  },
-  {
-    icon: Leaf,
-    title: 'Lower carbon',
-    body: 'Home heating is a major slice of UK emissions. A fabric-first retrofit is the biggest cut most households can make.',
+    body: 'Insulate first and a well-sized heat pump costs far less to run. A whole-house plan targets the measures that actually move the bill.',
   },
   {
     icon: TrendingUp,
     title: 'A better-rated asset',
-    body: 'Higher EPC bands protect resale and rental value as minimum-standard rules tighten.',
+    body: 'The band is on the public register and buyers, tenants and lenders look at it. A higher rating protects resale and rental value.',
   },
 ]
 
+// Verified 8 Aug 2026 — see src/data/epcFacts.js for sources.
+// GBIS is NOT listed: it closed on 31 March 2026.
 const funding = [
-  { tag: 'BUS', title: 'Boiler Upgrade Scheme', body: '£7,500 grant towards an air-source heat pump.' },
-  { tag: 'ECO4 / GBIS', title: 'Insulation grants', body: 'Wall, loft and floor funding for eligible homes.' },
-  { tag: '0% VAT', title: 'Zero-rated measures', body: 'No VAT on insulation, heat pumps and solar until 2027.' },
-  { tag: 'PAS 2035', title: 'Done to standard', body: 'The framework that keeps grant-funded retrofit safe and effective.' },
+  { tag: 'BUS', title: 'Boiler Upgrade Scheme', body: '£7,500 towards an air-source heat pump, funded to 2029/30.' },
+  { tag: 'ECO4', title: 'Insulation grants', body: 'Wall, loft and floor funding for eligible homes, running to the end of 2026.' },
+  { tag: 'Warm Homes', title: 'Local Grant', body: 'Council-delivered insulation and low-carbon heating for eligible households.' },
+  { tag: '0% VAT', title: 'Zero-rated measures', body: 'No VAT on insulation, heat pumps, solar and battery storage until 31 March 2027.' },
 ]
 
 export default function Home() {
   return (
     <>
-      {/* ---- Hero ---- */}
-      <section className="container-site pt-12 md:pt-16">
-        <div className="grid items-end gap-6 lg:grid-cols-[1.5fr_1fr]">
+      {/* ---- Hero: the band you're on, and the band you want ---- */}
+      <section className="border-b border-ink/10 bg-navy bg-blueprint text-white">
+        <div className="container-site grid items-center gap-10 py-14 md:grid-cols-[1.15fr_1fr] md:py-20">
           <div className="animate-fade-up">
-            <span className="eyebrow">
+            <span className="eyebrow text-ember">
               <span className="h-1.5 w-1.5 rounded-full bg-ember" />
-              PAS 2035 Retrofit · North West
+              EPCs &amp; PAS 2035 retrofit · Preston, Blackpool &amp; the North West
             </span>
-            <h1 className="mt-4 text-[2.6rem] font-extrabold leading-[0.98] tracking-tight text-ink sm:text-6xl md:text-[4.2rem]">
-              See how your home
+            <h1 className="mt-4 text-[2.6rem] font-extrabold leading-[1.0] tracking-tight sm:text-6xl">
+              Get your property
               <br />
-              can be <span className="text-ember">upgraded.</span>
+              to <span className="text-ember">EPC band C.</span>
             </h1>
-          </div>
-          <div className="animate-fade-up lg:pb-2">
-            <p className="max-w-md text-lg leading-relaxed text-ink-soft">
-              Explore your house below — every part of it can be insulated or improved. We survey the
-              whole home, plan the upgrades in the right order, and facilitate the installs.
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70">
+              We assess the home, tell you exactly what it takes to move up the scale, and manage the
+              work that gets you there. Start with the certificate — everything else follows from it.
             </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link to="/contact" className="btn-primary">
-                Book a survey <ArrowRight size={18} />
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link to="/epcs" className="btn-primary">
+                Book your EPC — £{EPC_BASE_PRICE} <ArrowRight size={18} />
               </Link>
-              <Link to="/retrofit" className="btn-outline">
+              <Link to="/retrofit" className="btn-ghost-light">
                 How retrofit works
               </Link>
             </div>
+            <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1.5 font-mono text-xs text-white/45">
+              <span className="inline-flex items-center gap-1.5">
+                <ShieldCheck size={13} /> Accredited domestic energy assessor
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <FileCheck2 size={13} /> Lodged on the national register
+              </span>
+            </p>
           </div>
-        </div>
 
-        <div className="mt-10 animate-fade-in md:mt-12">
-          <InteractiveHouse />
+          <EpcBandLadder className="animate-fade-in" />
         </div>
       </section>
 
-      {/* ---- How we work ---- */}
+      {/* ---- The route to C ---- */}
       <section className="container-site py-20 md:py-28">
         <div className="max-w-prose">
           <span className="eyebrow text-ink-faint">The Eco Futures approach</span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-            Independent advice, then upgrades that actually perform.
+            Three steps from where you are to where you need to be.
           </h2>
           <p className="mt-4 text-lg text-ink-soft">
-            Most "free surveys" are a route to a single product. We start from your whole home and
-            what it needs — then see the work through.
+            Most &ldquo;free surveys&rdquo; are a route to selling one product. We start from the
+            measured performance of your whole home — then see the work through.
           </p>
         </div>
 
@@ -142,63 +157,32 @@ export default function Home() {
                 <span className="font-mono text-3xl font-semibold text-ink/10">{s.n}</span>
               </div>
               <h3 className="mt-5 text-xl font-bold text-ink">{s.title}</h3>
-              <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft">{s.body}</p>
+              <p className="mt-2 flex-1 text-[0.95rem] leading-relaxed text-ink-soft">{s.body}</p>
+              <Link
+                to={s.href}
+                className="mt-5 inline-flex items-center gap-1.5 font-semibold text-ember hover:gap-2.5"
+              >
+                {s.cta} <ArrowRight size={16} />
+              </Link>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ---- Measures strip ---- */}
+      {/* ---- Why the band matters ---- */}
       <section className="border-y border-ink/10 bg-paper-warm/60 py-20 md:py-28">
-        <div className="container-site">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-prose">
-              <span className="eyebrow text-ink-faint">What we can upgrade</span>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-                A whole-house toolkit.
-              </h2>
-            </div>
-            <Link
-              to="/retrofit"
-              className="inline-flex items-center gap-1.5 font-semibold text-ember hover:gap-2.5"
-            >
-              See every measure <ArrowRight size={18} />
-            </Link>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {measures.map((m) => (
-              <div
-                key={m.name}
-                className="card-hover group flex items-start gap-4 rounded-lg border border-ink/10 bg-paper-card p-5"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ember/10 text-ember">
-                  <m.icon size={20} />
-                </span>
-                <div>
-                  <h3 className="font-bold text-ink">{m.name}</h3>
-                  <p className="mt-0.5 text-sm text-ink-soft">{m.blurb}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---- Why retrofit ---- */}
-      <section className="container-site py-20 md:py-28">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+        <div className="container-site grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
           <div>
-            <span className="eyebrow text-ink-faint">Why retrofit</span>
+            <span className="eyebrow text-ink-faint">Why the band matters</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-              Four reasons it pays off.
+              C is the number everyone is aiming at.
             </h2>
             <p className="mt-4 text-lg text-ink-soft">
-              A good retrofit isn't only about bills — it's about how the home feels to live in, and
-              what it's worth.
+              For landlords it is about meeting the standard. For owners it is about bills, comfort
+              and what the home is worth. The work to get there is much the same.
             </p>
-            <Link to="/contact" className="btn-dark mt-6">
-              Book a survey <ArrowRight size={18} />
+            <Link to="/epcs" className="btn-dark mt-6">
+              Book your EPC <ArrowRight size={18} />
             </Link>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
@@ -213,6 +197,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ---- What moves the rating ---- */}
+      <section className="container-site py-20 md:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-prose">
+            <span className="eyebrow text-ink-faint">What moves the rating</span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+              A whole-house toolkit.
+            </h2>
+            <p className="mt-4 text-lg text-ink-soft">
+              No single measure gets a home to C on its own. The assessment works out which
+              combination does it for the least disruption and cost.
+            </p>
+          </div>
+          <Link
+            to="/retrofit"
+            className="inline-flex items-center gap-1.5 font-semibold text-ember hover:gap-2.5"
+          >
+            See every measure <ArrowRight size={18} />
+          </Link>
+        </div>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {measures.map((m) => (
+            <div
+              key={m.name}
+              className="card-hover group flex items-start gap-4 rounded-lg border border-ink/10 bg-paper-card p-5"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ember/10 text-ember">
+                <m.icon size={20} />
+              </span>
+              <div>
+                <h3 className="font-bold text-ink">{m.name}</h3>
+                <p className="mt-0.5 text-sm text-ink-soft">{m.blurb}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ---- Funding ---- */}
       <section className="bg-navy bg-blueprint py-20 text-white md:py-28">
         <div className="container-site">
@@ -221,7 +244,7 @@ export default function Home() {
             <span className="spec text-white/60">Funding &amp; standards</span>
           </div>
           <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl">
-            There's real money on the table — we help you claim it.
+            There&rsquo;s real money on the table — we help you claim it.
           </h2>
           <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
             {funding.map((f) => (
@@ -234,33 +257,34 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <p className="mt-5 font-mono text-xs text-white/40">
-            Eligibility varies by property and income — we check what you qualify for during the
-            survey. Amounts are correct at the time of writing; see GOV.UK for current figures and
-            dates.
+          <p className="mt-5 font-mono text-xs leading-relaxed text-white/40">
+            Eligibility and amounts vary by property, income and scheme, and change over time — we
+            check what you qualify for during the survey. See GOV.UK for the current figures and
+            closing dates.
           </p>
         </div>
       </section>
 
-      {/* ---- Proof + CTA ---- */}
+      {/* ---- Closing CTA ---- */}
       <section className="container-site py-20 md:py-28">
         <div className="overflow-hidden rounded-2xl border border-ink/10 bg-paper-card shadow-card">
           <div className="grid gap-8 p-8 md:grid-cols-[1.4fr_1fr] md:items-center md:p-12">
             <div>
               <div className="flex items-center gap-2.5 text-sm font-medium text-ink-soft">
-                <ShieldCheck size={18} className="text-moss" />
-                Independent, fabric-first retrofit surveys across the North West
+                <Leaf size={18} className="text-moss" />
+                Independent, fabric-first assessments across the North West
               </div>
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-                Ready to see what your home needs?
+                Find out what band you&rsquo;re on.
               </h2>
               <p className="mt-3 max-w-prose text-lg text-ink-soft">
-                Book a survey and get a clear, costed retrofit plan — the measures, the order, the
-                grants and the savings. Then we handle the installs.
+                Book an EPC online for £{EPC_BASE_PRICE} and we&rsquo;ll come and measure it
+                properly. If you want the full route to C, we&rsquo;ll quote for a whole-house
+                retrofit assessment on the same visit.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link to="/contact" className="btn-primary">
-                  Book a survey <ArrowRight size={18} />
+                <Link to="/epcs" className="btn-primary">
+                  Book your EPC — £{EPC_BASE_PRICE} <ArrowRight size={18} />
                 </Link>
                 <a href="tel:+447359069886" className="btn-outline">
                   07359 069886
@@ -269,6 +293,7 @@ export default function Home() {
             </div>
             <ul className="flex flex-col gap-3 rounded-xl bg-paper p-6">
               {[
+                'Accredited assessor, lodged on the national register',
                 'Independent PAS 2035 whole-house survey',
                 'Fabric-first, prioritised & costed plan',
                 'Grant eligibility checked for you',

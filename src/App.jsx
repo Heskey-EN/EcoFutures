@@ -6,6 +6,7 @@ import ScrollToTop from './components/ScrollToTop.jsx'
 import Home from './pages/Home.jsx'
 import Epcs from './pages/Epcs.jsx'
 import EpcBooked from './pages/EpcBooked.jsx'
+import EpcCancellationForm from './pages/EpcCancellationForm.jsx'
 import Retrofit from './pages/Retrofit.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
@@ -36,6 +37,8 @@ export default function App() {
           <Route path="/epcs" element={<Epcs />} />
           {/* Where Stripe returns a paying customer to choose their dates. */}
           <Route path="/epcs/booked" element={<EpcBooked />} />
+          {/* Required by the Consumer Contracts Regulations 2013 (Sch 3 Pt B). */}
+          <Route path="/epc-cancellation-form" element={<EpcCancellationForm />} />
           <Route path="/retrofit" element={<Retrofit />} />
           <Route path="/about" element={<About />} />
           <Route

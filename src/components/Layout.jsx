@@ -14,9 +14,16 @@ export default function Layout() {
   }, [])
 
   // Record SPA page views (GA only auto-fires the first one).
+  //
+  // PATH ONLY — never the query string. Stripe returns a paying customer to
+  // /epcs/booked?session_id=cs_live_… and that id is an unauthenticated bearer
+  // token for their name, email, phone and home address (api/booking.js). Sending
+  // it to Google would put personal data in GA — against Google's own terms and
+  // UK GDPR Art. 5(1)(f) — and leave the key readable by anyone with analytics
+  // access. No page on this site needs its query string for analytics.
   useEffect(() => {
-    trackPageView(location.pathname + location.search)
-  }, [location.pathname, location.search])
+    trackPageView(location.pathname)
+  }, [location.pathname])
 
   return (
     <div className="flex min-h-screen flex-col">

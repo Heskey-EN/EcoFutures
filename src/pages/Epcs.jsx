@@ -300,6 +300,37 @@ export default function Epcs() {
             <p className="mt-3 flex items-center justify-center gap-2 font-mono text-[0.68rem] text-ink-faint">
               <Lock size={12} /> Secure checkout by Stripe — your card details never touch our site
             </p>
+
+            {/* Consumer Contracts Regulations 2013: the cancellation right, how
+                to use it and where to send it must be given BEFORE the customer
+                is bound. Leaving it out stretches the 14 days to 12 months and
+                14 days AND removes the right to charge for work already done. */}
+            <details className="mt-4 rounded border border-ink/10 bg-paper px-3 py-2.5">
+              <summary className="cursor-pointer list-none text-[0.72rem] font-semibold text-ink [&::-webkit-details-marker]:hidden">
+                Your 14-day right to cancel →
+              </summary>
+              <div className="mt-2 space-y-1.5 text-[0.7rem] leading-relaxed text-ink-soft">
+                <p>
+                  You have <strong>14 days</strong> from the day after you order to cancel for any
+                  reason and get a full refund. To cancel, email{' '}
+                  <a href={`mailto:${COMPANY.email}`} className="underline underline-offset-2">
+                    {COMPANY.email}
+                  </a>
+                  , call {COMPANY.phone}, or write to us at {COMPANY.registeredOffice} — a clear
+                  statement is enough. You can also use our{' '}
+                  <Link to="/epc-cancellation-form" className="underline underline-offset-2">
+                    cancellation form
+                  </Link>
+                  .
+                </p>
+                <p>
+                  If you ask us to carry out the EPC <strong>within</strong> those 14 days and then
+                  cancel before it is done, you pay a proportionate amount for the work already
+                  carried out. Once the assessment is done and the certificate lodged, the right to
+                  cancel ends.
+                </p>
+              </div>
+            </details>
             <p className="mt-3 text-center text-[0.7rem] leading-relaxed text-ink-faint">
               By paying you agree to our{' '}
               <Link to="/terms" className="underline underline-offset-2">

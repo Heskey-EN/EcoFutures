@@ -1,5 +1,11 @@
 import LegalPage from '../components/LegalPage.jsx'
 import { COMPANY } from '../data/company.js'
+import {
+  EPC_BASE_PRICE,
+  EPC_PER_EXTRA_BEDROOM,
+  EPC_BEDROOMS_INCLUDED,
+  EPC_MAX_BEDROOMS,
+} from '../data/epcFacts.js'
 
 export default function Terms() {
   return (
@@ -57,25 +63,60 @@ export default function Terms() {
         details are provided with your quote.
       </p>
 
-      <h2>Payments, deposits &amp; memberships</h2>
+      <h2>Payments &amp; memberships</h2>
       <p>
         Payments on this website are processed securely by Stripe; we don’t see or store your card
-        details. Prices are in pounds sterling and include VAT where it applies.
+        details. Prices are in pounds sterling.
       </p>
       <p>
-        <strong>EPC deposit.</strong> The £20 EPC deposit reserves your assessment and is deducted
-        from your final EPC fee. If we’re unable to carry out your EPC (for example your property is
-        outside our service area), the deposit is refunded.
+        <strong>EPC fee.</strong> The EPC fee is paid in full online when you book — £
+        {EPC_BASE_PRICE} for up to {EPC_BEDROOMS_INCLUDED} bedrooms, then £{EPC_PER_EXTRA_BEDROOM}{' '}
+        per additional bedroom, up to {EPC_MAX_BEDROOMS} bedrooms. There is no deposit and nothing
+        further to pay. If we are unable to carry out your EPC (for example your property is outside
+        our service area), we refund the fee in full.
       </p>
       <p>
         <strong>Memberships.</strong> Software memberships (EPC Checker, Cavwall) are billed monthly
         and renew automatically until cancelled. You can cancel at any time to stop future payments;
         cancellation takes effect at the end of the current billing month.
       </p>
+      <h2>Cancelling an EPC you booked online</h2>
       <p>
-        Where you are a consumer buying at a distance, you may have a 14-day right to cancel under
-        the Consumer Contracts Regulations 2013, except where a service or digital content has
-        already been provided with your agreement.
+        Because you bought online without meeting us, you have a legal right to cancel under the
+        Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013.
+      </p>
+      <ul>
+        <li>
+          You have <strong>14 days</strong>, starting the day after you place your order, to cancel
+          for any reason and get a full refund.
+        </li>
+        <li>
+          To cancel, email <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>, call{' '}
+          <a href={`tel:${COMPANY.phoneHref}`}>{COMPANY.phone}</a>, or write to us at{' '}
+          {COMPANY.registeredOffice}. A clear statement that you are cancelling is enough — you can
+          also use our <a href="/epc-cancellation-form">cancellation form</a>.
+        </li>
+        <li>
+          If you ask us to carry out your EPC <strong>within</strong> those 14 days and then cancel
+          before it is done, you pay a proportionate amount for any work already carried out.
+        </li>
+        <li>
+          Once the assessment has been carried out and the certificate lodged on the national
+          register, the service is fully performed and the right to cancel ends.
+        </li>
+        <li>Refunds are made to the card you paid with, within 14 days of you telling us.</li>
+      </ul>
+      <p>
+        If you do not ask us to start within the 14 days, we will arrange your visit for after the
+        cancellation period ends.
+      </p>
+      <h2>Cancelling, rearranging or a missed visit</h2>
+      <p>
+        Outside the statutory period above: you can rearrange a booked visit at no charge if you tell
+        us at least 24 hours beforehand. If nobody is home when we arrive, or we cannot access the
+        whole property, we will contact you to rebook; we may charge a reasonable abortive-visit fee
+        for a second wasted journey, and we will always tell you before charging it. If we cancel or
+        cannot complete the EPC, you get a full refund.
       </p>
 
       <h2>Complaints</h2>
