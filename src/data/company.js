@@ -20,7 +20,7 @@ export const COMPANY = {
   placeOfRegistration: 'England & Wales',
 
   // Required on a UK business website (a real geographic address, not a PO box):
-  registeredOffice: '35 Westfield Avenue, FY3 7LU',
+  registeredOffice: '49 Whitegate Drive, Blackpool, England, FY3 9DG',
 
   // Leave '' if not applicable:
   vatNumber: '', // TODO e.g. 'GB123456789' if VAT registered
